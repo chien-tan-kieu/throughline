@@ -20,6 +20,7 @@ export function createServer(config: ServerConfig): Server {
     : new RateLimiter();
 
   return Bun.serve({
+    hostname: "127.0.0.1",
     port: config.port,
     async fetch(req, server) {
       const url = new URL(req.url);
