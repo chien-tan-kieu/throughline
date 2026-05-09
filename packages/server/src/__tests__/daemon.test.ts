@@ -1,8 +1,8 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
-import { startDaemon, type DaemonHandle } from "../index.ts";
 import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { type DaemonHandle, startDaemon } from "../index.ts";
 
 describe("startDaemon", () => {
   let handle: DaemonHandle;

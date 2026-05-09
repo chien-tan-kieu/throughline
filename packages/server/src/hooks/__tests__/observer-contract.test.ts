@@ -1,8 +1,8 @@
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { Database } from "bun:sqlite";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { join } from "node:path";
-import { runMigrations } from "../../store/migrate.ts";
 import { stubBus } from "../../bus.ts";
+import { runMigrations } from "../../store/migrate.ts";
 import { handleHookEvent } from "../index.ts";
 
 const MIGRATIONS_DIR = join(import.meta.dir, "../../../migrations");
@@ -15,11 +15,30 @@ const ALL_EVENTS: Array<[string, Record<string, unknown>]> = [
   ["PreToolUse", { tool_name: "Bash", tool_input: {} }],
   ["PostToolUse", { tool_name: "Bash", tool_input: {}, tool_response: {} }],
   ["PostToolUseFailure", { tool_name: "Bash", tool_input: {}, error: "oops" }],
-  ["SubagentStart", { agent_type: "general-purpose", prompt: "go", subagent_id: "s1", parent_session_id: "p1" }],
-  ["SubagentStop", { agent_type: "general-purpose", subagent_id: "s1", stop_reason: "completed", output: "done" }],
+  [
+    "SubagentStart",
+    {
+      agent_type: "general-purpose",
+      prompt: "go",
+      subagent_id: "s1",
+      parent_session_id: "p1",
+    },
+  ],
+  [
+    "SubagentStop",
+    {
+      agent_type: "general-purpose",
+      subagent_id: "s1",
+      stop_reason: "completed",
+      output: "done",
+    },
+  ],
   ["Stop", {}],
   ["Notification", { message: "hi" }],
-  ["InstructionsLoaded", { file_path: "/tmp/f", memory_type: "Managed", load_reason: "startup" }],
+  [
+    "InstructionsLoaded",
+    { file_path: "/tmp/f", memory_type: "Managed", load_reason: "startup" },
+  ],
   ["PreCompact", {}],
   ["PostCompact", {}],
 ];
@@ -67,7 +86,12 @@ describe("handleHookEvent error cases", () => {
   });
 
   test("malformed payload returns 400", async () => {
-    const res = await handleHookEvent("PreToolUse", { not_valid: true }, db, stubBus);
+    const res = await handleHookEvent(
+      "PreToolUse",
+      { not_valid: true },
+      db,
+      stubBus,
+    );
     expect(res.status).toBe(400);
   });
 
@@ -76,7 +100,7 @@ describe("handleHookEvent error cases", () => {
       "NotAnEvent",
       { ...basePayload, hook_event_name: "NotAnEvent" },
       db,
-      stubBus
+      stubBus,
     );
     expect(res.status).toBe(400);
   });

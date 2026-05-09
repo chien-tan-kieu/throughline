@@ -8,7 +8,7 @@ export class RateLimiter {
 
   constructor(
     private readonly limit = 1000,
-    private readonly windowMs = 60_000
+    private readonly windowMs = 60_000,
   ) {}
 
   allow(sessionId: string): boolean {
@@ -23,7 +23,11 @@ export class RateLimiter {
   }
 }
 
-export function checkAuth(req: Request, serverPort: number, token: string): Response | null {
+export function checkAuth(
+  req: Request,
+  serverPort: number,
+  token: string,
+): Response | null {
   const host = req.headers.get("host") ?? "";
   const validHosts = [
     `127.0.0.1:${serverPort}`,

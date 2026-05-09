@@ -1,9 +1,9 @@
-import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { Database } from "bun:sqlite";
+import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { join } from "node:path";
-import { runMigrations } from "../store/migrate.ts";
 import { stubBus } from "../bus.ts";
 import { createServer } from "../server.ts";
+import { runMigrations } from "../store/migrate.ts";
 
 const MIGRATIONS_DIR = join(import.meta.dir, "../../migrations");
 const TOKEN = "test-server-token";

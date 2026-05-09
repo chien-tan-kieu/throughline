@@ -1,4 +1,4 @@
-import { Database } from "bun:sqlite";
+import type { Database } from "bun:sqlite";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Server } from "bun";
@@ -13,7 +13,7 @@ export interface RuntimeJson {
 
 export async function writeRuntimeJson(
   dataDir: string,
-  data: RuntimeJson
+  data: RuntimeJson,
 ): Promise<void> {
   const path = join(dataDir, "runtime.json");
   await writeFile(path, JSON.stringify(data, null, 2), { mode: 0o600 });
@@ -22,7 +22,7 @@ export async function writeRuntimeJson(
 export function startIdleTimer(
   server: Server,
   db: Database,
-  idleMs = 4 * 60 * 60 * 1000
+  idleMs = 4 * 60 * 60 * 1000,
 ): { reset: () => void; cancel: () => void } {
   let timer = setTimeout(shutdown, idleMs);
 
@@ -46,7 +46,7 @@ export function startIdleTimer(
 export function registerShutdownHandler(
   server: Server,
   db: Database,
-  cancelIdle: () => void
+  cancelIdle: () => void,
 ): void {
   process.once("SIGTERM", () => {
     cancelIdle();

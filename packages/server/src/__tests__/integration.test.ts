@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
-import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { startDaemon, type DaemonHandle } from "../index.ts";
+import { join } from "node:path";
+import { type DaemonHandle, startDaemon } from "../index.ts";
 
 describe("full hook round-trip", () => {
   let daemon: DaemonHandle;
@@ -36,7 +36,7 @@ describe("full hook round-trip", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
-      }
+      },
     );
 
     expect(res.status).toBe(200);
@@ -44,7 +44,7 @@ describe("full hook round-trip", () => {
 
     const events = daemon.db
       .query<{ event_name: string; session_id: string }, []>(
-        "SELECT event_name, session_id FROM events"
+        "SELECT event_name, session_id FROM events",
       )
       .all();
 
@@ -83,7 +83,7 @@ describe("full hook round-trip", () => {
 
     const session = daemon.db
       .query<{ status: string }, []>(
-        "SELECT status FROM sessions WHERE id = 'integration-sess-2'"
+        "SELECT status FROM sessions WHERE id = 'integration-sess-2'",
       )
       .get();
 
@@ -117,7 +117,11 @@ describe("rate limiting integration", () => {
   beforeAll(async () => {
     const dataDir = join(tmpdir(), `cc-ratelimit-${Date.now()}`);
     // Cap at 1 event per session per minute so second request is silently dropped
-    daemon = await startDaemon({ port: 0, dataDir, rateLimit: { limit: 1, windowMs: 60_000 } });
+    daemon = await startDaemon({
+      port: 0,
+      dataDir,
+      rateLimit: { limit: 1, windowMs: 60_000 },
+    });
   });
 
   afterAll(async () => {
@@ -139,20 +143,25 @@ describe("rate limiting integration", () => {
     };
 
     const res1 = await fetch(`http://127.0.0.1:${daemon.port}/hooks/Stop`, {
-      method: "POST", headers, body: JSON.stringify(payload),
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
     });
     expect(res1.status).toBe(200);
     expect(await res1.text()).toBe("{}");
 
     const res2 = await fetch(`http://127.0.0.1:${daemon.port}/hooks/Stop`, {
-      method: "POST", headers, body: JSON.stringify(payload),
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
     });
     expect(res2.status).toBe(200);
     expect(await res2.text()).toBe("{}");
 
-    const count = daemon.db
-      .query<{ c: number }, []>("SELECT COUNT(*) as c FROM events")
-      .get()!.c;
+    const count =
+      daemon.db
+        .query<{ c: number }, []>("SELECT COUNT(*) as c FROM events")
+        .get()?.c ?? 0;
     expect(count).toBe(1); // second request was silently dropped
   });
 });

@@ -10,7 +10,10 @@ const base = {
 
 describe("HookEventSchema discriminated union", () => {
   test("parses SessionStart", () => {
-    const result = HookEventSchema.parse({ ...base, hook_event_name: "SessionStart" });
+    const result = HookEventSchema.parse({
+      ...base,
+      hook_event_name: "SessionStart",
+    });
     expect(result.hook_event_name).toBe("SessionStart");
   });
 
@@ -53,13 +56,17 @@ describe("HookEventSchema discriminated union", () => {
 
   test("rejects unknown hook_event_name", () => {
     expect(() =>
-      HookEventSchema.parse({ ...base, hook_event_name: "Unknown" })
+      HookEventSchema.parse({ ...base, hook_event_name: "Unknown" }),
     ).toThrow();
   });
 
   test("rejects invalid permission_mode", () => {
     expect(() =>
-      HookEventSchema.parse({ ...base, hook_event_name: "SessionStart", permission_mode: "invalid" })
+      HookEventSchema.parse({
+        ...base,
+        hook_event_name: "SessionStart",
+        permission_mode: "invalid",
+      }),
     ).toThrow();
   });
 
@@ -71,18 +78,40 @@ describe("HookEventSchema discriminated union", () => {
       ["UserPromptExpansion", {}],
       ["PreToolUse", { tool_name: "Bash", tool_input: {} }],
       ["PostToolUse", { tool_name: "Bash", tool_input: {}, tool_response: {} }],
-      ["PostToolUseFailure", { tool_name: "Bash", tool_input: {}, error: "oops" }],
-      ["SubagentStart", { agent_type: "general-purpose", prompt: "go", subagent_id: "s1", parent_session_id: "p1" }],
-      ["SubagentStop", { agent_type: "general-purpose", subagent_id: "s1", stop_reason: "completed", output: "done" }],
+      [
+        "PostToolUseFailure",
+        { tool_name: "Bash", tool_input: {}, error: "oops" },
+      ],
+      [
+        "SubagentStart",
+        {
+          agent_type: "general-purpose",
+          prompt: "go",
+          subagent_id: "s1",
+          parent_session_id: "p1",
+        },
+      ],
+      [
+        "SubagentStop",
+        {
+          agent_type: "general-purpose",
+          subagent_id: "s1",
+          stop_reason: "completed",
+          output: "done",
+        },
+      ],
       ["Stop", {}],
       ["Notification", { message: "hi" }],
-      ["InstructionsLoaded", { file_path: "/tmp/f", memory_type: "Managed", load_reason: "startup" }],
+      [
+        "InstructionsLoaded",
+        { file_path: "/tmp/f", memory_type: "Managed", load_reason: "startup" },
+      ],
       ["PreCompact", {}],
       ["PostCompact", {}],
     ];
     for (const [name, extra] of events) {
       expect(() =>
-        HookEventSchema.parse({ ...base, hook_event_name: name, ...extra })
+        HookEventSchema.parse({ ...base, hook_event_name: name, ...extra }),
       ).not.toThrow();
     }
   });

@@ -1,8 +1,8 @@
-import type { Server } from "bun";
 import type { Database } from "bun:sqlite";
-import { checkAuth, RateLimiter } from "./security/index.ts";
-import { handleHookEvent } from "./hooks/index.ts";
+import type { Server } from "bun";
 import type { Bus } from "./bus.ts";
+import { handleHookEvent } from "./hooks/index.ts";
+import { RateLimiter, checkAuth } from "./security/index.ts";
 
 export interface ServerConfig {
   port: number;
@@ -44,7 +44,9 @@ export function createServer(config: ServerConfig): Server {
           });
         }
 
-        const sessionId = (body as Record<string, unknown>)?.session_id as string | undefined;
+        const sessionId = (body as Record<string, unknown>)?.session_id as
+          | string
+          | undefined;
         if (sessionId && !rateLimiter.allow(sessionId)) {
           return new Response("{}", { status: 200 });
         }

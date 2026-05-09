@@ -1,8 +1,11 @@
-import { Database } from "bun:sqlite";
-import { readdir, readFile } from "node:fs/promises";
+import type { Database } from "bun:sqlite";
+import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 
-export async function runMigrations(db: Database, migrationsDir: string): Promise<void> {
+export async function runMigrations(
+  db: Database,
+  migrationsDir: string,
+): Promise<void> {
   db.run(`
     CREATE TABLE IF NOT EXISTS _migrations (
       name       TEXT    PRIMARY KEY,
@@ -15,7 +18,9 @@ export async function runMigrations(db: Database, migrationsDir: string): Promis
     .sort();
 
   for (const file of files) {
-    const already = db.query("SELECT 1 FROM _migrations WHERE name = ?").get(file);
+    const already = db
+      .query("SELECT 1 FROM _migrations WHERE name = ?")
+      .get(file);
     if (already) continue;
 
     const sql = await readFile(join(migrationsDir, file), "utf-8");

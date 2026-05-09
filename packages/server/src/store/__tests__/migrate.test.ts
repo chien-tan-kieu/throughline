@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { Database } from "bun:sqlite";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { join } from "node:path";
 import { runMigrations } from "../migrate.ts";
 
@@ -21,7 +21,7 @@ describe("runMigrations", () => {
 
     const tables = db
       .query<{ name: string }, []>(
-        "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+        "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name",
       )
       .all()
       .map((r) => r.name);
@@ -35,9 +35,9 @@ describe("runMigrations", () => {
     await runMigrations(db, MIGRATIONS_DIR);
     await runMigrations(db, MIGRATIONS_DIR);
 
-    const count = db
-      .query<{ c: number }, []>("SELECT COUNT(*) as c FROM _migrations")
-      .get()!.c;
+    const count =
+      db.query<{ c: number }, []>("SELECT COUNT(*) as c FROM _migrations").get()
+        ?.c ?? 0;
 
     expect(count).toBe(1); // only one migration file applied once
   });

@@ -1,8 +1,8 @@
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { Database } from "bun:sqlite";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { join } from "node:path";
-import { runMigrations } from "../migrate.ts";
 import { endSession, persistEvent, upsertSession } from "../index.ts";
+import { runMigrations } from "../migrate.ts";
 
 const MIGRATIONS_DIR = join(import.meta.dir, "../../../migrations");
 
@@ -30,7 +30,9 @@ describe("store", () => {
     upsertSession(db, base);
 
     const row = db
-      .query<{ id: string; status: string }, []>("SELECT id, status FROM sessions")
+      .query<{ id: string; status: string }, []>(
+        "SELECT id, status FROM sessions",
+      )
       .get();
 
     expect(row?.id).toBe("sess-store-1");
@@ -41,25 +43,31 @@ describe("store", () => {
     upsertSession(db, base);
     upsertSession(db, base);
 
-    const count = db
-      .query<{ c: number }, []>("SELECT COUNT(*) as c FROM sessions")
-      .get()!.c;
+    const count =
+      db.query<{ c: number }, []>("SELECT COUNT(*) as c FROM sessions").get()
+        ?.c ?? 0;
 
     expect(count).toBe(1);
   });
 
   test("persistEvent inserts event row with correct fields", () => {
-    persistEvent(db, { ...base, hook_event_name: "PreToolUse", tool_name: "Bash", tool_input: {} });
+    persistEvent(db, {
+      ...base,
+      hook_event_name: "PreToolUse",
+      tool_name: "Bash",
+      tool_input: {},
+    });
 
     const row = db
-      .query<{ session_id: string; event_name: string; payload_json: string }, []>(
-        "SELECT session_id, event_name, payload_json FROM events"
-      )
+      .query<
+        { session_id: string; event_name: string; payload_json: string },
+        []
+      >("SELECT session_id, event_name, payload_json FROM events")
       .get();
 
     expect(row?.session_id).toBe("sess-store-1");
     expect(row?.event_name).toBe("PreToolUse");
-    const payload = JSON.parse(row!.payload_json);
+    const payload = JSON.parse(row?.payload_json ?? "null");
     expect(payload.tool_name).toBe("Bash");
   });
 
@@ -74,7 +82,9 @@ describe("store", () => {
     });
 
     const row = db
-      .query<{ subagent_id: string | null }, []>("SELECT subagent_id FROM events")
+      .query<{ subagent_id: string | null }, []>(
+        "SELECT subagent_id FROM events",
+      )
       .get();
 
     expect(row?.subagent_id).toBe("sub-xyz");
@@ -84,7 +94,9 @@ describe("store", () => {
     persistEvent(db, base);
 
     const row = db
-      .query<{ subagent_id: string | null }, []>("SELECT subagent_id FROM events")
+      .query<{ subagent_id: string | null }, []>(
+        "SELECT subagent_id FROM events",
+      )
       .get();
 
     expect(row?.subagent_id).toBeNull();
@@ -96,7 +108,7 @@ describe("store", () => {
 
     const row = db
       .query<{ status: string; ended_at: number | null }, []>(
-        "SELECT status, ended_at FROM sessions WHERE id = ?"
+        "SELECT status, ended_at FROM sessions WHERE id = ?",
       )
       .get("sess-store-1");
 

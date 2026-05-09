@@ -1,18 +1,155 @@
 {
   "hooks": {
-    "SessionStart":        [{ "matcher": "*", "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/bootstrap.sh" }] }],
-    "PreToolUse":          [{ "matcher": "*", "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh" }] }],
-    "PostToolUse":         [{ "matcher": "*", "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh", "async": true }] }],
-    "PostToolUseFailure":  [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh", "async": true }] }],
-    "SubagentStart":       [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh", "async": true }] }],
-    "SubagentStop":        [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh", "async": true }] }],
-    "Stop":                [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh" }] }],
-    "SessionEnd":          [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh", "async": true }] }],
-    "Notification":        [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh", "async": true }] }],
-    "UserPromptSubmit":    [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh" }] }],
-    "UserPromptExpansion": [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh" }] }],
-    "InstructionsLoaded":  [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh", "async": true }] }],
-    "PreCompact":          [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh" }] }],
-    "PostCompact":         [{ "hooks": [{ "type": "command", "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh", "async": true }] }]
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/bootstrap.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptExpansion": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "async": true
+          }
+        ]
+      }
+    ]
   }
 }

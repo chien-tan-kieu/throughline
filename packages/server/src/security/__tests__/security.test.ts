@@ -14,10 +14,13 @@ function makeRequest(overrides: {
   if (overrides.authorization !== undefined) {
     headers.set("authorization", overrides.authorization);
   }
-  return new Request(overrides.url ?? `http://127.0.0.1:${PORT}/hooks/PreToolUse`, {
-    method: "POST",
-    headers,
-  });
+  return new Request(
+    overrides.url ?? `http://127.0.0.1:${PORT}/hooks/PreToolUse`,
+    {
+      method: "POST",
+      headers,
+    },
+  );
 }
 
 describe("checkAuth", () => {
@@ -27,7 +30,10 @@ describe("checkAuth", () => {
   });
 
   test("returns null for localhost host header", () => {
-    const req = makeRequest({ host: `localhost:${PORT}`, authorization: `Bearer ${TOKEN}` });
+    const req = makeRequest({
+      host: `localhost:${PORT}`,
+      authorization: `Bearer ${TOKEN}`,
+    });
     expect(checkAuth(req, PORT, TOKEN)).toBeNull();
   });
 
@@ -44,7 +50,10 @@ describe("checkAuth", () => {
   });
 
   test("returns 403 when Host is not localhost/127.0.0.1", () => {
-    const req = makeRequest({ host: "evil.example.com", authorization: `Bearer ${TOKEN}` });
+    const req = makeRequest({
+      host: "evil.example.com",
+      authorization: `Bearer ${TOKEN}`,
+    });
     const res = checkAuth(req, PORT, TOKEN);
     expect(res?.status).toBe(403);
   });
