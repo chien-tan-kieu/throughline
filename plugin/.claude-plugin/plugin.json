@@ -1,0 +1,7 @@
+{
+  "name": "claude-control",
+  "description": "Workflow visualizer for Claude Code + Superpowers. Observer-only.",
+  "version": "0.1.0",
+  "author": { "name": "claude-control contributors" },
+  "license": "MIT"
+}
