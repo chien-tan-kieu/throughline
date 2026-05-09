@@ -1,0 +1,107 @@
+{
+  "permissions": {
+    "allow": ["Bash(bash:*)", "Bash(git:*)", "Bash(node:*)", "WebSearch"]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -Rs '{\"systemMessage\":\"[SessionStart hook fired] Karpathy guidelines loaded from .claude/constitution.md\",\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":(\"## Karpathy Guidelines (from .claude/constitution.md)\\n\\n\"+.)}}' .claude/constitution.md 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "explorer",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🔍 Explorer starting — mapping codebase context...'"
+          }
+        ]
+      },
+      {
+        "matcher": "requirements-agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📋 Requirements agent starting — deriving acceptance criteria...'"
+          }
+        ]
+      },
+      {
+        "matcher": "tech-design-agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🏗️  Tech Design starting — spec must exist before proceeding'"
+          }
+        ]
+      },
+      {
+        "matcher": "tasks-agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📝 Tasks agent starting — breaking ADR into implementation tasks...'"
+          }
+        ]
+      },
+      {
+        "matcher": "implementer",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '👨‍💻 Implementer starting — ADR is the sole source of truth'"
+          }
+        ]
+      },
+      {
+        "matcher": "test-runner",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🧪 Test Runner starting — re-running full suite independently'"
+          }
+        ]
+      },
+      {
+        "matcher": "code-reviewer",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🔍 Code Reviewer starting — will invoke /simplify then review against ADR'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[TOOL] Bash: $TOOL_INPUT\" >> .claude/logs/tool-audit.log 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[TOOL] Write/Edit: $TOOL_INPUT\" >> .claude/logs/tool-audit.log 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "claude-mem@thedotmack": true,
+    "frontend-design@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true
+  }
+}
