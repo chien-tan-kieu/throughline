@@ -1,0 +1,14 @@
+{
+  "name": "claude-control-local",
+  "owner": {
+    "name": "claude-control contributors"
+  },
+  "plugins": [
+    {
+      "name": "claude-control",
+      "version": "0.1.0",
+      "source": ".",
+      "description": "Workflow visualizer for Claude Code + Superpowers. Observer-only."
+    }
+  ]
+}

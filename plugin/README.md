@@ -2,19 +2,44 @@
 
 Observer plugin for Claude Code. Records hook events to a local SQLite database.
 
-## Development usage
+## Local development
+
+Claude Code does not support installing plugins from local paths via `claude plugins install`.
+Use `--plugin-dir` instead — it loads the plugin for that session without a permanent install:
 
 ```bash
-# Start Claude Code with this plugin
+# From the repo root
 claude --plugin-dir ./plugin
-
-# Run daemon directly (watch mode)
-cd packages/server && bun run --watch src/index.ts
-
-# Run tests
-cd packages/server && bun test
 ```
 
-## How it works
+On `SessionStart`, `bootstrap.sh` probes the daemon's healthz endpoint and spawns it if not
+running. Every subsequent hook fires `forward.sh`, which POSTs the event payload to the daemon.
 
-`bootstrap.sh` runs on `SessionStart` — it probes the daemon's healthz endpoint and spawns it if not running. `forward.sh` runs on all other events and forwards the JSON payload to the daemon via curl.
+## Verifying it works
+
+After starting a session with `--plugin-dir`:
+
+```bash
+# Confirm the daemon is running and see its port
+cat ~/.claude-control/runtime.json
+
+# Query recorded events
+sqlite3 ~/.claude-control/claude-control.db \
+  "SELECT event_name, session_id, datetime(ts/1000, 'unixepoch', 'localtime') FROM events ORDER BY ts DESC LIMIT 20;"
+```
+
+Data directory defaults to `~/.claude-control`. Override with `CLAUDE_PLUGIN_DATA`:
+
+```bash
+CLAUDE_PLUGIN_DATA=/tmp/cc-test claude --plugin-dir ./plugin
+```
+
+## Running tests and the daemon directly
+
+```bash
+# Run the test suite
+bun test --cwd packages/server
+
+# Start the daemon in watch mode (dev)
+bun run --watch packages/server/src/index.ts
+```
