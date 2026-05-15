@@ -39,7 +39,7 @@ describe("runMigrations", () => {
       db.query<{ c: number }, []>("SELECT COUNT(*) as c FROM _migrations").get()
         ?.c ?? 0;
 
-    expect(count).toBe(1); // only one migration file applied once
+    expect(count).toBe(2); // all migration files applied once each
   });
 
   test("sessions table has expected columns", async () => {
