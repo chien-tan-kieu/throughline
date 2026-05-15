@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
+import { mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { type DaemonHandle, startDaemon } from "../index.ts";
@@ -163,5 +164,83 @@ describe("rate limiting integration", () => {
         .query<{ c: number }, []>("SELECT COUNT(*) as c FROM events")
         .get()?.c ?? 0;
     expect(count).toBe(1); // second request was silently dropped
+  });
+});
+
+describe("plan file change via PostToolUse → WS delivery", () => {
+  let daemon: DaemonHandle;
+  let cwd: string;
+
+  beforeAll(async () => {
+    cwd = join(tmpdir(), `cc-ws-integration-${Date.now()}`);
+    await mkdir(join(cwd, "docs/superpowers/plans"), { recursive: true });
+    daemon = await startDaemon({
+      port: 0,
+      dataDir: join(tmpdir(), `cc-ws-data-${Date.now()}`),
+      cwd,
+    });
+  });
+
+  afterAll(async () => {
+    await daemon.stop();
+    await import("node:fs/promises").then((fs) =>
+      fs.rm(cwd, { recursive: true, force: true }),
+    );
+  });
+
+  test("PostToolUse Edit on plan file triggers plan.changed WS message within 500ms", async () => {
+    const planPath = join(cwd, "docs/superpowers/plans/test.md");
+    await import("node:fs/promises").then((fs) =>
+      fs.writeFile(
+        planPath,
+        "# Test Plan\n\n### Task 1: Work\n\n- [ ] step one\n",
+      ),
+    );
+
+    const ws = new WebSocket(
+      `ws://127.0.0.1:${daemon.port}/ws?token=${daemon.token}`,
+    );
+    await new Promise<void>((resolve) =>
+      ws.addEventListener("open", () => resolve()),
+    );
+    ws.send(
+      JSON.stringify({ type: "subscribe", topics: [`plan:${planPath}`] }),
+    );
+    await new Promise((r) => setTimeout(r, 50));
+
+    const received = new Promise<{ type: string }>((resolve) => {
+      ws.addEventListener("message", (e) =>
+        resolve(JSON.parse(e.data as string)),
+      );
+    });
+
+    await fetch(`http://127.0.0.1:${daemon.port}/hooks/PostToolUse`, {
+      method: "POST",
+      headers: {
+        Host: `127.0.0.1:${daemon.port}`,
+        Authorization: `Bearer ${daemon.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        session_id: "ws-integration-sess",
+        transcript_path: "/tmp/t.json",
+        cwd,
+        hook_event_name: "PostToolUse",
+        permission_mode: "default",
+        tool_name: "Edit",
+        tool_input: { file_path: planPath },
+        tool_response: {},
+      }),
+    });
+
+    const msg = await Promise.race([
+      received,
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("timeout")), 500),
+      ),
+    ]);
+
+    expect(msg.type).toBe("plan.changed");
+    ws.close();
   });
 });

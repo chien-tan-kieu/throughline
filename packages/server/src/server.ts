@@ -63,7 +63,13 @@ export function createServer(config: ServerConfig): Server {
           return new Response("{}", { status: 200 });
         }
         config.onActivity?.();
-        return handleHookEvent(hookMatch[1], body, db, bus);
+        return handleHookEvent(
+          hookMatch[1],
+          body,
+          db,
+          bus,
+          config.apiCtx?.watcher,
+        );
       }
 
       if (url.pathname.startsWith("/api/")) {
