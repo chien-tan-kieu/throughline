@@ -1,6 +1,8 @@
+// packages/server/src/index.ts
 import { Database } from "bun:sqlite";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
+import type { ApiCtx } from "./api/index.ts";
 import { createBus } from "./bus.ts";
 import {
   registerShutdownHandler,
@@ -9,13 +11,17 @@ import {
 } from "./lifecycle/index.ts";
 import { createServer } from "./server.ts";
 import { runMigrations } from "./store/migrate.ts";
+import { StoryService } from "./stories/index.ts";
+import { SuperpowersWatcher } from "./superpowers/index.ts";
+import { WsServer } from "./ws/index.ts";
 
 const MIGRATIONS_DIR = join(import.meta.dir, "../migrations");
-const VERSION = "0.1.0";
+const VERSION = "0.2.0";
 
 export interface DaemonOptions {
   port?: number;
   dataDir?: string;
+  cwd?: string;
   rateLimit?: { limit: number; windowMs: number };
 }
 
@@ -35,6 +41,8 @@ export async function startDaemon(
     join(process.env.HOME ?? "/tmp", ".claude-control");
   await mkdir(dataDir, { recursive: true });
 
+  const cwd = options.cwd ?? process.cwd();
+
   const db = new Database(join(dataDir, "claude-control.db"));
   await runMigrations(db, MIGRATIONS_DIR);
 
@@ -44,10 +52,17 @@ export async function startDaemon(
 
   const bus = createBus();
 
-  // onActivity ref: wired to idleTimer.reset after timer is created
+  const watcher = new SuperpowersWatcher(cwd, db, bus);
+  const stories = new StoryService(cwd, db, bus);
+  const wsServer = new WsServer(bus);
+
+  await watcher.start();
+  await stories.start();
+
+  const apiCtx: ApiCtx = { db, watcher, stories };
+
   const activityRef = { fn: () => {} };
 
-  // Port range binding: when no port given, try 47821–47830
   const useRange = options.port === undefined;
   const startPort = options.port ?? 47821;
   const endPort = useRange ? 47830 : startPort;
@@ -60,6 +75,8 @@ export async function startDaemon(
         token,
         db,
         bus,
+        wsServer,
+        apiCtx,
         onActivity: () => activityRef.fn(),
         rateLimit: options.rateLimit,
       });
@@ -95,13 +112,15 @@ export async function startDaemon(
     db,
     stop: async () => {
       idleTimer.cancel();
+      wsServer.stop();
+      watcher.stop();
+      stories.stop();
       db.close();
       bound.stop(true);
     },
   };
 }
 
-// Run directly: bun run src/index.ts
 if (import.meta.main) {
   await startDaemon();
   console.log("Claude Control daemon started.");
