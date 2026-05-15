@@ -1,7 +1,36 @@
-import type { HookEvent } from "@cc/shared";
+import type { HookEvent, Phase, PlanTask } from "@cc/shared";
+
+export type BusEvent =
+  | { type: "hook"; data: HookEvent }
+  | { type: "plan.changed"; data: { path: string; tasks: PlanTask[] } }
+  | { type: "spec.changed"; data: { path: string } }
+  | {
+      type: "story.changed";
+      data: { id: string; op: "create" | "update" | "delete" };
+    }
+  | { type: "phase.inferred"; data: { sessionId: string; phase: Phase } };
+
+type Handler = (event: BusEvent) => void;
 
 export interface Bus {
-  publish(event: HookEvent): void;
+  publish(event: BusEvent): void;
+  subscribe(handler: Handler): () => void;
 }
 
-export const stubBus: Bus = { publish: () => {} };
+export function createBus(): Bus {
+  const handlers = new Set<Handler>();
+  return {
+    publish(event) {
+      for (const h of handlers) h(event);
+    },
+    subscribe(handler) {
+      handlers.add(handler);
+      return () => handlers.delete(handler);
+    },
+  };
+}
+
+export const stubBus: Bus = {
+  publish: () => {},
+  subscribe: () => () => {},
+};

@@ -9,6 +9,6 @@ export async function dispatchEvent(
   bus: Bus,
 ): Promise<Response> {
   persistEvent(db, event);
-  bus.publish(event);
+  bus.publish({ type: "hook", data: event });
   return new Response("{}", { status: 200 });
 }

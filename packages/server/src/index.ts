@@ -1,7 +1,7 @@
 import { Database } from "bun:sqlite";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import { stubBus } from "./bus.ts";
+import { createBus } from "./bus.ts";
 import {
   registerShutdownHandler,
   startIdleTimer,
@@ -42,6 +42,8 @@ export async function startDaemon(
     crypto.getRandomValues(new Uint8Array(32)),
   ).toString("hex");
 
+  const bus = createBus();
+
   // onActivity ref: wired to idleTimer.reset after timer is created
   const activityRef = { fn: () => {} };
 
@@ -57,7 +59,7 @@ export async function startDaemon(
         port,
         token,
         db,
-        bus: stubBus,
+        bus,
         onActivity: () => activityRef.fn(),
         rateLimit: options.rateLimit,
       });
