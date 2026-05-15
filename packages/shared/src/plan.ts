@@ -33,7 +33,7 @@ export function parsePlan(content: string, path: string): ParsedPlan {
     const taskMatch = line.match(/^### Task (\d+):\s*(.+)/);
     if (taskMatch) {
       currentTask = {
-        index: parseInt(taskMatch[1], 10),
+        index: Number.parseInt(taskMatch[1], 10),
         title: taskMatch[2].trim(),
         files: [],
         steps: [],

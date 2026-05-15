@@ -22,8 +22,16 @@ describe("parsePlan", () => {
     expect(result.tasks[0].title).toBe("Setup");
     expect(result.tasks[0].files).toEqual(["src/index.ts", "src/utils.ts"]);
     expect(result.tasks[0].steps).toHaveLength(2);
-    expect(result.tasks[0].steps[0]).toEqual({ index: 1, label: "Write tests", state: "todo" });
-    expect(result.tasks[0].steps[1]).toEqual({ index: 2, label: "Create file", state: "done" });
+    expect(result.tasks[0].steps[0]).toEqual({
+      index: 1,
+      label: "Write tests",
+      state: "todo",
+    });
+    expect(result.tasks[0].steps[1]).toEqual({
+      index: 2,
+      label: "Create file",
+      state: "done",
+    });
   });
 
   test("returns empty title and tasks for empty string", () => {
@@ -33,7 +41,8 @@ describe("parsePlan", () => {
   });
 
   test("skips malformed checkboxes", () => {
-    const content = `# Plan\n\n### Task 1: Work\n\n- [?] invalid\n- [ ] valid step\n`;
+    const content =
+      "# Plan\n\n### Task 1: Work\n\n- [?] invalid\n- [ ] valid step\n";
     const result = parsePlan(content, "plan.md");
     expect(result.tasks[0].steps).toHaveLength(1);
     expect(result.tasks[0].steps[0].label).toBe("valid step");
@@ -59,7 +68,10 @@ describe("parsePlan", () => {
   });
 
   test("returns no tasks when content has no task headers", () => {
-    const result = parsePlan("# Plan with no tasks\n\nSome intro text.", "plan.md");
+    const result = parsePlan(
+      "# Plan with no tasks\n\nSome intro text.",
+      "plan.md",
+    );
     expect(result.title).toBe("Plan with no tasks");
     expect(result.tasks).toHaveLength(0);
   });
