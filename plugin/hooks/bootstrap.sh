@@ -13,8 +13,8 @@ if [ -f "$RUNTIME" ]; then
   fi
 fi
 
-if [ -f "$CLAUDE_PLUGIN_ROOT/../packages/server/src/index.ts" ]; then
-  bun run "$CLAUDE_PLUGIN_ROOT/../packages/server/src/index.ts" >> "$LOG" 2>&1 &
+if [ -f "$CLAUDE_PLUGIN_ROOT/packages/server/src/index.ts" ]; then
+  bun run "$CLAUDE_PLUGIN_ROOT/packages/server/src/index.ts" >> "$LOG" 2>&1 &
 else
   "$CLAUDE_PLUGIN_ROOT/bin/cc-daemon" >> "$LOG" 2>&1 &
 fi

@@ -39,8 +39,10 @@ export function checkAuth(
     return new Response("Forbidden", { status: 403 });
   }
 
+  const url = new URL(req.url);
+  const queryToken = url.searchParams.get("token") ?? "";
   const auth = req.headers.get("authorization") ?? "";
-  if (auth !== `Bearer ${token}`) {
+  if (auth !== `Bearer ${token}` && queryToken !== token) {
     return new Response("Unauthorized", { status: 401 });
   }
 

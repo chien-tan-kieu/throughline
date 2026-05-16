@@ -58,7 +58,7 @@ export class StoryService {
     private db: Database,
     private bus: Bus,
   ) {
-    this.storiesDir = join(cwd, ".claude-control/stories");
+    this.storiesDir = join(cwd, "docs/superpowers/stories");
   }
 
   async start(): Promise<void> {

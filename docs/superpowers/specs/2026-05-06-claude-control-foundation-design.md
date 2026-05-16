@@ -36,7 +36,7 @@ The PRD contained several assumptions about the Claude Code hooks API that neede
 | Hook | Reason |
 |---|---|
 | `SessionEnd` | Definitive session termination; `Stop` fires per-turn, not per-session. Use `SessionEnd` to set `sessions.status = 'ended'` |
-| `UserPromptExpansion` | Fires on slash command expansion — detects `/cc:start`, `/cc:story`, etc. |
+| `UserPromptExpansion` | Fires on slash command expansion — detects `/claude-control:start`, `/claude-control:story`, etc. |
 | `PreCompact` / `PostCompact` | Context compaction lifecycle events; annotate session timeline |
 
 **Phase inference via `InstructionsLoaded`:** confirmed to exist with fields `file_path`, `memory_type`, `load_reason`. Use as primary phase signal; artifact presence on disk as fallback. `memory_type = 'Managed'` is the expected value for plugin skill files. Mark phase as `unknown` if neither signal fires — do not guess.
@@ -305,7 +305,7 @@ probe() { curl -sf --max-time 2 "http://127.0.0.1:$1/api/healthz" > /dev/null 2>
 if [ -f "$RUNTIME" ]; then
   PORT=$(jq -r '.port' "$RUNTIME" 2>/dev/null)
   if probe "$PORT"; then
-    echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Claude Control is observing this session. Run /cc:open for the dashboard URL. This plugin only observes — it never blocks tool calls."}}'
+    echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Claude Control is observing this session. Run /claude-control:open for the dashboard URL. This plugin only observes — it never blocks tool calls."}}'
     exit 0
   fi
 fi
@@ -469,7 +469,7 @@ The following are intentionally out of scope for Weeks 1–2 and will be specced
 - Standup generator, handoff generator (Weeks 3–4)
 - React dashboard, Vite scaffold, WS client (Weeks 5–6)
 - Cross-platform binary compilation, plugin packaging for marketplace (Weeks 7–8)
-- Slash commands: `/cc:status`, `/cc:open`, `/cc:story`, `/cc:start`, `/cc:standup`, `/cc:handoff` (Weeks 3–4)
+- Slash commands: `/claude-control:status`, `/claude-control:open`, `/claude-control:story`, `/claude-control:start`, `/claude-control:standup`, `/claude-control:handoff` (Weeks 3–4)
 
 The `forward.sh` shell script is an explicitly temporary artifact. It will be replaced by a compiled Bun binary with `bootstrap` and `forward <EventName>` subcommands in Weeks 7–8. The interface boundary is clean: `hooks.json` command paths are the only coupling point between the plugin scaffold and the forwarding implementation.
 

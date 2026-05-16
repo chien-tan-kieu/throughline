@@ -76,7 +76,7 @@ The primary surface. Pairs Superpowers artifacts with the live event stream:
 
 Optional. Solo-friendly defaults; team extensions when you need them.
 
-- **User stories**: markdown documents under `.claude-control/stories/`. Each story has a title, narrative ("As a..., I want..., so that..."), acceptance criteria, S/M/L size, status (`backlog | in-progress | done`), and zero or more linked Superpowers spec/plan files. **A user story is the input to a Superpowers brainstorming session** — when the user invokes `/cc:start <story-id>`, the plugin pre-populates Claude's context with the story and triggers Superpowers' brainstorming skill.
+- **User stories**: markdown documents under `docs/superpowers/stories/`. Each story has a title, narrative ("As a..., I want..., so that..."), acceptance criteria, S/M/L size, status (`backlog | in-progress | done`), and zero or more linked Superpowers spec/plan files. **A user story is the input to a Superpowers brainstorming session** — when the user invokes `/claude-control:start <story-id>`, the plugin pre-populates Claude's context with the story and triggers Superpowers' brainstorming skill.
 - **Standup view**: a single page summarizing "what shipped yesterday, what's in progress today, what's blocked." Auto-generated from the session/event log. Copy button for pasting into Slack/Discord/standup.
 - **Handoff notes**: when a user marks a story or in-progress workflow as "needs handoff", the plugin generates a markdown summary — current state, what was just tried, what's next, links to the plan with checkbox state preserved. Handoff notes are written to `.claude-control/handoffs/<date>-<story>.md`, ready to commit and share.
 
@@ -97,8 +97,8 @@ The Agile layer is opt-in: if the user never creates a story, the plugin works f
 | G5  | Detect Superpowers presence and parse its artifacts (specs, plans with checkboxes)                          |
 | G6  | Live plan view that pairs checkbox state with tool calls                                                    |
 | G7  | Subagent activity surfaced in session timeline (flat list; tree view deferred to P1)                        |
-| G8  | User stories with S/M/L sizing — files under `.claude-control/stories/`, dashboard CRUD                     |
-| G9  | Slash command `/cc:start <story-id>` that opens Superpowers' brainstorming with story as input              |
+| G8  | User stories with S/M/L sizing — files under `docs/superpowers/stories/`, dashboard CRUD                     |
+| G9  | Slash command `/claude-control:start <story-id>` that opens Superpowers' brainstorming with story as input              |
 | G10 | Standup view (auto-generated from event log) with copy-to-clipboard                                         |
 | G11 | Handoff notes generator                                                                                     |
 | G12 | Cross-platform (macOS/Linux/Windows) — daemon binary cross-compiled with Bun                                |
@@ -273,7 +273,7 @@ Inference is best-effort. If wrong, the dashboard shows "phase: unknown" rather 
 | State | Owner | Persistence |
 |---|---|---|
 | Hook events, sessions | daemon, SQLite | rolling 30 days |
-| User stories | filesystem at `<repo>/.claude-control/stories/*.md` (canonical) + SQLite cache | git-tracked by user |
+| User stories | filesystem at `<repo>/docs/superpowers/stories/*.md` (canonical) + SQLite cache | git-tracked by user |
 | Handoff notes | filesystem at `<repo>/.claude-control/handoffs/*.md` | git-tracked by user |
 | Superpowers specs/plans | filesystem at `<repo>/docs/superpowers/` (canonical, owned by Superpowers) | read-only for us |
 | Runtime info (port, token, pid) | `~/.claude-control/runtime.json` | written on start |
@@ -303,12 +303,12 @@ claude-control/
 ├── hooks/
 │ └── hooks.json ← all hook handler definitions
 ├── commands/
-│ ├── cc-status.md ← /cc:status
-│ ├── cc-start.md ← /cc:start <story-id>
-│ ├── cc-story.md ← /cc:story new|list|size
-│ ├── cc-standup.md ← /cc:standup
-│ ├── cc-handoff.md ← /cc:handoff <story-id>
-│ └── cc-open.md ← /cc:open (open dashboard)
+│ ├── status.md ← /claude-control:status
+│ ├── start.md ← /claude-control:start <story-id>
+│ ├── story.md ← /claude-control:story new|list|size
+│ ├── standup.md ← /claude-control:standup
+│ ├── handoff.md ← /claude-control:handoff <story-id>
+│ └── open.md ← /claude-control:open (open dashboard)
 ├── skills/
 │ └── claude-control/SKILL.md ← optional skill that explains the plugin to Claude
 ├── bin/
@@ -412,16 +412,16 @@ Implemented as standard Claude Code commands (markdown files with frontmatter un
 
 | Command                         | What it does                                                                                                                      |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `/cc:status`                    | Print daemon status, dashboard URL, current session, active story                                                                 |
-| `/cc:open`                      | Print dashboard URL with token query (Claude shows it; user clicks)                                                               |
-| `/cc:story new <title>`         | Scaffold a new user story file                                                                                                    |
-| `/cc:story list`                | List stories with status and size                                                                                                 |
-| `/cc:story size <id> <S\|M\|L>` | Set/update story size                                                                                                             |
-| `/cc:start <story-id>`          | Load story content into Claude's context, instruct Claude to invoke Superpowers' brainstorming skill with this story as the basis |
-| `/cc:standup`                   | Generate today's standup digest                                                                                                   |
-| `/cc:handoff <story-id>`        | Generate handoff notes for the named story                                                                                        |
+| `/claude-control:status`                    | Print daemon status, dashboard URL, current session, active story                                                                 |
+| `/claude-control:open`                      | Print dashboard URL with token query (Claude shows it; user clicks)                                                               |
+| `/claude-control:story new <title>`         | Scaffold a new user story file                                                                                                    |
+| `/claude-control:story list`                | List stories with status and size                                                                                                 |
+| `/claude-control:story size <id> <S\|M\|L>` | Set/update story size                                                                                                             |
+| `/claude-control:start <story-id>`          | Load story content into Claude's context, instruct Claude to invoke Superpowers' brainstorming skill with this story as the basis |
+| `/claude-control:standup`                   | Generate today's standup digest                                                                                                   |
+| `/claude-control:handoff <story-id>`        | Generate handoff notes for the named story                                                                                        |
 
-The interesting one is `/cc:start`. It works by:
+The interesting one is `/claude-control:start`. It works by:
 
 1. Reading the story file from disk.
 2. Constructing a prompt like: _"I want to start work on this user story. Use the Superpowers brainstorming skill to refine it into a design spec before any implementation. Story: ..."_
@@ -498,10 +498,10 @@ $ claude
 > [SessionStart fires → command hook spawns daemon]
 > [HTTP hooks now route to daemon]
 
-> /cc:status
+> /claude-control:status
 ✓ Daemon running on http://127.0.0.1:47821
   Dashboard: http://127.0.0.1:47821/?token=<...>
-  Open with: /cc:open
+  Open with: /claude-control:open
 ```
 
 No edit of `~/.claude/settings.json`. No CLI install command. The plugin's own `hooks/hooks.json` is loaded by Claude Code automatically.
@@ -547,14 +547,14 @@ Claude generates Bash { command: "pytest" }
 ### 8.4 Story → Superpowers brainstorm flow
 
 ```
-$ /cc:story new "Add OAuth login"
-  → daemon scaffolds .claude-control/stories/US-2026-05-04-oauth-login.md with template
+$ /claude-control:story new "Add OAuth login"
+  → daemon scaffolds docs/superpowers/stories/US-2026-05-04-oauth-login.md with template
   → user edits in IDE: narrative, acceptance criteria, leaves size blank
 
-$ /cc:story size US-2026-05-04-oauth-login M
+$ /claude-control:story size US-2026-05-04-oauth-login M
   → daemon updates frontmatter
 
-$ /cc:start US-2026-05-04-oauth-login
+$ /claude-control:start US-2026-05-04-oauth-login
   → command expands to a prompt that loads story content + instructs Superpowers brainstorm
   → Claude reads, brainstorming skill activates, asks clarifying questions
   → user answers, design doc gets written to docs/superpowers/specs/
@@ -569,12 +569,12 @@ $ /cc:start US-2026-05-04-oauth-login
 
 (work is done)
 
-$ /cc:story (mark done in dashboard, or manually edit frontmatter)
+$ /claude-control:story (mark done in dashboard, or manually edit frontmatter)
 ```
 
 ### 8.5 Standup generation
 
-The standup digest is a function of (recent sessions, recent story state changes, recent handoffs). Generated on demand by `/cc:standup` or by clicking "Standup" in dashboard:
+The standup digest is a function of (recent sessions, recent story state changes, recent handoffs). Generated on demand by `/claude-control:standup` or by clicking "Standup" in dashboard:
 
 ```markdown
 ## Standup — 2026-05-05
@@ -598,7 +598,7 @@ The "blockers" section is auto-detected from `PostToolUseFailure` patterns (e.g.
 ### 8.6 Handoff notes
 
 ```
-$ /cc:handoff US-2026-05-04-oauth-login
+$ /claude-control:handoff US-2026-05-04-oauth-login
   → daemon generates .claude-control/handoffs/2026-05-05-oauth-login.md:
 
 # Handoff: Add OAuth login (US-2026-05-04-oauth-login)
@@ -740,7 +740,7 @@ Latency budget: P50 <30ms, P95 <100ms, P99 <300ms. (We're fast because we never 
 | GET    | `/api/stories/:id`                   | Story detail (rendered markdown + frontmatter)                   |
 | POST   | `/api/stories`                       | Create story (writes file)                                       |
 | PATCH  | `/api/stories/:id`                   | Update story (size, status, narrative — re-writes file)          |
-| DELETE | `/api/stories/:id`                   | Archive story (moves file to `.claude-control/stories/archive/`) |
+| DELETE | `/api/stories/:id`                   | Archive story (moves file to `docs/superpowers/stories/archive/`) |
 | GET    | `/api/plans/:path`                   | Parsed plan (tree of tasks + steps + state)                      |
 | GET    | `/api/specs/:path`                   | Rendered spec markdown                                           |
 | GET    | `/api/standup?date=`                 | Generated standup digest                                         |
@@ -782,7 +782,7 @@ Topics: `events`, `events:<sessionId>`, `plan:<path>`, `stories`, `subagents:<se
 
 ## 11. Story format
 
-Stories live as markdown files with YAML frontmatter at `<repo>/.claude-control/stories/<id>.md`:
+Stories live as markdown files with YAML frontmatter at `<repo>/docs/superpowers/stories/<id>.md`:
 
 ```markdown
 ---
@@ -1004,7 +1004,7 @@ DB writes are async (fire-and-forget), bounded by a high-water mark of 1000 in-f
 | User manually kills daemon                                           | Next hook respawns.                                                                                                                                                        |
 | Disk full                                                            | Daemon stops persisting but keeps responding to hooks (logs warning). UI shows banner.                                                                                     |
 | DB corruption                                                        | Detect on boot, rename file to `.bak`, init fresh. UI shows warning.                                                                                                       |
-| User opens dashboard without token                                   | Static SPA served, but API calls fail with 401. Dashboard shows "no token — open via /cc:open".                                                                            |
+| User opens dashboard without token                                   | Static SPA served, but API calls fail with 401. Dashboard shows "no token — open via /claude-control:open".                                                                            |
 
 ---
 
@@ -1032,7 +1032,7 @@ DB writes are async (fire-and-forget), bounded by a high-water mark of 1000 in-f
 - Daemon: Bun.serve, bun:sqlite, hostname-bound, Bearer auth, Host validation.
 - Hook handlers for SessionStart (command), UserPromptSubmit, PreToolUse, PostToolUse, PostToolUseFailure, Stop, SubagentStart, SubagentStop, Notification, FileChanged, InstructionsLoaded — all observer-only.
 - Bootstrap binary (probe + spawn detached), token persisted via `CLAUDE_ENV_FILE`.
-- Slash commands: `/cc:status`, `/cc:open`, `/cc:story (new|list|size)`, `/cc:start`, `/cc:standup`, `/cc:handoff`.
+- Slash commands: `/claude-control:status`, `/claude-control:open`, `/claude-control:story (new|list|size)`, `/claude-control:start`, `/claude-control:standup`, `/claude-control:handoff`.
 - Superpowers artifact watcher (specs + plans), markdown parser with checkbox state diff.
 - Phase inference from skill loads + artifact presence.
 - Story CRUD, file-backed, with watcher.
@@ -1246,7 +1246,7 @@ Weeks 7–8  Distribution + Polish
     ],
     "FileChanged": [
       {
-        "matcher": "docs/superpowers/specs/*|docs/superpowers/plans/*|.claude-control/stories/*",
+        "matcher": "docs/superpowers/specs/*|docs/superpowers/plans/*|docs/superpowers/stories/*",
         "hooks": [
           {
             "type": "http",
@@ -1302,7 +1302,7 @@ As a [...], I want [...], so that [...].
 {
   "hookSpecificOutput": {
     "hookEventName": "SessionStart",
-    "additionalContext": "Claude Control is observing this session.\nDashboard: http://127.0.0.1:47821 (run `/cc:open` for token-included URL)\nActive story: US-2026-05-04-oauth-login (size M)\nLinked plan: docs/superpowers/plans/2026-05-04-oauth.md (4/12 tasks done)\n\nThis plugin only observes — it never blocks tool calls or modifies your work."
+    "additionalContext": "Claude Control is observing this session.\nDashboard: http://127.0.0.1:47821 (run `/claude-control:open` for token-included URL)\nActive story: US-2026-05-04-oauth-login (size M)\nLinked plan: docs/superpowers/plans/2026-05-04-oauth.md (4/12 tasks done)\n\nThis plugin only observes — it never blocks tool calls or modifies your work."
   }
 }
 ```

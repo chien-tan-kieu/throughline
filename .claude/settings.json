@@ -1,6 +1,11 @@
 {
   "permissions": {
-    "allow": ["Bash(bash:*)", "Bash(git:*)", "Bash(node:*)", "WebSearch"]
+    "allow": [
+      "Bash(bash:*)",
+      "Bash(git:*)",
+      "Bash(node:*)",
+      "WebSearch"
+    ]
   },
   "hooks": {
     "SessionStart": [

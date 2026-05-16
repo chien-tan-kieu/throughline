@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/bootstrap.sh"
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/bootstrap.sh"
           }
         ]
       }
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh"
           }
         ]
       }
@@ -28,7 +28,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh",
             "async": true
           }
         ]
@@ -39,7 +39,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh",
             "async": true
           }
         ]
@@ -50,7 +50,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh",
             "async": true
           }
         ]
@@ -61,7 +61,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh",
             "async": true
           }
         ]
@@ -72,7 +72,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh"
           }
         ]
       }
@@ -82,7 +82,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh",
             "async": true
           }
         ]
@@ -93,7 +93,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh",
             "async": true
           }
         ]
@@ -104,7 +104,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh"
           }
         ]
       }
@@ -114,7 +114,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh"
           }
         ]
       }
@@ -124,7 +124,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh",
             "async": true
           }
         ]
@@ -135,7 +135,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh"
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh"
           }
         ]
       }
@@ -145,7 +145,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/forward.sh",
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh",
             "async": true
           }
         ]

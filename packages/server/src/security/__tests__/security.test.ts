@@ -68,6 +68,21 @@ describe("checkAuth", () => {
     const res = checkAuth(req, PORT, TOKEN);
     expect(res?.status).toBe(403);
   });
+
+  test("returns null when token is passed as query param", () => {
+    const req = makeRequest({
+      url: `http://127.0.0.1:${PORT}/?token=${TOKEN}`,
+    });
+    expect(checkAuth(req, PORT, TOKEN)).toBeNull();
+  });
+
+  test("returns 401 when query param token is wrong", () => {
+    const req = makeRequest({
+      url: `http://127.0.0.1:${PORT}/?token=wrong`,
+    });
+    const res = checkAuth(req, PORT, TOKEN);
+    expect(res?.status).toBe(401);
+  });
 });
 
 describe("RateLimiter", () => {

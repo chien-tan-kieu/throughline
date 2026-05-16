@@ -38,6 +38,13 @@ describe("StoryService", () => {
     expect(row?.id).toBe(story.id);
   });
 
+  test("create() writes file under docs/superpowers/stories", async () => {
+    const story = await service.create("Path Check");
+    expect(story.file_path).toBe(
+      join(cwd, "docs/superpowers/stories", `${story.id}.md`),
+    );
+  });
+
   test("list() returns created story and excludes archived ones", async () => {
     await service.create("Story A");
     await service.create("Story B");

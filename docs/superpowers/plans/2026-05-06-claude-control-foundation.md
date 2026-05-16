@@ -1,6 +1,6 @@
 # Claude Control Foundation (Weeks 1–2) Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Wire a working end-to-end foundation: Claude Code hook events fire shell scripts, reach a local Bun daemon via HTTP, get validated with Zod, persisted to SQLite, and return `{}` — proving the full stack before any feature logic is added.
 
@@ -85,7 +85,7 @@ claude-control/
 
 No tests for pure config — this task ends with a successful `pnpm install`.
 
-- [ ] **Step 1: Create the workspace root `package.json`**
+- [x] **Step 1: Create the workspace root `package.json`**
 
 ```json
 {
@@ -104,14 +104,14 @@ No tests for pure config — this task ends with a successful `pnpm install`.
 }
 ```
 
-- [ ] **Step 2: Create `pnpm-workspace.yaml`**
+- [x] **Step 2: Create `pnpm-workspace.yaml`**
 
 ```yaml
 packages:
   - 'packages/*'
 ```
 
-- [ ] **Step 3: Create `tsconfig.base.json`**
+- [x] **Step 3: Create `tsconfig.base.json`**
 
 ```json
 {
@@ -121,16 +121,22 @@ packages:
     "module": "ESNext",
     "target": "ESNext",
     "lib": ["ESNext"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   }
 }
 ```
 
-- [ ] **Step 4: Create `biome.json`**
+- [x] **Step 4: Create `biome.json`**
 
 ```json
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "ignore": ["graphify-out/", "node_modules/", "dist/"]
+  },
   "organizeImports": { "enabled": true },
   "linter": {
     "enabled": true,
@@ -144,7 +150,7 @@ packages:
 }
 ```
 
-- [ ] **Step 5: Create `packages/shared/package.json`**
+- [x] **Step 5: Create `packages/shared/package.json`**
 
 ```json
 {
@@ -164,7 +170,7 @@ packages:
 }
 ```
 
-- [ ] **Step 6: Create `packages/server/package.json`**
+- [x] **Step 6: Create `packages/server/package.json`**
 
 ```json
 {
@@ -181,7 +187,7 @@ packages:
 }
 ```
 
-- [ ] **Step 7: Create `packages/web/package.json`** (stub only)
+- [x] **Step 7: Create `packages/web/package.json`** (stub only)
 
 ```json
 {
@@ -194,7 +200,7 @@ packages:
 }
 ```
 
-- [ ] **Step 8: Install dependencies**
+- [x] **Step 8: Install dependencies**
 
 ```bash
 cd /path/to/claude-control && pnpm install
@@ -202,7 +208,7 @@ cd /path/to/claude-control && pnpm install
 
 Expected: lockfile created, `node_modules/@cc/shared` symlinked, no errors.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add package.json pnpm-workspace.yaml tsconfig.base.json biome.json packages/
@@ -219,7 +225,7 @@ git commit -m "chore: scaffold pnpm workspace with shared, server, web packages"
 - Create: `packages/shared/src/index.ts`
 - Create: `packages/shared/src/__tests__/events.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/shared/src/__tests__/events.test.ts`:
 
@@ -315,7 +321,7 @@ describe("HookEventSchema discriminated union", () => {
 });
 ```
 
-- [ ] **Step 2: Run test to confirm it fails**
+- [x] **Step 2: Run test to confirm it fails**
 
 ```bash
 cd packages/shared && bun test
@@ -323,7 +329,7 @@ cd packages/shared && bun test
 
 Expected: `FAIL — Cannot find module '../events.ts'`
 
-- [ ] **Step 3: Create `packages/shared/src/events.ts`**
+- [x] **Step 3: Create `packages/shared/src/events.ts`**
 
 ```typescript
 import { z } from "zod";
@@ -449,20 +455,20 @@ export const HookEventSchema = z.discriminatedUnion("hook_event_name", [
 export type HookEvent = z.infer<typeof HookEventSchema>;
 ```
 
-- [ ] **Step 4: Create `packages/shared/src/api.ts`** (stubs for Weeks 5–6)
+- [x] **Step 4: Create `packages/shared/src/api.ts`** (stubs for Weeks 5–6)
 
 ```typescript
 // REST + WebSocket contract types — implemented in Weeks 5-6.
 export type ApiStub = never;
 ```
 
-- [ ] **Step 5: Create `packages/shared/src/index.ts`**
+- [x] **Step 5: Create `packages/shared/src/index.ts`**
 
 ```typescript
 export { HookEventSchema, type HookEvent } from "./events.ts";
 ```
 
-- [ ] **Step 6: Run tests to confirm they pass**
+- [x] **Step 6: Run tests to confirm they pass**
 
 ```bash
 cd packages/shared && bun test
@@ -470,7 +476,7 @@ cd packages/shared && bun test
 
 Expected: `14 pass, 0 fail`
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add packages/shared/
@@ -486,7 +492,7 @@ git commit -m "feat(shared): add Zod discriminated union for all 14 hook event t
 - Create: `packages/server/src/store/migrate.ts`
 - Create: `packages/server/src/store/__tests__/migrate.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/server/src/store/__tests__/migrate.test.ts`:
 
@@ -568,7 +574,7 @@ describe("runMigrations", () => {
 });
 ```
 
-- [ ] **Step 2: Run test to confirm it fails**
+- [x] **Step 2: Run test to confirm it fails**
 
 ```bash
 cd packages/server && bun test src/store/__tests__/migrate.test.ts
@@ -576,7 +582,7 @@ cd packages/server && bun test src/store/__tests__/migrate.test.ts
 
 Expected: `FAIL — Cannot find module '../migrate.ts'`
 
-- [ ] **Step 3: Create `packages/server/migrations/001_initial.sql`**
+- [x] **Step 3: Create `packages/server/migrations/001_initial.sql`**
 
 ```sql
 CREATE TABLE IF NOT EXISTS sessions (
@@ -604,7 +610,7 @@ CREATE INDEX IF NOT EXISTS idx_events_session_ts ON events(session_id, ts);
 CREATE INDEX IF NOT EXISTS idx_events_event_name ON events(event_name, ts);
 ```
 
-- [ ] **Step 4: Create `packages/server/src/store/migrate.ts`**
+- [x] **Step 4: Create `packages/server/src/store/migrate.ts`**
 
 ```typescript
 import { Database } from "bun:sqlite";
@@ -628,7 +634,7 @@ export async function runMigrations(db: Database, migrationsDir: string): Promis
     if (already) continue;
 
     const sql = await readFile(join(migrationsDir, file), "utf-8");
-    db.run(sql);
+    db.exec(sql);
     db.run("INSERT INTO _migrations (name, applied_at) VALUES (?, ?)", [
       file,
       Date.now(),
@@ -637,7 +643,7 @@ export async function runMigrations(db: Database, migrationsDir: string): Promis
 }
 ```
 
-- [ ] **Step 5: Run tests to confirm they pass**
+- [x] **Step 5: Run tests to confirm they pass**
 
 ```bash
 cd packages/server && bun test src/store/__tests__/migrate.test.ts
@@ -645,7 +651,7 @@ cd packages/server && bun test src/store/__tests__/migrate.test.ts
 
 Expected: `4 pass, 0 fail`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add packages/server/migrations/ packages/server/src/store/migrate.ts packages/server/src/store/__tests__/migrate.test.ts
@@ -661,7 +667,7 @@ git commit -m "feat(server): add SQLite migration runner and initial schema"
 - Create: `packages/server/src/store/index.ts`
 - Create: `packages/server/src/store/__tests__/store.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/server/src/store/__tests__/store.test.ts`:
 
@@ -774,7 +780,7 @@ describe("store", () => {
 });
 ```
 
-- [ ] **Step 2: Run test to confirm it fails**
+- [x] **Step 2: Run test to confirm it fails**
 
 ```bash
 cd packages/server && bun test src/store/__tests__/store.test.ts
@@ -782,7 +788,7 @@ cd packages/server && bun test src/store/__tests__/store.test.ts
 
 Expected: `FAIL — Cannot find module '../index.ts'`
 
-- [ ] **Step 3: Create `packages/server/src/bus.ts`**
+- [x] **Step 3: Create `packages/server/src/bus.ts`**
 
 ```typescript
 import type { HookEvent } from "@cc/shared";
@@ -794,7 +800,7 @@ export interface Bus {
 export const stubBus: Bus = { publish: () => {} };
 ```
 
-- [ ] **Step 4: Create `packages/server/src/store/index.ts`**
+- [x] **Step 4: Create `packages/server/src/store/index.ts`**
 
 ```typescript
 import { Database } from "bun:sqlite";
@@ -836,7 +842,7 @@ export function persistEvent(db: Database, event: HookEvent): void {
 }
 ```
 
-- [ ] **Step 5: Run tests to confirm they pass**
+- [x] **Step 5: Run tests to confirm they pass**
 
 ```bash
 cd packages/server && bun test src/store/__tests__/store.test.ts
@@ -844,7 +850,7 @@ cd packages/server && bun test src/store/__tests__/store.test.ts
 
 Expected: `6 pass, 0 fail`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add packages/server/src/bus.ts packages/server/src/store/
@@ -859,7 +865,7 @@ git commit -m "feat(server): add store with persistEvent and session lifecycle m
 - Create: `packages/server/src/security/index.ts`
 - Create: `packages/server/src/security/__tests__/security.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/server/src/security/__tests__/security.test.ts`:
 
@@ -960,7 +966,7 @@ describe("RateLimiter", () => {
 });
 ```
 
-- [ ] **Step 2: Run test to confirm it fails**
+- [x] **Step 2: Run test to confirm it fails**
 
 ```bash
 cd packages/server && bun test src/security/__tests__/security.test.ts
@@ -968,7 +974,7 @@ cd packages/server && bun test src/security/__tests__/security.test.ts
 
 Expected: `FAIL — Cannot find module '../index.ts'`
 
-- [ ] **Step 3: Create `packages/server/src/security/index.ts`**
+- [x] **Step 3: Create `packages/server/src/security/index.ts`**
 
 ```typescript
 interface WindowCount {
@@ -1017,7 +1023,7 @@ export function checkAuth(req: Request, serverPort: number, token: string): Resp
 }
 ```
 
-- [ ] **Step 4: Run tests to confirm they pass**
+- [x] **Step 4: Run tests to confirm they pass**
 
 ```bash
 cd packages/server && bun test src/security/__tests__/security.test.ts
@@ -1025,7 +1031,7 @@ cd packages/server && bun test src/security/__tests__/security.test.ts
 
 Expected: `10 pass, 0 fail`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/server/src/security/
@@ -1045,7 +1051,7 @@ This task has two tests:
 1. The observer contract: every event name → handler returns exactly `{}`
 2. A malformed payload returns 400
 
-- [ ] **Step 1: Write the failing observer contract test**
+- [x] **Step 1: Write the failing observer contract test**
 
 Create `packages/server/src/hooks/__tests__/observer-contract.test.ts`:
 
@@ -1135,7 +1141,7 @@ describe("handleHookEvent error cases", () => {
 });
 ```
 
-- [ ] **Step 2: Run test to confirm it fails**
+- [x] **Step 2: Run test to confirm it fails**
 
 ```bash
 cd packages/server && bun test src/hooks/__tests__/observer-contract.test.ts
@@ -1143,7 +1149,7 @@ cd packages/server && bun test src/hooks/__tests__/observer-contract.test.ts
 
 Expected: `FAIL — Cannot find module '../index.ts'`
 
-- [ ] **Step 3: Create `packages/server/src/hooks/handlers.ts`**
+- [x] **Step 3: Create `packages/server/src/hooks/handlers.ts`**
 
 ```typescript
 import type { HookEvent } from "@cc/shared";
@@ -1162,7 +1168,7 @@ export async function dispatchEvent(
 }
 ```
 
-- [ ] **Step 4: Create `packages/server/src/hooks/index.ts`**
+- [x] **Step 4: Create `packages/server/src/hooks/index.ts`**
 
 ```typescript
 import { HookEventSchema, type HookEvent } from "@cc/shared";
@@ -1190,7 +1196,7 @@ export async function handleHookEvent(
 }
 ```
 
-- [ ] **Step 5: Run tests to confirm they pass**
+- [x] **Step 5: Run tests to confirm they pass**
 
 ```bash
 cd packages/server && bun test src/hooks/__tests__/observer-contract.test.ts
@@ -1198,7 +1204,7 @@ cd packages/server && bun test src/hooks/__tests__/observer-contract.test.ts
 
 Expected: `16 pass, 0 fail`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add packages/server/src/hooks/
@@ -1213,7 +1219,7 @@ git commit -m "feat(server): add hook handlers with observer contract (all event
 - Create: `packages/server/src/server.ts`
 - Create: `packages/server/src/__tests__/server.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/server/src/__tests__/server.test.ts`:
 
@@ -1309,7 +1315,7 @@ describe("HTTP server", () => {
 });
 ```
 
-- [ ] **Step 2: Run test to confirm it fails**
+- [x] **Step 2: Run test to confirm it fails**
 
 ```bash
 cd packages/server && bun test src/__tests__/server.test.ts
@@ -1317,14 +1323,14 @@ cd packages/server && bun test src/__tests__/server.test.ts
 
 Expected: `FAIL — Cannot find module '../server.ts'`
 
-- [ ] **Step 3: Create `packages/server/src/server.ts`**
+- [x] **Step 3: Create `packages/server/src/server.ts`**
 
 ```typescript
-import type { Server } from "bun";
 import type { Database } from "bun:sqlite";
-import { checkAuth, RateLimiter } from "./security/index.ts";
-import { handleHookEvent } from "./hooks/index.ts";
+import type { Server } from "bun";
 import type { Bus } from "./bus.ts";
+import { handleHookEvent } from "./hooks/index.ts";
+import { RateLimiter, checkAuth } from "./security/index.ts";
 
 export interface ServerConfig {
   port: number;
@@ -1342,6 +1348,7 @@ export function createServer(config: ServerConfig): Server {
     : new RateLimiter();
 
   return Bun.serve({
+    hostname: "127.0.0.1",
     port: config.port,
     async fetch(req, server) {
       const url = new URL(req.url);
@@ -1384,7 +1391,7 @@ export function createServer(config: ServerConfig): Server {
 }
 ```
 
-- [ ] **Step 4: Run tests to confirm they pass**
+- [x] **Step 4: Run tests to confirm they pass**
 
 ```bash
 cd packages/server && bun test src/__tests__/server.test.ts
@@ -1392,7 +1399,7 @@ cd packages/server && bun test src/__tests__/server.test.ts
 
 Expected: `6 pass, 0 fail`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/server/src/server.ts packages/server/src/__tests__/server.test.ts
@@ -1409,7 +1416,7 @@ git commit -m "feat(server): add HTTP server with route table, auth gate, and 50
 
 `index.ts` exports `startDaemon` (used by the integration test and `bootstrap.sh`). The main entry path (`bun run src/index.ts`) calls `startDaemon` and sets up SIGTERM + idle timer.
 
-- [ ] **Step 1: Write a failing smoke test for `startDaemon`**
+- [x] **Step 1: Write a failing smoke test for `startDaemon`**
 
 Create `packages/server/src/__tests__/daemon.test.ts`:
 
@@ -1481,7 +1488,7 @@ describe("port range fallback", () => {
 });
 ```
 
-- [ ] **Step 2: Run test to confirm it fails**
+- [x] **Step 2: Run test to confirm it fails**
 
 ```bash
 cd packages/server && bun test src/__tests__/daemon.test.ts
@@ -1489,7 +1496,7 @@ cd packages/server && bun test src/__tests__/daemon.test.ts
 
 Expected: `FAIL — Cannot find module '../index.ts'`
 
-- [ ] **Step 3: Create `packages/server/src/lifecycle/index.ts`**
+- [x] **Step 3: Create `packages/server/src/lifecycle/index.ts`**
 
 ```typescript
 import { Database } from "bun:sqlite";
@@ -1551,20 +1558,20 @@ export function registerShutdownHandler(
 }
 ```
 
-- [ ] **Step 4: Create `packages/server/src/index.ts`**
+- [x] **Step 4: Create `packages/server/src/index.ts`**
 
 ```typescript
 import { Database } from "bun:sqlite";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import { createServer } from "./server.ts";
-import { runMigrations } from "./store/migrate.ts";
 import { stubBus } from "./bus.ts";
 import {
   registerShutdownHandler,
   startIdleTimer,
   writeRuntimeJson,
 } from "./lifecycle/index.ts";
+import { createServer } from "./server.ts";
+import { runMigrations } from "./store/migrate.ts";
 
 const MIGRATIONS_DIR = join(import.meta.dir, "../migrations");
 const VERSION = "0.1.0";
@@ -1582,14 +1589,21 @@ export interface DaemonHandle {
   stop: () => Promise<void>;
 }
 
-export async function startDaemon(options: DaemonOptions = {}): Promise<DaemonHandle> {
-  const dataDir = options.dataDir ?? process.env["CLAUDE_PLUGIN_DATA"] ?? join(process.env["HOME"] ?? "/tmp", ".claude-control");
+export async function startDaemon(
+  options: DaemonOptions = {},
+): Promise<DaemonHandle> {
+  const dataDir =
+    options.dataDir ??
+    process.env.CLAUDE_PLUGIN_DATA ??
+    join(process.env.HOME ?? "/tmp", ".claude-control");
   await mkdir(dataDir, { recursive: true });
 
   const db = new Database(join(dataDir, "claude-control.db"));
   await runMigrations(db, MIGRATIONS_DIR);
 
-  const token = Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString("hex");
+  const token = Buffer.from(
+    crypto.getRandomValues(new Uint8Array(32)),
+  ).toString("hex");
 
   // onActivity ref: wired to idleTimer.reset after timer is created
   const activityRef = { fn: () => {} };
@@ -1613,32 +1627,37 @@ export async function startDaemon(options: DaemonOptions = {}): Promise<DaemonHa
       break;
     } catch {
       if (port === endPort) {
-        process.stderr.write(`Claude Control: could not bind to any port in ${startPort}–${endPort}\n`);
+        process.stderr.write(
+          `Claude Control: could not bind to any port in ${startPort}–${endPort}\n`,
+        );
         process.exit(1);
       }
     }
   }
 
-  const idleTimer = startIdleTimer(server!, db);
+  if (!server) throw new Error("Failed to bind server (unreachable)");
+
+  const idleTimer = startIdleTimer(server, db);
   activityRef.fn = idleTimer.reset;
-  registerShutdownHandler(server!, db, idleTimer.cancel);
+  registerShutdownHandler(server, db, idleTimer.cancel);
 
   await writeRuntimeJson(dataDir, {
-    port: server!.port,
+    port: server.port,
     token,
     pid: process.pid,
     started_at: new Date().toISOString(),
     version: VERSION,
   });
 
+  const bound = server;
   return {
-    port: server!.port,
+    port: server.port,
     token,
     db,
     stop: async () => {
       idleTimer.cancel();
       db.close();
-      server!.stop(true);
+      bound.stop(true);
     },
   };
 }
@@ -1650,7 +1669,7 @@ if (import.meta.main) {
 }
 ```
 
-- [ ] **Step 5: Run tests to confirm they pass**
+- [x] **Step 5: Run tests to confirm they pass**
 
 ```bash
 cd packages/server && bun test src/__tests__/daemon.test.ts
@@ -1658,7 +1677,7 @@ cd packages/server && bun test src/__tests__/daemon.test.ts
 
 Expected: `4 pass, 0 fail` (3 startDaemon tests + 1 port fallback test)
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add packages/server/src/lifecycle/ packages/server/src/index.ts packages/server/src/__tests__/daemon.test.ts
@@ -1672,7 +1691,7 @@ git commit -m "feat(server): add daemon lifecycle with port range binding, runti
 **Files:**
 - Create: `packages/server/src/__tests__/integration.test.ts`
 
-- [ ] **Step 1: Write the integration test**
+- [x] **Step 1: Write the integration test**
 
 Create `packages/server/src/__tests__/integration.test.ts`:
 
@@ -1818,7 +1837,7 @@ describe("rate limiting integration", () => {
 });
 ```
 
-- [ ] **Step 2: Run the integration test**
+- [x] **Step 2: Run the integration test**
 
 ```bash
 cd packages/server && bun test src/__tests__/integration.test.ts
@@ -1826,7 +1845,7 @@ cd packages/server && bun test src/__tests__/integration.test.ts
 
 Expected: `3 pass, 0 fail`
 
-- [ ] **Step 3: Run the full server test suite to confirm nothing broke**
+- [x] **Step 3: Run the full server test suite to confirm nothing broke**
 
 ```bash
 cd packages/server && bun test
@@ -1834,7 +1853,7 @@ cd packages/server && bun test
 
 Expected: all tests pass (observer contract × 14 + error cases × 2 + store × 6 + migrate × 4 + security × 10 + server × 6 + daemon × 4 + integration × 3 + rate-limit integration × 1 = ~50 pass, 0 fail)
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add packages/server/src/__tests__/integration.test.ts
@@ -1855,7 +1874,7 @@ git commit -m "test(server): add integration test for full hook round-trip and s
 
 No automated tests — the smoke test is manual (step 7).
 
-- [ ] **Step 1: Create `plugin/.claude-plugin/plugin.json`**
+- [x] **Step 1: Create `plugin/.claude-plugin/plugin.json`**
 
 ```json
 {
@@ -1867,7 +1886,7 @@ No automated tests — the smoke test is manual (step 7).
 }
 ```
 
-- [ ] **Step 2: Create `plugin/hooks/hooks.json`**
+- [x] **Step 2: Create `plugin/hooks/hooks.json`**
 
 ```json
 {
@@ -1890,7 +1909,7 @@ No automated tests — the smoke test is manual (step 7).
 }
 ```
 
-- [ ] **Step 3: Create `plugin/hooks/forward.sh`** then make executable
+- [x] **Step 3: Create `plugin/hooks/forward.sh`** then make executable
 
 ```bash
 #!/bin/bash
@@ -1915,7 +1934,7 @@ exit 0
 chmod +x plugin/hooks/forward.sh
 ```
 
-- [ ] **Step 4: Create `plugin/hooks/bootstrap.sh`** then make executable
+- [x] **Step 4: Create `plugin/hooks/bootstrap.sh`** then make executable
 
 ```bash
 #!/bin/bash
@@ -1954,7 +1973,7 @@ exit 0
 chmod +x plugin/hooks/bootstrap.sh
 ```
 
-- [ ] **Step 5: Create `plugin/skills/claude-control/SKILL.md`**
+- [x] **Step 5: Create `plugin/skills/claude-control/SKILL.md`**
 
 ```markdown
 # claude-control
@@ -1966,7 +1985,7 @@ Claude Control records hook events (tool use, session start/end, subagent lifecy
 No action is required from you. The daemon runs silently in the background.
 ```
 
-- [ ] **Step 6: Create `plugin/README.md`**
+- [x] **Step 6: Create `plugin/README.md`**
 
 ```markdown
 # claude-control plugin
@@ -1991,7 +2010,7 @@ cd packages/server && bun test
 `bootstrap.sh` runs on `SessionStart` — it probes the daemon's healthz endpoint and spawns it if not running. `forward.sh` runs on all other events and forwards the JSON payload to the daemon via curl.
 ```
 
-- [ ] **Step 7: Manual smoke test**
+- [x] **Step 7: Manual smoke test**
 
 Open a new terminal in the repo root and run:
 
@@ -2016,7 +2035,7 @@ bun -e "const {Database} = require('bun:sqlite'); const db = new Database('$DB')
 
 Expected: rows showing `SessionStart`, `UserPromptSubmit`, `PreToolUse`, etc.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add plugin/
@@ -2047,7 +2066,7 @@ Expected: no errors.
 
 ## Success criteria (from spec)
 
-- [ ] `claude --plugin-dir ./plugin` starts a session, bootstrap.sh spawns the daemon
-- [ ] Every hook event is received, validated, persisted, and returns `{}`
-- [ ] Observer contract test is green: no handler can ever return a decision field
-- [ ] Full round-trip integration test passes: POST → `{}` response + event row in SQLite
+- [x] `claude --plugin-dir ./plugin` starts a session, bootstrap.sh spawns the daemon
+- [x] Every hook event is received, validated, persisted, and returns `{}`
+- [x] Observer contract test is green: no handler can ever return a decision field
+- [x] Full round-trip integration test passes: POST → `{}` response + event row in SQLite
