@@ -7,3 +7,4 @@ dist/
 *.db-wal
 
 graphify-out/cache/
+.superpowers/

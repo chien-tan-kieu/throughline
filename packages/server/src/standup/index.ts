@@ -5,7 +5,7 @@ export class StandupService {
   constructor(private db: Database) {}
 
   generate(date: string): StandupDigest {
-    const dayStart = new Date(`${date}T00:00:00`).getTime();
+    const dayStart = new Date(`${date}T00:00:00Z`).getTime();
     const shipStart = dayStart - 86_400_000;
     const shipEnd = dayStart;
 
@@ -36,7 +36,7 @@ export class StandupService {
       detail: "in progress",
     }));
 
-    const cutoff = Date.now() - 86_400_000;
+    const cutoff = shipStart;
     const blockerRows = this.db
       .query<{ session_id: string; active_story_id: string | null; tool_name: string }, [number]>(
         `SELECT e.session_id, s.active_story_id,
