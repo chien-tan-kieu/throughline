@@ -12,7 +12,10 @@ export function useWebSocket() {
   useEffect(() => {
     if (!port || !token) return;
 
+    let destroyed = false;
+
     function connect() {
+      if (destroyed) return;
       const ws = new WebSocket(`ws://127.0.0.1:${port}/ws?token=${token}`);
       wsRef.current = ws;
 
@@ -51,6 +54,7 @@ export function useWebSocket() {
     connect();
 
     return () => {
+      destroyed = true;
       retryTimerRef.current && clearTimeout(retryTimerRef.current);
       wsRef.current?.close();
     };

@@ -12,7 +12,6 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
     ...init,
     headers: {
       Authorization: `Bearer ${token}`,
-      Host: `127.0.0.1:${useWsStore.getState().port}`,
       "Content-Type": "application/json",
       ...(init?.headers ?? {}),
     },
