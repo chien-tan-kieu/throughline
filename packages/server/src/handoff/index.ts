@@ -80,8 +80,9 @@ export class HandoffService {
 
     if (taskIndices.length === 0) return "(no tasks in plan)";
 
-    for (const taskIdx of taskIndices) {
-      const nextTaskIdx = taskIndices[taskIndices.indexOf(taskIdx) + 1] ?? lines.length;
+    for (let ti = 0; ti < taskIndices.length; ti++) {
+      const taskIdx = taskIndices[ti];
+      const nextTaskIdx = taskIndices[ti + 1] ?? lines.length;
       const taskBlock = lines.slice(taskIdx, Math.min(taskIdx + 30, nextTaskIdx));
       const hasDoneStep = taskBlock.some((s) => s.match(/^- \[x\]/i));
       if (!hasDoneStep) return lines[taskIdx];
