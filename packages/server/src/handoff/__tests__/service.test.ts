@@ -80,4 +80,24 @@ describe("HandoffService", () => {
     const result = await svc.generate("US-004");
     expect(result.content).toContain("(no plan yet)");
   });
+
+  test("generate() includes 'next up' task from linked plan", async () => {
+    // Create a minimal plan file
+    const planPath = join(cwd, "docs/superpowers/plans/test-plan.md");
+    await Bun.write(
+      planPath,
+      "# Test Plan\n\n### Task 1: Setup\n\n- [ ] **Step 1: Do setup**\n",
+    );
+    // Seed story with linked plan
+    const storiesDir = join(cwd, "docs/superpowers/stories");
+    const storyPath = join(storiesDir, "US-005.md");
+    await Bun.write(storyPath, "---\nid: US-005\ntitle: Plan Story\nstatus: in-progress\ncreated: 2026-05-17\n---\n\nStory content here.");
+    db.run(
+      `INSERT INTO stories (id, file_path, title, size, status, linked_plan_path, created_at, updated_at)
+       VALUES (?, ?, ?, NULL, ?, ?, ?, ?)`,
+      ["US-005", storyPath, "Plan Story", "in-progress", planPath, Date.now(), Date.now()],
+    );
+    const result = await svc.generate("US-005");
+    expect(result.content).toContain("### Task 1: Setup");
+  });
 });

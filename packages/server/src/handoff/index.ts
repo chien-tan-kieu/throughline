@@ -12,7 +12,6 @@ type StoryRow = {
   title: string;
   file_path: string;
   linked_plan_path: string | null;
-  linked_spec_path: string | null;
   size: string | null;
   status: string;
 };
@@ -26,7 +25,7 @@ export class HandoffService {
   async generate(storyId: string): Promise<HandoffResult> {
     const story = this.db
       .query<StoryRow, [string]>(
-        `SELECT id, title, file_path, linked_plan_path, linked_spec_path, size, status
+        `SELECT id, title, file_path, linked_plan_path, size, status
          FROM stories WHERE id = ?`,
       )
       .get(storyId);
@@ -46,9 +45,6 @@ export class HandoffService {
       `# Handoff: ${story.title}`,
       "",
       `**Story:** ${story.id} · **Status:** ${story.status} · **Size:** ${story.size ?? "—"}`,
-      "",
-      "## Completed Tasks",
-      this.extractDoneTasks(story.linked_plan_path ? planSection : null),
       "",
       "## Next Up",
       planSection,
@@ -75,18 +71,22 @@ export class HandoffService {
 
   private extractPlanSummary(planText: string): string {
     const lines = planText.split("\n");
-    const taskLines = lines.filter((l) => l.match(/^###\s+Task/));
-    if (taskLines.length === 0) return "(no tasks in plan)";
+    if (lines.length === 0) return "(no tasks in plan)";
 
-    const incomplete = taskLines.find((l) => {
-      const idx = lines.indexOf(l);
-      return !lines.slice(idx, idx + 20).some((s) => s.match(/^- \[x\]/i));
-    });
-    return incomplete ?? taskLines[taskLines.length - 1];
-  }
+    const taskIndices: number[] = [];
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].match(/^###\s+Task/)) taskIndices.push(i);
+    }
 
-  private extractDoneTasks(planSection: string | null): string {
-    if (!planSection) return "(no plan yet)";
-    return "(see plan for completed tasks)";
+    if (taskIndices.length === 0) return "(no tasks in plan)";
+
+    for (const taskIdx of taskIndices) {
+      const nextTaskIdx = taskIndices[taskIndices.indexOf(taskIdx) + 1] ?? lines.length;
+      const taskBlock = lines.slice(taskIdx, Math.min(taskIdx + 30, nextTaskIdx));
+      const hasDoneStep = taskBlock.some((s) => s.match(/^- \[x\]/i));
+      if (!hasDoneStep) return lines[taskIdx];
+    }
+
+    return lines[taskIndices[taskIndices.length - 1]];
   }
 }
