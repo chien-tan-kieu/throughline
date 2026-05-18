@@ -1,5 +1,6 @@
 import type { HookEvent } from "./events.ts";
 import type { PlanTask } from "./plan.ts";
+import type { StorySize } from "./story.ts";
 
 export type Phase = "brainstorm" | "spec" | "plan" | "implement";
 
@@ -36,6 +37,20 @@ export type WSOut =
     }
   | { type: "phase.inferred"; data: { sessionId: string; phase: Phase } }
   | { type: "pong" };
+
+export type StandupItem = {
+  storyId: string;
+  title: string;
+  size: StorySize | null;
+  detail: string;
+};
+
+export type StandupDigest = {
+  date: string;
+  shipped: StandupItem[];
+  inProgress: StandupItem[];
+  blockers: StandupItem[];
+};
 
 // Exported for use in hooks/handlers.ts when publishing to Bus
 export type { HookEvent };

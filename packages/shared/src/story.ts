@@ -1,11 +1,13 @@
 import { z } from "zod";
 
+export type StorySize = "XS" | "S" | "M" | "L" | "XL";
+
 const StoryFrontmatterSchema = z.object({
   id: z.string(),
   title: z.string(),
   status: z.string(),
   created: z.string(),
-  size: z.string().optional(),
+  size: z.enum(["XS", "S", "M", "L", "XL"]).optional(),
   linked_spec: z.string().optional(),
   linked_plan: z.string().optional(),
 });
@@ -16,7 +18,7 @@ export interface Story {
   id: string;
   file_path: string;
   title: string;
-  size: string | null;
+  size: StorySize | null;
   status: string;
   linked_spec_path: string | null;
   linked_plan_path: string | null;
@@ -31,7 +33,7 @@ export interface StoryDetail extends Story {
 export interface StoryPatch {
   title?: string;
   status?: string;
-  size?: string;
+  size?: StorySize | null;
   linked_spec?: string;
   linked_plan?: string;
 }

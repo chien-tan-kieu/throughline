@@ -39,7 +39,7 @@ describe("runMigrations", () => {
       db.query<{ c: number }, []>("SELECT COUNT(*) as c FROM _migrations").get()
         ?.c ?? 0;
 
-    expect(count).toBe(2); // all migration files applied once each
+    expect(count).toBe(3); // all migration files applied once each
   });
 
   test("sessions table has expected columns", async () => {
@@ -71,5 +71,32 @@ describe("runMigrations", () => {
     expect(cols).toContain("event_name");
     expect(cols).toContain("payload_json");
     expect(cols).toContain("ts");
+  });
+
+  test("creates handoffs table", async () => {
+    await runMigrations(db, MIGRATIONS_DIR);
+
+    const tables = db
+      .query<{ name: string }, []>(
+        "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name",
+      )
+      .all()
+      .map((r) => r.name);
+
+    expect(tables).toContain("handoffs");
+  });
+
+  test("handoffs table has expected columns", async () => {
+    await runMigrations(db, MIGRATIONS_DIR);
+
+    const cols = db
+      .query<{ name: string }, []>("PRAGMA table_info(handoffs)")
+      .all()
+      .map((r) => r.name);
+
+    expect(cols).toContain("id");
+    expect(cols).toContain("story_id");
+    expect(cols).toContain("file_path");
+    expect(cols).toContain("generated_at");
   });
 });
