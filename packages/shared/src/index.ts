@@ -12,5 +12,13 @@ export {
   type Story,
   type StoryDetail,
   type StoryPatch,
+  type StorySize,
 } from "./story.ts";
-export type { Phase, Session, EventRecord, WSOut } from "./api.ts";
+export type {
+  Phase,
+  Session,
+  EventRecord,
+  WSOut,
+  StandupItem,
+  StandupDigest,
+} from "./api.ts";
