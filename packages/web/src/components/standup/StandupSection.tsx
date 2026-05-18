@@ -19,7 +19,7 @@ export function StandupSection({ variant, items }: Props) {
         ) : (
           items.map((item) => (
             <div key={item.storyId} className="report-row">
-              <span className="report-row-key">{item.storyId.split("-").slice(0, 4).join("-")}</span>
+              <span className="report-row-key">{item.storyId.split("-").slice(3).join("-") || item.storyId}</span>
               <div className="type-icon story" style={{ width: 16, height: 16 }}>
                 <svg viewBox="0 0 9 9" fill="currentColor" style={{ width: 9, height: 9 }}><path d="M1 1 H8 V8 L4.5 6 L1 8 Z" /></svg>
               </div>

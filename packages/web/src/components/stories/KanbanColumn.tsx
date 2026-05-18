@@ -17,7 +17,10 @@ export function KanbanColumn({ status, stories }: Props) {
         <span className="column-count">{stories.length}</span>
       </div>
       <div className="card-list">
-        {stories.map((s) => <StoryCard key={s.id} story={s} />)}
+        {stories.length === 0
+          ? <div style={{ padding: "16px 0", color: "var(--text-disabled)", fontSize: 13 }}>No stories</div>
+          : stories.map((s) => <StoryCard key={s.id} story={s} />)
+        }
       </div>
     </div>
   );

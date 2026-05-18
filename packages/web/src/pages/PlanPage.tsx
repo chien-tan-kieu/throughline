@@ -41,6 +41,7 @@ export function PlanPage() {
       <HierarchyStrip
         nodes={[
           { label: "Story", to: `/story/${encodeURIComponent(story.id)}` },
+          ...(story.linked_spec_path ? [{ label: "Spec" as const, to: "/spec" }] : []),
           { label: "Plan", to: "/", active: true },
         ]}
       />

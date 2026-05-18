@@ -11,7 +11,7 @@ import { api } from "../lib/api.ts";
 const STATUSES = ["backlog", "in-progress", "done"] as const;
 const SIZES: (StorySize | null)[] = [null, "XS", "S", "M", "L", "XL"];
 
-function parseUserStory(body: string): { narrative: string; acceptanceCriteria: string[] } {
+function parseUserStory(body: string): { narrative: string; acceptanceCriteria: { text: string; done: boolean }[] } {
   const lines = body.split("\n");
   const asIdx = lines.findIndex((l) => /^as a/i.test(l.trim()));
   const acIdx = lines.findIndex((l) => /acceptance criteria/i.test(l));
@@ -21,7 +21,14 @@ function parseUserStory(body: string): { narrative: string; acceptanceCriteria: 
     : "";
 
   const acLines = acIdx >= 0
-    ? lines.slice(acIdx + 1).filter((l) => l.trim().startsWith("-")).map((l) => l.replace(/^-\s*/, "").trim())
+    ? lines.slice(acIdx + 1)
+        .filter((l) => l.trim().startsWith("-"))
+        .map((l) => {
+          const trimmed = l.replace(/^-\s*/, "").trim();
+          const done = /^\[x\]/i.test(trimmed);
+          const text = trimmed.replace(/^\[[ x]\]\s*/i, "");
+          return { text, done };
+        })
     : [];
 
   return { narrative, acceptanceCriteria: acLines };
@@ -109,9 +116,15 @@ export function StoryPage() {
               <div className="section-h">Acceptance Criteria</div>
               <div className="ac-list">
                 {acceptanceCriteria.map((ac, i) => (
-                  <div key={i} className="ac-item">
-                    <div className="ac-check" />
-                    {ac}
+                  <div key={i} className={`ac-item${ac.done ? " done" : ""}`}>
+                    <div className="ac-check">
+                      {ac.done && (
+                        <svg viewBox="0 0 10 10" fill="none" stroke="white" strokeWidth="1.5" style={{ width: 8, height: 8 }}>
+                          <path d="M1.5 5l2.5 2.5 4.5-5" />
+                        </svg>
+                      )}
+                    </div>
+                    {ac.text}
                   </div>
                 ))}
               </div>
