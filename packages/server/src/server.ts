@@ -1,6 +1,7 @@
 // packages/server/src/server.ts
 import type { Database } from "bun:sqlite";
 import type { Server } from "bun";
+import { join } from "node:path";
 import type { ApiCtx } from "./api/index.ts";
 import { mountApiRoutes } from "./api/index.ts";
 import type { Bus } from "./bus.ts";
@@ -75,6 +76,13 @@ export function createServer(config: ServerConfig): Server {
       if (url.pathname.startsWith("/api/")) {
         if (config.apiCtx) return mountApiRoutes(req, url, config.apiCtx);
         return new Response("{}", { status: 501 });
+      }
+
+      if (req.method === "GET") {
+        const webDist = join(import.meta.dir, "../../../web/dist");
+        const assetPath = url.pathname.startsWith("/assets/") ? url.pathname : "/index.html";
+        const file = Bun.file(join(webDist, assetPath));
+        if (await file.exists()) return new Response(file);
       }
 
       return new Response("Not Found", { status: 404 });

@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "cd packages/server && bun run --watch src/index.ts",
+    "build": "pnpm --filter @cc/web build",
     "test": "pnpm -r test",
     "lint": "bunx biome check ."
   },
