@@ -1,0 +1,2535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claude Control — billing-engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #3ecf8e;
+    --green-link: #00c573;
+    --green-border: rgba(62, 207, 142, 0.3);
+    --green-glow: rgba(62, 207, 142, 0.08);
+    --green-glow-strong: rgba(62, 207, 142, 0.14);
+
+    --bg-deepest: #0f0f0f;
+    --bg: #171717;
+    --bg-elevated: #1c1c1c;
+    --bg-hover: #1f1f1f;
+    --bg-input: #212121;
+    --border-faint: #242424;
+    --border: #2e2e2e;
+    --border-strong: #363636;
+    --border-stronger: #393939;
+    --text-muted: #898989;
+    --text-secondary: #b4b4b4;
+    --text-primary: #fafafa;
+    --text-disabled: #4d4d4d;
+
+    --type-story: var(--green);
+    --type-story-bg: var(--green-glow);
+    --type-task: hsl(210, 70%, 60%);
+    --type-task-bg: hsla(210, 70%, 60%, 0.1);
+
+    --size-s: var(--text-secondary);
+    --size-m: hsl(45, 80%, 62%);
+    --size-l: hsl(20, 75%, 60%);
+    --warn: hsl(45, 87%, 62%);
+
+    --s-1: 4px;
+    --s-2: 8px;
+    --s-3: 12px;
+    --s-4: 16px;
+    --s-5: 20px;
+    --s-6: 24px;
+    --s-8: 32px;
+    --s-10: 40px;
+
+    --topbar-h: 48px;
+    --sidebar-w: 252px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Geist', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: inherit;
+  }
+
+  /* ───────────────────────────── LAYOUT ────────────────────────────── */
+  .app {
+    display: grid;
+    grid-template-rows: var(--topbar-h) 1fr;
+    height: 100vh;
+  }
+
+  .app-body {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    overflow: hidden;
+  }
+
+  /* ───────────────────────────── TOPBAR ────────────────────────────── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: 0 var(--s-5);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+
+  .brand-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-link) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brand-mark svg { width: 14px; height: 14px; }
+  .brand-name { font-size: 14px; font-weight: 500; letter-spacing: -0.1px; }
+
+  .topbar-divider {
+    width: 1px;
+    height: 18px;
+    background: var(--border);
+    margin: 0 var(--s-1);
+  }
+
+  .project-id {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+    letter-spacing: 0.2px;
+  }
+
+  .project-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: var(--type-task-bg);
+    border: 1px solid var(--type-task);
+    color: var(--type-task);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  .topbar-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phase-track {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding: 5px var(--s-4);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-faint);
+    border-radius: 9999px;
+  }
+
+  .phase-step {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+    color: var(--text-disabled);
+    transition: color 200ms ease;
+  }
+
+  .phase-step.complete { color: var(--text-muted); }
+  .phase-step.active { color: var(--green); }
+
+  .phase-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-disabled);
+  }
+  .phase-step.complete .phase-dot { background: var(--text-muted); }
+  .phase-step.active .phase-dot {
+    background: var(--green);
+    box-shadow: 0 0 0 3px var(--green-glow);
+  }
+
+  .phase-sep { width: 10px; height: 1px; background: var(--border); }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+  }
+
+  .session-id {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+
+  .session-id .k {
+    color: var(--text-disabled);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 9px;
+    margin-right: 4px;
+  }
+
+  .connection-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(62, 207, 142, 0.5); }
+    70% { box-shadow: 0 0 0 5px rgba(62, 207, 142, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(62, 207, 142, 0); }
+  }
+
+  /* ───────────────────────────── SIDEBAR ───────────────────────────── */
+  .sidebar {
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: var(--s-4) 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .nav-section { padding: 0 var(--s-3); margin-bottom: var(--s-5); }
+
+  .nav-label {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    padding: 0 var(--s-3) var(--s-2);
+  }
+
+  /* ─── Active Story Card (top of sidebar) ─── */
+  .active-story {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .active-story::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green) 0%, var(--green-link) 100%);
+  }
+
+  .active-story-header {
+    padding: var(--s-3) var(--s-3) var(--s-2);
+  }
+
+  .active-story-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .active-story-key {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.4px;
+    font-weight: 500;
+  }
+
+  .active-status-mini {
+    margin-left: auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--green);
+    padding: 2px 6px;
+    background: var(--green-glow);
+    border: 1px solid var(--green-border);
+    border-radius: 9999px;
+  }
+
+  .active-story-title {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.1px;
+    line-height: 1.35;
+    margin-bottom: var(--s-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .active-story-nav {
+    background: var(--bg);
+    border-top: 1px solid var(--border-faint);
+    padding: 6px;
+  }
+
+  .facet-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    width: 100%;
+    padding: 6px var(--s-2);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    text-align: left;
+    transition: all 100ms ease;
+    position: relative;
+  }
+
+  .facet-nav:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+  .facet-nav.active {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .facet-nav.active::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 12px;
+    background: var(--green);
+    border-radius: 0 2px 2px 0;
+  }
+
+  .facet-nav-icon {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .facet-nav.active .facet-nav-icon { color: var(--green); }
+
+  .facet-check {
+    margin-left: auto;
+    width: 12px;
+    height: 12px;
+    color: var(--text-disabled);
+  }
+  .facet-check.has { color: var(--green); }
+
+  /* ─── Standard nav items (Stories, Standup) ─── */
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    width: 100%;
+    padding: 7px var(--s-3);
+    border-radius: 5px;
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-align: left;
+    transition: background 100ms ease, color 100ms ease;
+    position: relative;
+  }
+
+  .nav-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+  .nav-item.active {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 14px;
+    background: var(--green);
+    border-radius: 0 2px 2px 0;
+  }
+
+  .nav-item-icon { width: 15px; height: 15px; color: var(--text-muted); flex-shrink: 0; }
+  .nav-item.active .nav-item-icon { color: var(--text-primary); }
+
+  .nav-badge {
+    margin-left: auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--border-faint);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0 6px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ───────────────────────────── MAIN ──────────────────────────────── */
+  .main {
+    overflow-y: auto;
+    background: var(--bg);
+  }
+
+  .main::-webkit-scrollbar { width: 10px; }
+  .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; border: 2px solid var(--bg); }
+  .main::-webkit-scrollbar-thumb:hover { background: var(--border-stronger); }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  .page-header {
+    padding: var(--s-5) var(--s-8) var(--s-4);
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-bottom: var(--s-3);
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .breadcrumb a {
+    color: var(--text-muted);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 120ms ease;
+  }
+  .breadcrumb a:hover { color: var(--text-primary); }
+  .breadcrumb-sep { color: var(--text-disabled); font-size: 10px; }
+  .breadcrumb .current { color: var(--text-primary); }
+
+  /* Type icons */
+  .type-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .type-icon.story {
+    background: var(--type-story-bg);
+    border: 1px solid var(--type-story);
+    color: var(--type-story);
+  }
+  .type-icon.task {
+    background: var(--type-task-bg);
+    border: 1px solid var(--type-task);
+    color: var(--type-task);
+  }
+  .type-icon svg { width: 9px; height: 9px; }
+
+  /* Issue header (shared across Story / Spec / Plan views) */
+  .issue-key-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-bottom: var(--s-3);
+  }
+
+  .issue-key {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.4px;
+    font-weight: 500;
+  }
+  .issue-key:hover { color: var(--green); }
+
+  .issue-title {
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin-bottom: var(--s-4);
+  }
+
+  .issue-actions-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 120ms ease;
+  }
+  .status-pill:hover { opacity: 0.85; }
+  .status-pill.in-progress {
+    background: var(--green-glow);
+    border: 1px solid var(--green-border);
+    color: var(--green);
+  }
+  .status-pill.done {
+    background: var(--bg-input);
+    border: 1px solid var(--border-strong);
+    color: var(--text-secondary);
+  }
+  .status-pill.backlog {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .status-pill .chev { width: 9px; height: 9px; }
+
+  .size-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 120ms ease;
+  }
+  .size-pill:hover { border-color: var(--border-strong); }
+  .size-pill .size {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 500;
+  }
+  .size-pill.s .size { color: var(--size-s); background: rgba(180,180,180,0.1); border: 1px solid var(--border-strong); }
+  .size-pill.m .size { color: var(--size-m); background: rgba(212,185,74,0.1); border: 1px solid rgba(212,185,74,0.3); }
+  .size-pill.l .size { color: var(--size-l); background: rgba(229,132,75,0.1); border: 1px solid rgba(229,132,75,0.3); }
+  .size-pill .label { color: var(--text-secondary); }
+
+  .updated-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+  .updated-inline .event-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse-soft 1.4s infinite;
+  }
+
+  /* Issue layout: main + slim side */
+  .issue-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 0;
+  }
+
+  .issue-main {
+    padding: var(--s-5) var(--s-8) var(--s-10);
+    border-right: 1px solid var(--border-faint);
+    min-height: 600px;
+  }
+
+  .issue-tabs {
+    display: flex;
+    gap: var(--s-1);
+    margin-bottom: var(--s-5);
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px var(--s-3);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 120ms ease;
+  }
+
+  .tab:hover { color: var(--text-primary); }
+  .tab.active { color: var(--text-primary); border-bottom-color: var(--green); }
+
+  .tab svg { width: 13px; height: 13px; }
+  .tab .arrow {
+    width: 12px;
+    height: 12px;
+    color: var(--text-disabled);
+  }
+
+  .tab-count {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    color: var(--text-disabled);
+    margin-left: 2px;
+    letter-spacing: 0.3px;
+  }
+  .tab.active .tab-count { color: var(--text-muted); }
+
+  .section-h {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin: var(--s-5) 0 var(--s-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .section-h:first-child { margin-top: 0; }
+
+  /* Plan tasks list */
+  .tasks { display: flex; flex-direction: column; }
+
+  .task {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: var(--s-2);
+    transition: border-color 120ms ease;
+  }
+
+  .task:hover { border-color: var(--border-strong); }
+
+  .task.active {
+    border-color: var(--green-border);
+    background: linear-gradient(180deg, var(--green-glow) 0%, var(--bg-elevated) 60%);
+  }
+
+  .task-header {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    user-select: none;
+  }
+
+  .task-check {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1.5px solid var(--border-stronger);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 150ms ease;
+  }
+
+  .task.done .task-check {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .task.done .task-check svg { color: var(--bg-deepest); display: block; }
+  .task-check svg { width: 11px; height: 11px; display: none; }
+
+  .task.active .task-check {
+    border-color: var(--green);
+    position: relative;
+  }
+  .task.active .task-check::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 1px;
+    animation: pulse-soft 1.6s infinite;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .task-key {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+    min-width: 48px;
+  }
+
+  .task-title {
+    flex: 1;
+    font-size: 14px;
+    color: var(--text-primary);
+    letter-spacing: -0.05px;
+  }
+
+  .task.done .task-title { color: var(--text-muted); }
+
+  .task-progress {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+
+  .task.active .task-progress { color: var(--green); }
+
+  .task-toggle {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    border-radius: 4px;
+    transition: all 120ms ease;
+  }
+  .task-toggle:hover { background: var(--bg-hover); color: var(--text-primary); }
+  .task-toggle svg { width: 12px; height: 12px; transition: transform 200ms ease; }
+  .task.expanded .task-toggle svg { transform: rotate(90deg); }
+
+  .steps {
+    display: none;
+    padding: 0 var(--s-4) var(--s-3) calc(var(--s-4) + 16px + var(--s-3));
+    border-top: 1px solid var(--border-faint);
+  }
+
+  .task.expanded .steps { display: block; }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: 9px 0;
+  }
+  .step + .step { border-top: 1px solid var(--border-faint); }
+
+  .step-check {
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+    border: 1.5px solid var(--border-stronger);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-check svg { width: 9px; height: 9px; color: var(--bg-deepest); display: none; }
+  .step.done .step-check { background: var(--green); border-color: var(--green); }
+  .step.done .step-check svg { display: block; }
+
+  .step.current .step-check {
+    border-color: var(--green);
+    position: relative;
+  }
+  .step.current .step-check::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: var(--green);
+    border-radius: 1px;
+    animation: pulse-soft 1.6s infinite;
+  }
+
+  .step-label {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .step.done .step-label {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--text-disabled);
+  }
+  .step.current .step-label { color: var(--text-primary); }
+
+  .step-time {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    color: var(--text-disabled);
+    letter-spacing: 0.3px;
+  }
+
+  /* ────────────────── HIERARCHY VISUALIZATION ────────────────── */
+  /* Shows the Story → Spec → Plan relationship at the top of facet views */
+  .hierarchy-strip {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: var(--s-3) var(--s-8);
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .hier-node {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: all 120ms ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .hier-node:hover { color: var(--text-primary); background: var(--bg-hover); }
+
+  .hier-node.active {
+    color: var(--text-primary);
+    background: var(--bg);
+    border-color: var(--green-border);
+  }
+
+  .hier-node.active .hier-icon {
+    color: var(--green);
+  }
+
+  .hier-icon {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+  }
+
+  .hier-arrow {
+    width: 14px;
+    height: 14px;
+    color: var(--text-disabled);
+    margin: 0 2px;
+  }
+
+  .hier-meta {
+    margin-left: auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+
+  /* ────────────────── STORY VIEW (foundation, narrative + AC) ────────────── */
+  .story-narrative {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .story-narrative p { margin-bottom: var(--s-3); }
+  .story-narrative p:last-child { margin-bottom: 0; }
+
+  .story-quote {
+    background: var(--bg-elevated);
+    border-left: 2px solid var(--green-border);
+    border-radius: 0 6px 6px 0;
+    padding: var(--s-4) var(--s-5);
+    margin: var(--s-3) 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .story-quote .form {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--green);
+    margin-right: 6px;
+  }
+
+  .story-quote .form-text {
+    color: var(--text-primary);
+  }
+
+  .ac-list { display: flex; flex-direction: column; }
+
+  .ac-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-3);
+    padding: var(--s-3) 0;
+    border-top: 1px solid var(--border-faint);
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .ac-item:first-child { border-top: none; }
+
+  .ac-check {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1.5px solid var(--border-stronger);
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ac-item.done .ac-check {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .ac-item.done .ac-check svg {
+    width: 9px;
+    height: 9px;
+    color: var(--bg-deepest);
+    display: block;
+  }
+  .ac-check svg { display: none; }
+
+  /* ────────────────── SPEC markdown ────────────────── */
+  .markdown {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .markdown h1 {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: var(--s-3);
+    letter-spacing: -0.25px;
+    line-height: 1.25;
+  }
+
+  .markdown h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-top: var(--s-6);
+    margin-bottom: var(--s-3);
+    letter-spacing: -0.1px;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--border-faint);
+  }
+  .markdown h2:first-of-type {
+    padding-top: 0;
+    border-top: none;
+    margin-top: var(--s-4);
+  }
+
+  .markdown h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-top: var(--s-4);
+    margin-bottom: var(--s-2);
+  }
+
+  .markdown p { margin-bottom: var(--s-3); }
+  .markdown ul { list-style: none; margin-bottom: var(--s-3); }
+  .markdown ul li {
+    position: relative;
+    padding-left: var(--s-5);
+    margin-bottom: var(--s-2);
+  }
+  .markdown ul li::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 11px;
+    width: 4px;
+    height: 4px;
+    background: var(--text-disabled);
+    border-radius: 50%;
+  }
+
+  .markdown code {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12.5px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--green);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .markdown pre {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: var(--s-4);
+    margin: var(--s-3) 0;
+    overflow-x: auto;
+  }
+
+  .markdown pre code {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 12.5px;
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  .markdown .kw { color: hsl(280, 50%, 70%); }
+  .markdown .str { color: var(--green); }
+  .markdown .com { color: var(--text-muted); font-style: italic; }
+  .markdown .num { color: hsl(40, 80%, 65%); }
+
+  .markdown blockquote {
+    border-left: 2px solid var(--green-border);
+    padding: 6px var(--s-3);
+    margin: var(--s-3) 0;
+    color: var(--text-secondary);
+    background: var(--green-glow);
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ────────────────── Right side panel ────────────────── */
+  .issue-side {
+    padding: var(--s-5);
+    background: var(--bg);
+  }
+
+  .field-group { margin-bottom: var(--s-5); }
+
+  .field-group-title {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-bottom: var(--s-3);
+  }
+
+  .field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 12.5px;
+  }
+
+  .field-label { color: var(--text-muted); }
+  .field-value {
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .linked-card {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-3);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 120ms ease;
+  }
+  .linked-card:hover {
+    border-color: var(--green-border);
+    background: var(--bg-hover);
+  }
+  .linked-card .meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .linked-card .filename {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--text-primary);
+    letter-spacing: 0.2px;
+  }
+  .linked-card .sub {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+  .linked-card .arrow {
+    width: 12px;
+    height: 12px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .linked-card:hover .arrow { color: var(--green); }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+  }
+
+  .field-time {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+  }
+  .field-time.live { color: var(--green); }
+
+  /* ────────────────── BOARD (Stories list) ────────────────── */
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    gap: var(--s-4);
+    padding: var(--s-5) var(--s-8) var(--s-8);
+    min-height: 500px;
+  }
+
+  .column {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-faint);
+    border-radius: 8px;
+    padding: var(--s-3);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--s-2) var(--s-3);
+    margin-bottom: var(--s-2);
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .column-title {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .column-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .column-dot.backlog { background: var(--text-muted); }
+  .column-dot.in-progress { background: var(--green); }
+  .column-dot.done { background: var(--text-secondary); }
+
+  .column-count {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  .card-list { display: flex; flex-direction: column; gap: var(--s-2); }
+
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: var(--s-3);
+    cursor: pointer;
+    transition: all 120ms ease;
+  }
+  .card:hover { border-color: var(--border-strong); }
+  .card.active {
+    border-color: var(--green-border);
+    background: linear-gradient(180deg, var(--green-glow) 0%, var(--bg) 60%);
+  }
+
+  .card-active-label {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .card-active-label .pulse-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .card-title {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--text-primary);
+    margin-bottom: var(--s-3);
+    letter-spacing: -0.05px;
+  }
+
+  .card.done .card-title { color: var(--text-muted); }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+
+  .card-key {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+
+  .card-key .type-icon { width: 12px; height: 12px; }
+  .card-key .type-icon svg { width: 7px; height: 7px; }
+
+  .card-meta-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+  }
+
+  .card-link-icon {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+  }
+  .card-link-icon svg { width: 11px; height: 11px; }
+  .card-link-icon.active { color: var(--green); }
+
+  .card-size {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 4px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    font-weight: 500;
+  }
+  .card-size.s { color: var(--size-s); background: rgba(180,180,180,0.08); border: 1px solid var(--border-strong); }
+  .card-size.m { color: var(--size-m); background: rgba(212,185,74,0.08); border: 1px solid rgba(212,185,74,0.3); }
+  .card-size.l { color: var(--size-l); background: rgba(229,132,75,0.08); border: 1px solid rgba(229,132,75,0.3); }
+
+  /* ────────────────── STANDUP REPORT ────────────────── */
+  .report-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: var(--s-3) var(--s-8);
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .report-date {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+  }
+  .report-date .k {
+    color: var(--text-disabled);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 9px;
+    margin-right: 6px;
+  }
+
+  .copy-btn {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    background: var(--bg-deepest);
+    color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 120ms ease;
+  }
+  .copy-btn:hover { border-color: var(--green-border); color: var(--green); }
+  .copy-btn.copied { color: var(--green); background: var(--green-glow); border-color: var(--green-border); }
+  .copy-btn svg { width: 12px; height: 12px; }
+
+  .report-body { padding: var(--s-6) var(--s-8); max-width: 1100px; }
+
+  .report-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-3);
+    margin-bottom: var(--s-6);
+  }
+
+  .report-stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: var(--s-4) var(--s-5);
+  }
+
+  .report-stat-label {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-bottom: var(--s-2);
+  }
+
+  .report-stat-num {
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+
+  .report-stat-num .accent { color: var(--green); }
+
+  .report-stat-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .report-section {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: var(--s-3);
+    overflow: hidden;
+  }
+
+  .report-section-header {
+    padding: var(--s-3) var(--s-5);
+    border-bottom: 1px solid var(--border-faint);
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+  }
+
+  .report-section-title {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--text-primary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+  }
+
+  .report-section-title::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+  }
+
+  .report-section.in-progress .report-section-title::before {
+    background: var(--green);
+    animation: pulse-soft 2s infinite;
+  }
+
+  .report-section.blockers .report-section-title::before { background: var(--warn); }
+
+  .report-section-count {
+    margin-left: auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    letter-spacing: 0.3px;
+  }
+
+  .report-rows { padding: var(--s-2) 0; }
+
+  .report-row {
+    display: grid;
+    grid-template-columns: 70px 16px 1fr auto;
+    align-items: center;
+    gap: var(--s-3);
+    padding: var(--s-3) var(--s-5);
+  }
+
+  .report-row + .report-row { border-top: 1px solid var(--border-faint); }
+
+  .report-row-key {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+
+  .report-row-text {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .report-row-text strong { color: var(--text-primary); font-weight: 500; }
+  .report-row-text code {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--green);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .report-row-meta {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    color: var(--text-disabled);
+    letter-spacing: 0.3px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ────────────────────────── TOPBAR ─────────────────────────── -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 4 L18 12 L6 20 Z" fill="#0f0f0f"/></svg>
+      </div>
+      <span class="brand-name">Claude Control</span>
+    </div>
+
+    <div class="topbar-divider"></div>
+
+    <div class="project-id">
+      <div class="project-icon">BE</div>
+      billing-engine
+    </div>
+
+    <div class="topbar-center">
+      <div class="phase-track">
+        <div class="phase-step complete"><span class="phase-dot"></span>Brainstorm</div>
+        <div class="phase-sep"></div>
+        <div class="phase-step complete"><span class="phase-dot"></span>Spec</div>
+        <div class="phase-sep"></div>
+        <div class="phase-step complete"><span class="phase-dot"></span>Plan</div>
+        <div class="phase-sep"></div>
+        <div class="phase-step active"><span class="phase-dot"></span>Implement</div>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <span class="session-id"><span class="k">SESSION</span>sess_a4f2c1</span>
+      <span class="connection-pill"><span class="pulse-dot"></span>Live</span>
+    </div>
+  </header>
+
+  <div class="app-body">
+
+    <!-- ────────────────────────── SIDEBAR ────────────────────────── -->
+    <aside class="sidebar">
+      <!-- Active Story context card with nested facet nav -->
+      <div class="nav-section">
+        <div class="nav-label">Active Story</div>
+        <div class="active-story">
+          <div class="active-story-header">
+            <div class="active-story-top">
+              <div class="type-icon story">
+                <svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg>
+              </div>
+              <span class="active-story-key">#047</span>
+              <span class="active-status-mini">In Progress</span>
+            </div>
+            <div class="active-story-title">Migrate Stripe webhook handler to async queue</div>
+          </div>
+          <div class="active-story-nav">
+            <button class="facet-nav" data-view="story">
+              <svg class="facet-nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 2 H10 V12 L6 9.5 L2 12 Z"/>
+              </svg>
+              Story
+              <svg class="facet-check has" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M2 6 L5 9 L10 3"/>
+              </svg>
+            </button>
+            <button class="facet-nav" data-view="spec">
+              <svg class="facet-nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 1.5h6l2.5 2.5v8a0.5 0.5 0 0 1-0.5 0.5H3a0.5 0.5 0 0 1-0.5-0.5V2A0.5 0.5 0 0 1 3 1.5z"/>
+                <path d="M9 1.5v2.5h2.5M4.5 7h5M4.5 9h4"/>
+              </svg>
+              Spec
+              <svg class="facet-check has" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M2 6 L5 9 L10 3"/>
+              </svg>
+            </button>
+            <button class="facet-nav active" data-view="plan">
+              <svg class="facet-nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="2" y="2.5" width="10" height="9" rx="0.5"/>
+                <path d="M4.5 5.5h5M4.5 7.5h5M4.5 9.5h3"/>
+              </svg>
+              Plan
+              <svg class="facet-check has" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--green); opacity: 0.5;">
+                <circle cx="6" cy="6" r="2.5" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project-level navigation -->
+      <div class="nav-section">
+        <div class="nav-label">Workspace</div>
+        <button class="nav-item" data-view="stories">
+          <svg class="nav-item-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2.5" width="3.5" height="11" rx="0.5"/>
+            <rect x="6.5" y="2.5" width="3.5" height="8" rx="0.5"/>
+            <rect x="11" y="2.5" width="3" height="6" rx="0.5"/>
+          </svg>
+          All Stories
+          <span class="nav-badge">7</span>
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Reports</div>
+        <button class="nav-item" data-view="standup">
+          <svg class="nav-item-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 13 L6 8 L9 11 L14 4"/>
+            <path d="M11 4h3v3"/>
+          </svg>
+          Standup
+        </button>
+      </div>
+    </aside>
+
+    <!-- ────────────────────────── MAIN ─────────────────────────── -->
+    <main class="main">
+
+      <!-- ──────────── STORY VIEW (foundation) ──────────── -->
+      <section class="view" id="view-story">
+        <div class="page-header">
+          <div class="breadcrumb">
+            <a data-go="stories">Stories</a>
+            <span class="breadcrumb-sep">/</span>
+            <a data-go="story">#047</a>
+            <span class="breadcrumb-sep">/</span>
+            <span class="current">Story</span>
+          </div>
+
+          <div class="issue-key-row">
+            <div class="type-icon story">
+              <svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg>
+            </div>
+            <a class="issue-key">#047</a>
+          </div>
+
+          <h1 class="issue-title">Migrate Stripe webhook handler to async queue</h1>
+
+          <div class="issue-actions-row">
+            <button class="status-pill in-progress">
+              <svg viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="2"/></svg>
+              In Progress
+              <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4 L5 6 L7 4"/></svg>
+            </button>
+            <button class="size-pill m">
+              <span class="size">M</span>
+              <span class="label">Medium</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hierarchy strip: shows where Story sits in the chain -->
+        <div class="hierarchy-strip">
+          <button class="hier-node active" data-go="story">
+            <svg class="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2 H10 V12 L6 9.5 L2 12 Z"/></svg>
+            Story
+          </button>
+          <svg class="hier-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+          <button class="hier-node" data-go="spec">
+            <svg class="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 1.5h6l2.5 2.5v8a0.5 0.5 0 0 1-0.5 0.5H3a0.5 0.5 0 0 1-0.5-0.5V2A0.5 0.5 0 0 1 3 1.5z"/>
+              <path d="M9 1.5v2.5h2.5"/>
+            </svg>
+            Spec
+          </button>
+          <svg class="hier-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+          <button class="hier-node" data-go="plan">
+            <svg class="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2.5" width="10" height="9" rx="0.5"/>
+              <path d="M4.5 5.5h5M4.5 7.5h5"/>
+            </svg>
+            Plan
+            <span class="hier-meta" style="margin-left: 4px;">47%</span>
+          </button>
+        </div>
+
+        <div class="issue-layout">
+          <div class="issue-main">
+            <div class="issue-tabs">
+              <button class="tab active" data-tab-go="story">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2 H10 V12 L6 9.5 L2 12 Z"/></svg>
+                Story
+              </button>
+              <button class="tab" data-tab-go="spec">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 1.5h6l2.5 2.5v8a0.5 0.5 0 0 1-0.5 0.5H3a0.5 0.5 0 0 1-0.5-0.5V2A0.5 0.5 0 0 1 3 1.5z"/>
+                  <path d="M9 1.5v2.5h2.5"/>
+                </svg>
+                Spec
+              </button>
+              <button class="tab" data-tab-go="plan">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="2.5" width="10" height="9" rx="0.5"/>
+                  <path d="M4.5 5.5h5M4.5 7.5h5"/>
+                </svg>
+                Plan <span class="tab-count">5</span>
+              </button>
+            </div>
+
+            <div class="section-h">
+              <span>User Story</span>
+            </div>
+
+            <div class="story-quote">
+              <span class="form">AS</span><span class="form-text">the billing platform team</span><br/>
+              <span class="form">I WANT</span><span class="form-text">webhook reception to be fast and resilient under load</span><br/>
+              <span class="form">SO THAT</span><span class="form-text">Stripe-side retries and duplicate state transitions stop causing incidents</span>
+            </div>
+
+            <div class="section-h">
+              <span>Background</span>
+            </div>
+
+            <div class="story-narrative">
+              <p>Today, every Stripe webhook triggers a synchronous cascade through three downstream services in the request path. Any slow handler — database contention, third-party API hiccup, GC pause — drags the entire webhook over Stripe's 10-second timeout.</p>
+              <p>When that timeout fires, Stripe retries the same event. Our handlers, lacking proper idempotency at the time, would replay state transitions: duplicate audit log rows, double subscription updates, occasionally double notifications to customers. Three production incidents in Q3 trace back to this pattern, and it burns engineering hours during every Q-end close.</p>
+              <p>This story is the first step in decoupling reception from processing. The HTTP receiver becomes a thin signature-verify + enqueue, and downstream work moves into a worker pool that we can scale, retry, and observe independently.</p>
+            </div>
+
+            <div class="section-h">
+              <span>Acceptance Criteria</span>
+              <span style="color: var(--green);">2 / 5 verified</span>
+            </div>
+
+            <ul class="ac-list">
+              <li class="ac-item done">
+                <span class="ac-check"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 4.5 L3.5 6.5 L7 3"/></svg></span>
+                Webhook handler logic is testable in isolation without HTTP fixtures
+              </li>
+              <li class="ac-item done">
+                <span class="ac-check"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 4.5 L3.5 6.5 L7 3"/></svg></span>
+                Duplicate Stripe events with the same event-id are deduplicated within a 24h window
+              </li>
+              <li class="ac-item">
+                <span class="ac-check"></span>
+                P99 webhook latency stays below 500ms measured over a 7-day window post-cutover
+              </li>
+              <li class="ac-item">
+                <span class="ac-check"></span>
+                Failed events land in DLQ with full original payload and last error trace
+              </li>
+              <li class="ac-item">
+                <span class="ac-check"></span>
+                Cutover gated by a per-event-type feature flag with documented rollback procedure
+              </li>
+            </ul>
+          </div>
+
+          <!-- Side panel: links to Spec and Plan derived from this story -->
+          <aside class="issue-side">
+            <div class="field-group">
+              <div class="field-group-title">Derived Documents</div>
+              <div style="margin-bottom: var(--s-2);">
+                <div class="linked-card" data-go="spec">
+                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" style="width: 14px; height: 14px; color: var(--text-muted); flex-shrink: 0;">
+                    <path d="M3 1.5h6l2.5 2.5v8a0.5 0.5 0 0 1-0.5 0.5H3a0.5 0.5 0 0 1-0.5-0.5V2A0.5 0.5 0 0 1 3 1.5z"/>
+                    <path d="M9 1.5v2.5h2.5"/>
+                  </svg>
+                  <div class="meta">
+                    <span class="filename">spec.md</span>
+                    <span class="sub">approved · v3</span>
+                  </div>
+                  <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 3 L8 6 L4 9"/></svg>
+                </div>
+              </div>
+              <div class="linked-card" data-go="plan">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" style="width: 14px; height: 14px; color: var(--green); flex-shrink: 0;">
+                  <rect x="2" y="2.5" width="10" height="9" rx="0.5"/>
+                  <path d="M4.5 5.5h5M4.5 7.5h5M4.5 9.5h3"/>
+                </svg>
+                <div class="meta">
+                  <span class="filename">004-async-webhook</span>
+                  <span class="sub">47% · 7 / 15 steps</span>
+                  <div class="progress-bar"><div class="progress-fill" style="width: 47%;"></div></div>
+                </div>
+                <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 3 L8 6 L4 9"/></svg>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="field-group-title">Frontmatter</div>
+              <div style="font-family: 'Source Code Pro', monospace; font-size: 11px; color: var(--text-secondary); letter-spacing: 0.2px; line-height: 1.8;">
+                <div><span style="color: var(--text-disabled);">id:</span> 047</div>
+                <div><span style="color: var(--text-disabled);">spec:</span> spec.md</div>
+                <div><span style="color: var(--text-disabled);">plan:</span> 004-async-webhook</div>
+                <div><span style="color: var(--text-disabled);">status:</span> in-progress</div>
+                <div><span style="color: var(--text-disabled);">size:</span> M</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ──────────── SPEC VIEW ──────────── -->
+      <section class="view" id="view-spec">
+        <div class="page-header">
+          <div class="breadcrumb">
+            <a data-go="stories">Stories</a>
+            <span class="breadcrumb-sep">/</span>
+            <a data-go="story">#047</a>
+            <span class="breadcrumb-sep">/</span>
+            <span class="current">Spec</span>
+          </div>
+
+          <div class="issue-key-row">
+            <div class="type-icon story">
+              <svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg>
+            </div>
+            <a class="issue-key">#047</a>
+          </div>
+
+          <h1 class="issue-title">Migrate Stripe webhook handler to async queue</h1>
+
+          <div class="issue-actions-row">
+            <button class="status-pill in-progress">
+              <svg viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="2"/></svg>
+              In Progress
+              <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4 L5 6 L7 4"/></svg>
+            </button>
+            <button class="size-pill m">
+              <span class="size">M</span>
+              <span class="label">Medium</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="hierarchy-strip">
+          <button class="hier-node" data-go="story">
+            <svg class="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2 H10 V12 L6 9.5 L2 12 Z"/></svg>
+            Story
+          </button>
+          <svg class="hier-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+          <button class="hier-node active" data-go="spec">
+            <svg class="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 1.5h6l2.5 2.5v8a0.5 0.5 0 0 1-0.5 0.5H3a0.5 0.5 0 0 1-0.5-0.5V2A0.5 0.5 0 0 1 3 1.5z"/>
+              <path d="M9 1.5v2.5h2.5"/>
+            </svg>
+            Spec
+          </button>
+          <svg class="hier-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+          <button class="hier-node" data-go="plan">
+            <svg class="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2.5" width="10" height="9" rx="0.5"/>
+              <path d="M4.5 5.5h5M4.5 7.5h5"/>
+            </svg>
+            Plan
+            <span class="hier-meta" style="margin-left: 4px;">47%</span>
+          </button>
+        </div>
+
+        <div class="issue-layout">
+          <div class="issue-main">
+            <div class="issue-tabs">
+              <button class="tab" data-tab-go="story">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2 H10 V12 L6 9.5 L2 12 Z"/></svg>
+                Story
+              </button>
+              <button class="tab active" data-tab-go="spec">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 1.5h6l2.5 2.5v8a0.5 0.5 0 0 1-0.5 0.5H3a0.5 0.5 0 0 1-0.5-0.5V2A0.5 0.5 0 0 1 3 1.5z"/>
+                  <path d="M9 1.5v2.5h2.5"/>
+                </svg>
+                Spec
+              </button>
+              <button class="tab" data-tab-go="plan">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="2.5" width="10" height="9" rx="0.5"/>
+                  <path d="M4.5 5.5h5M4.5 7.5h5"/>
+                </svg>
+                Plan <span class="tab-count">5</span>
+              </button>
+            </div>
+
+            <div class="markdown">
+              <h1>Async Stripe Webhook Pipeline</h1>
+              <p>Stripe sends webhook events synchronously and expects a 2xx response within ~10 seconds, otherwise it retries. Our current handler runs all downstream logic — DB writes, audit-log emission, notification dispatch — in the request path. This couples webhook latency to whatever the slowest handler does, and a single slow handler can cascade into Stripe-side retries and duplicate processing.</p>
+
+              <h2>Problem</h2>
+              <ul>
+                <li>P99 webhook latency drifted to 8.4s during peak hours (CloudWatch, last 30d).</li>
+                <li>Three production incidents in Q3 traced to webhook timeouts → Stripe retries → duplicate state transitions.</li>
+                <li>Handler logic is tested with HTTP-level fixtures; impossible to test retry/backoff behavior independently.</li>
+              </ul>
+
+              <h2>Proposed Design</h2>
+              <p>Decouple webhook reception from event processing. The HTTP receiver validates the Stripe signature, deduplicates by event ID, enqueues the raw payload to SQS, and returns 200 immediately. A separate worker fleet consumes the queue and runs the existing handler logic with retry and DLQ semantics.</p>
+
+              <pre><code><span class="com">// Receiver — synchronous, fast path only</span>
+<span class="kw">async fn</span> handle_webhook(req: HttpRequest) -&gt; Response {
+    <span class="kw">let</span> event = verify_signature(&amp;req)?;
+    <span class="kw">if</span> redis.set_nx(&amp;event.id, ttl: <span class="num">86400</span>).<span class="kw">await</span>? {
+        sqs.send(&amp;event.raw_body).<span class="kw">await</span>?;
+    }
+    Response::ok()
+}</code></pre>
+
+              <h3>Why SQS over Kafka or in-process queue</h3>
+              <p>SQS gives us managed durability, native DLQ, and visibility timeouts for retry semantics with zero ops cost. Kafka would be overkill for ~50 events/sec peak. In-process channels lose messages on deploy.</p>
+
+              <blockquote>The trade-off: SQS adds ~80ms enqueue latency to the webhook path. Net latency still drops from 8.4s to ~250ms because we skip all downstream work.</blockquote>
+
+              <h2>Out of Scope</h2>
+              <ul>
+                <li>Webhook signature key rotation (tracked in <code>#052</code>).</li>
+                <li>Migrating non-Stripe webhooks (Paddle, Recurly) — separate evaluation.</li>
+              </ul>
+            </div>
+          </div>
+
+          <aside class="issue-side">
+            <div class="field-group">
+              <div class="field-group-title">Parent</div>
+              <div class="linked-card" data-go="story">
+                <div class="type-icon story" style="flex-shrink: 0;">
+                  <svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg>
+                </div>
+                <div class="meta">
+                  <span class="filename">#047 · Story</span>
+                  <span class="sub">2 / 5 AC verified</span>
+                </div>
+                <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 3 L8 6 L4 9"/></svg>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="field-group-title">Derived Plan</div>
+              <div class="linked-card" data-go="plan">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" style="width: 14px; height: 14px; color: var(--green); flex-shrink: 0;">
+                  <rect x="2" y="2.5" width="10" height="9" rx="0.5"/>
+                  <path d="M4.5 5.5h5M4.5 7.5h5M4.5 9.5h3"/>
+                </svg>
+                <div class="meta">
+                  <span class="filename">004-async-webhook</span>
+                  <span class="sub">47% · 7 / 15 steps</span>
+                  <div class="progress-bar"><div class="progress-fill" style="width: 47%;"></div></div>
+                </div>
+                <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 3 L8 6 L4 9"/></svg>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="field-group-title">Spec Metadata</div>
+              <div style="font-family: 'Source Code Pro', monospace; font-size: 11px; color: var(--text-secondary); letter-spacing: 0.2px; line-height: 1.8;">
+                <div><span style="color: var(--text-disabled);">status:</span> approved</div>
+                <div><span style="color: var(--text-disabled);">version:</span> v3</div>
+                <div><span style="color: var(--text-disabled);">author:</span> @platform-team</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ──────────── PLAN VIEW (DEFAULT, active) ──────────── -->
+      <section class="view active" id="view-plan">
+        <div class="page-header">
+          <div class="breadcrumb">
+            <a data-go="stories">Stories</a>
+            <span class="breadcrumb-sep">/</span>
+            <a data-go="story">#047</a>
+            <span class="breadcrumb-sep">/</span>
+            <span class="current">Plan</span>
+          </div>
+
+          <div class="issue-key-row">
+            <div class="type-icon story">
+              <svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg>
+            </div>
+            <a class="issue-key">#047</a>
+          </div>
+
+          <h1 class="issue-title">Migrate Stripe webhook handler to async queue</h1>
+
+          <div class="issue-actions-row">
+            <button class="status-pill in-progress">
+              <svg viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="2"/></svg>
+              In Progress
+              <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4 L5 6 L7 4"/></svg>
+            </button>
+            <button class="size-pill m">
+              <span class="size">M</span>
+              <span class="label">Medium</span>
+            </button>
+            <span class="updated-inline">
+              <span class="event-dot"></span>
+              Updated 4s ago
+            </span>
+          </div>
+        </div>
+
+        <!-- Hierarchy strip -->
+        <div class="hierarchy-strip">
+          <button class="hier-node" data-go="story">
+            <svg class="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2 H10 V12 L6 9.5 L2 12 Z"/></svg>
+            Story
+          </button>
+          <svg class="hier-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+          <button class="hier-node" data-go="spec">
+            <svg class="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 1.5h6l2.5 2.5v8a0.5 0.5 0 0 1-0.5 0.5H3a0.5 0.5 0 0 1-0.5-0.5V2A0.5 0.5 0 0 1 3 1.5z"/>
+              <path d="M9 1.5v2.5h2.5"/>
+            </svg>
+            Spec
+          </button>
+          <svg class="hier-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+          <button class="hier-node active" data-go="plan">
+            <svg class="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2.5" width="10" height="9" rx="0.5"/>
+              <path d="M4.5 5.5h5M4.5 7.5h5"/>
+            </svg>
+            Plan
+            <span class="hier-meta" style="margin-left: 4px; color: var(--green);">47%</span>
+          </button>
+        </div>
+
+        <div class="issue-layout">
+          <div class="issue-main">
+            <div class="issue-tabs">
+              <button class="tab" data-tab-go="story">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2 H10 V12 L6 9.5 L2 12 Z"/></svg>
+                Story
+              </button>
+              <button class="tab" data-tab-go="spec">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 1.5h6l2.5 2.5v8a0.5 0.5 0 0 1-0.5 0.5H3a0.5 0.5 0 0 1-0.5-0.5V2A0.5 0.5 0 0 1 3 1.5z"/>
+                  <path d="M9 1.5v2.5h2.5"/>
+                </svg>
+                Spec
+              </button>
+              <button class="tab active" data-tab-go="plan">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="2.5" width="10" height="9" rx="0.5"/>
+                  <path d="M4.5 5.5h5M4.5 7.5h5"/>
+                </svg>
+                Plan <span class="tab-count">5</span>
+              </button>
+            </div>
+
+            <div class="section-h">
+              <span>Tasks · 7 of 15 steps complete</span>
+            </div>
+
+            <div class="tasks">
+
+              <div class="task done expanded">
+                <div class="task-header">
+                  <div class="task-check">
+                    <svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 5.5 L4.5 8 L9 3.5" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="type-icon task">
+                    <svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg>
+                  </div>
+                  <span class="task-key">#047.1</span>
+                  <span class="task-title">Set up SQS queue and dead-letter queue</span>
+                  <span class="task-progress">3 / 3</span>
+                  <button class="task-toggle">
+                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2 L8 6 L4 10"/></svg>
+                  </button>
+                </div>
+                <div class="steps">
+                  <div class="step done">
+                    <div class="step-check"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 4.5 L3.5 6.5 L7 3"/></svg></div>
+                    <span class="step-label">Provision SQS standard queue via Terraform module</span>
+                    <span class="step-time">12:04</span>
+                  </div>
+                  <div class="step done">
+                    <div class="step-check"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 4.5 L3.5 6.5 L7 3"/></svg></div>
+                    <span class="step-label">Configure DLQ with redrive policy (maxReceiveCount: 5)</span>
+                    <span class="step-time">12:21</span>
+                  </div>
+                  <div class="step done">
+                    <div class="step-check"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 4.5 L3.5 6.5 L7 3"/></svg></div>
+                    <span class="step-label">Add CloudWatch alarms for queue depth and DLQ messages</span>
+                    <span class="step-time">12:38</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task active expanded">
+                <div class="task-header">
+                  <div class="task-check"></div>
+                  <div class="type-icon task">
+                    <svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg>
+                  </div>
+                  <span class="task-key">#047.2</span>
+                  <span class="task-title">Refactor webhook receiver to enqueue events</span>
+                  <span class="task-progress">2 / 4</span>
+                  <button class="task-toggle">
+                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2 L8 6 L4 10"/></svg>
+                  </button>
+                </div>
+                <div class="steps">
+                  <div class="step done">
+                    <div class="step-check"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 4.5 L3.5 6.5 L7 3"/></svg></div>
+                    <span class="step-label">Extract handler logic from <code style="font-family:'Source Code Pro',monospace;font-size:12px;color:var(--green);">StripeWebhookController</code> into pure service</span>
+                    <span class="step-time">13:02</span>
+                  </div>
+                  <div class="step done">
+                    <div class="step-check"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 4.5 L3.5 6.5 L7 3"/></svg></div>
+                    <span class="step-label">Add idempotency-key check against Redis (24h TTL)</span>
+                    <span class="step-time">13:41</span>
+                  </div>
+                  <div class="step current">
+                    <div class="step-check"></div>
+                    <span class="step-label">Enqueue raw event payload to SQS → return 200 OK to Stripe</span>
+                    <span class="step-time">in progress</span>
+                  </div>
+                  <div class="step">
+                    <div class="step-check"></div>
+                    <span class="step-label">Update integration tests with mocked SQS client</span>
+                    <span class="step-time">queued</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task">
+                <div class="task-header">
+                  <div class="task-check"></div>
+                  <div class="type-icon task">
+                    <svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg>
+                  </div>
+                  <span class="task-key">#047.3</span>
+                  <span class="task-title">Build async worker with retry and tracing</span>
+                  <span class="task-progress">0 / 4</span>
+                  <button class="task-toggle">
+                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2 L8 6 L4 10"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="task">
+                <div class="task-header">
+                  <div class="task-check"></div>
+                  <div class="type-icon task">
+                    <svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg>
+                  </div>
+                  <span class="task-key">#047.4</span>
+                  <span class="task-title">Migrate existing event handlers</span>
+                  <span class="task-progress">0 / 3</span>
+                  <button class="task-toggle">
+                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2 L8 6 L4 10"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="task">
+                <div class="task-header">
+                  <div class="task-check"></div>
+                  <div class="type-icon task">
+                    <svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg>
+                  </div>
+                  <span class="task-key">#047.5</span>
+                  <span class="task-title">Cutover behind feature flag + observability</span>
+                  <span class="task-progress">0 / 3</span>
+                  <button class="task-toggle">
+                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2 L8 6 L4 10"/></svg>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <aside class="issue-side">
+            <div class="field-group">
+              <div class="field-group-title">Parent Documents</div>
+              <div style="margin-bottom: var(--s-2);">
+                <div class="linked-card" data-go="story">
+                  <div class="type-icon story" style="flex-shrink: 0;">
+                    <svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg>
+                  </div>
+                  <div class="meta">
+                    <span class="filename">#047 · Story</span>
+                    <span class="sub">2 / 5 AC verified</span>
+                  </div>
+                  <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 3 L8 6 L4 9"/></svg>
+                </div>
+              </div>
+              <div class="linked-card" data-go="spec">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" style="width: 14px; height: 14px; color: var(--text-muted); flex-shrink: 0;">
+                  <path d="M3 1.5h6l2.5 2.5v8a0.5 0.5 0 0 1-0.5 0.5H3a0.5 0.5 0 0 1-0.5-0.5V2A0.5 0.5 0 0 1 3 1.5z"/>
+                  <path d="M9 1.5v2.5h2.5"/>
+                </svg>
+                <div class="meta">
+                  <span class="filename">spec.md</span>
+                  <span class="sub">approved · v3</span>
+                </div>
+                <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 3 L8 6 L4 9"/></svg>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="field-group-title">Plan Progress</div>
+              <div class="field">
+                <span class="field-label">Tasks</span>
+                <span class="field-value field-time">1 of 5 done</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Steps</span>
+                <span class="field-value field-time">7 of 15 done</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Plan started</span>
+                <span class="field-value field-time">2h 14m ago</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Last update</span>
+                <span class="field-value field-time live">4s ago</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ──────────── STORIES BOARD ──────────── -->
+      <section class="view" id="view-stories">
+        <div class="page-header">
+          <div class="breadcrumb">
+            <span class="current">Stories</span>
+          </div>
+          <h1 class="issue-title" style="margin-bottom: 0;">Stories</h1>
+        </div>
+
+        <div class="board">
+          <div class="column">
+            <div class="column-header">
+              <span class="column-title">
+                <span class="column-dot backlog"></span>
+                Backlog
+              </span>
+              <span class="column-count">3</span>
+            </div>
+            <div class="card-list">
+              <div class="card" data-go="story">
+                <div class="card-title">Refactor PriceTier abstraction</div>
+                <div class="card-meta">
+                  <span class="card-key">
+                    <div class="type-icon story"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg></div>
+                    #039
+                  </span>
+                  <div class="card-meta-right">
+                    <span class="card-link-icon active" title="Has spec"><svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 1h5l2 2v7a0.5 0.5 0 0 1-0.5 0.5H2a0.5 0.5 0 0 1-0.5-0.5V1.5A0.5 0.5 0 0 1 2 1z"/><path d="M7 1v2h2"/></svg></span>
+                    <span class="card-size l">L</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card" data-go="story">
+                <div class="card-title">Audit log for billing state changes</div>
+                <div class="card-meta">
+                  <span class="card-key">
+                    <div class="type-icon story"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg></div>
+                    #041
+                  </span>
+                  <div class="card-meta-right">
+                    <span class="card-link-icon active" title="Has spec"><svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 1h5l2 2v7a0.5 0.5 0 0 1-0.5 0.5H2a0.5 0.5 0 0 1-0.5-0.5V1.5A0.5 0.5 0 0 1 2 1z"/><path d="M7 1v2h2"/></svg></span>
+                    <span class="card-size m">M</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card" data-go="story">
+                <div class="card-title">Remove deprecated v1 invoice endpoints</div>
+                <div class="card-meta">
+                  <span class="card-key">
+                    <div class="type-icon story"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg></div>
+                    #044
+                  </span>
+                  <div class="card-meta-right">
+                    <span class="card-size s">S</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="column-header">
+              <span class="column-title">
+                <span class="column-dot in-progress"></span>
+                In Progress
+              </span>
+              <span class="column-count">2</span>
+            </div>
+            <div class="card-list">
+              <div class="card active" data-go="plan">
+                <div class="card-active-label"><span class="pulse-dot"></span>Active Session</div>
+                <div class="card-title">Migrate Stripe webhook handler to async queue</div>
+                <div class="card-meta">
+                  <span class="card-key">
+                    <div class="type-icon story"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg></div>
+                    #047
+                  </span>
+                  <div class="card-meta-right">
+                    <span class="card-link-icon active" title="Has spec"><svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 1h5l2 2v7a0.5 0.5 0 0 1-0.5 0.5H2a0.5 0.5 0 0 1-0.5-0.5V1.5A0.5 0.5 0 0 1 2 1z"/><path d="M7 1v2h2"/></svg></span>
+                    <span class="card-link-icon active" title="Has active plan"><svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="1.5" width="8" height="8" rx="0.5"/><path d="M3.5 4.5h4M3.5 6.5h4M3.5 8h2.5"/></svg></span>
+                    <span class="card-size m">M</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card" data-go="story">
+                <div class="card-title">Reconciliation job for failed renewals</div>
+                <div class="card-meta">
+                  <span class="card-key">
+                    <div class="type-icon story"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg></div>
+                    #052
+                  </span>
+                  <div class="card-meta-right">
+                    <span class="card-link-icon active" title="Has spec"><svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 1h5l2 2v7a0.5 0.5 0 0 1-0.5 0.5H2a0.5 0.5 0 0 1-0.5-0.5V1.5A0.5 0.5 0 0 1 2 1z"/><path d="M7 1v2h2"/></svg></span>
+                    <span class="card-size l">L</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="column-header">
+              <span class="column-title">
+                <span class="column-dot done"></span>
+                Done
+              </span>
+              <span class="column-count">2</span>
+            </div>
+            <div class="card-list">
+              <div class="card done" data-go="story">
+                <div class="card-title">Add idempotency keys to subscription endpoints</div>
+                <div class="card-meta">
+                  <span class="card-key">
+                    <div class="type-icon story"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg></div>
+                    #031
+                  </span>
+                  <div class="card-meta-right">
+                    <span class="card-size s">S</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card done" data-go="story">
+                <div class="card-title">Update OpenAPI schema for new error codes</div>
+                <div class="card-meta">
+                  <span class="card-key">
+                    <div class="type-icon story"><svg viewBox="0 0 9 9" fill="currentColor"><path d="M1 1 H8 V8 L4.5 6 L1 8 Z"/></svg></div>
+                    #028
+                  </span>
+                  <div class="card-meta-right">
+                    <span class="card-size s">S</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────── STANDUP ──────────── -->
+      <section class="view" id="view-standup">
+        <div class="page-header">
+          <div class="breadcrumb">
+            <span class="current">Standup</span>
+          </div>
+          <h1 class="issue-title" style="margin-bottom: 0;">Standup digest</h1>
+        </div>
+
+        <div class="report-toolbar">
+          <span class="report-date"><span class="k">DATE</span>Sunday · May 17 · 2026</span>
+          <button class="copy-btn" id="copyBtn">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <path d="M2 8V2a1 1 0 0 1 1-1h6"/>
+            </svg>
+            <span>Copy markdown</span>
+          </button>
+        </div>
+
+        <div class="report-body">
+
+          <div class="report-stat-grid">
+            <div class="report-stat">
+              <div class="report-stat-label">Steps shipped</div>
+              <div class="report-stat-num"><span class="accent">7</span></div>
+              <div class="report-stat-sub">across 2 stories</div>
+            </div>
+            <div class="report-stat">
+              <div class="report-stat-label">Stories in flight</div>
+              <div class="report-stat-num">2</div>
+              <div class="report-stat-sub">#047, #052</div>
+            </div>
+            <div class="report-stat">
+              <div class="report-stat-label">Blockers</div>
+              <div class="report-stat-num" style="color: var(--warn);">1</div>
+              <div class="report-stat-sub">awaiting platform team</div>
+            </div>
+          </div>
+
+          <div class="report-section">
+            <div class="report-section-header">
+              <span class="report-section-title">Shipped yesterday</span>
+              <span class="report-section-count">3</span>
+            </div>
+            <div class="report-rows">
+              <div class="report-row">
+                <span class="report-row-key">#047.2.1</span>
+                <div class="type-icon task"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg></div>
+                <span class="report-row-text"><strong>Extracted handler logic</strong> from <code>StripeWebhookController</code> into a pure service module. All existing tests passing.</span>
+                <span class="report-row-meta">13:02</span>
+              </div>
+              <div class="report-row">
+                <span class="report-row-key">#047.2.2</span>
+                <div class="type-icon task"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg></div>
+                <span class="report-row-text"><strong>Idempotency check</strong> against Redis with 24h TTL. Verified manually with replayed Stripe test events.</span>
+                <span class="report-row-meta">13:41</span>
+              </div>
+              <div class="report-row">
+                <span class="report-row-key">#047.1.*</span>
+                <div class="type-icon task"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg></div>
+                <span class="report-row-text">Closed out task <strong>#047.1</strong> — SQS queue, DLQ with redrive policy, and CloudWatch alarms all provisioned via Terraform module.</span>
+                <span class="report-row-meta">12:38</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="report-section in-progress">
+            <div class="report-section-header">
+              <span class="report-section-title">In progress</span>
+              <span class="report-section-count">2</span>
+            </div>
+            <div class="report-rows">
+              <div class="report-row">
+                <span class="report-row-key">#047.2.3</span>
+                <div class="type-icon task"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg></div>
+                <span class="report-row-text"><strong>Enqueueing to SQS</strong> from the webhook receiver. Currently wiring the SQS client into the request handler with proper error handling on enqueue failures.</span>
+                <span class="report-row-meta">now</span>
+              </div>
+              <div class="report-row">
+                <span class="report-row-key">#052.1.1</span>
+                <div class="type-icon task"><svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5 L4 6.5 L7 3.5"/></svg></div>
+                <span class="report-row-text">Sketching reconciler scheduling model. Leaning toward EventBridge + step function over cron + lambda.</span>
+                <span class="report-row-meta">queued</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="report-section blockers">
+            <div class="report-section-header">
+              <span class="report-section-title">Blockers</span>
+              <span class="report-section-count">1</span>
+            </div>
+            <div class="report-rows">
+              <div class="report-row">
+                <span class="report-row-key">#047</span>
+                <div class="type-icon" style="background: rgba(232, 189, 79, 0.1); border: 1px solid var(--warn); color: var(--warn);">
+                  <svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 1 V5 M4.5 7 V7.5"/></svg>
+                </div>
+                <span class="report-row-text">Awaiting <strong>IAM policy review</strong> from platform team before worker can publish to the existing audit-log topic. Ticketed as <code>PLAT-1284</code>, requested ETA Monday.</span>
+                <span class="report-row-meta">since 2d</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  const allNavSelectors = '.facet-nav[data-view], .nav-item[data-view]';
+  const views = document.querySelectorAll('.view');
+
+  function goto(view) {
+    document.querySelectorAll(allNavSelectors).forEach(n => {
+      n.classList.toggle('active', n.dataset.view === view);
+    });
+    views.forEach(v => v.classList.toggle('active', v.id === `view-${view}`));
+    document.querySelector('.main').scrollTop = 0;
+  }
+
+  // All nav elements
+  document.querySelectorAll(allNavSelectors).forEach(item => {
+    item.addEventListener('click', () => goto(item.dataset.view));
+  });
+
+  // Task expand/collapse
+  document.querySelectorAll('.task-header').forEach(header => {
+    header.addEventListener('click', (e) => {
+      if (e.target.closest('.task-check')) return;
+      header.parentElement.classList.toggle('expanded');
+    });
+  });
+
+  // Card click → navigate
+  document.querySelectorAll('.card[data-go]').forEach(card => {
+    card.addEventListener('click', () => goto(card.dataset.go));
+  });
+
+  // Generic data-go targets (breadcrumbs, hier-nodes, linked-cards)
+  document.querySelectorAll('[data-go]').forEach(el => {
+    if (el.classList.contains('card')) return;
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      goto(el.dataset.go);
+    });
+  });
+
+  // Tab navigation
+  document.querySelectorAll('.tab[data-tab-go]').forEach(tab => {
+    tab.addEventListener('click', () => goto(tab.dataset.tabGo));
+  });
+
+  // Copy button
+  const copyBtn = document.getElementById('copyBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      copyBtn.classList.add('copied');
+      copyBtn.querySelector('span').textContent = 'Copied';
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+        copyBtn.querySelector('span').textContent = 'Copy markdown';
+      }, 1800);
+    });
+  }
+</script>
+
+</body>
+</html>

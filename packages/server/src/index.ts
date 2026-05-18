@@ -4,6 +4,7 @@ import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import type { ApiCtx } from "./api/index.ts";
 import { createBus } from "./bus.ts";
+import { HandoffService } from "./handoff/index.ts";
 import {
   registerShutdownHandler,
   startIdleTimer,
@@ -11,6 +12,7 @@ import {
 } from "./lifecycle/index.ts";
 import { createServer } from "./server.ts";
 import { runMigrations } from "./store/migrate.ts";
+import { StandupService } from "./standup/index.ts";
 import { StoryService } from "./stories/index.ts";
 import { SuperpowersWatcher } from "./superpowers/index.ts";
 import { WsServer } from "./ws/index.ts";
@@ -54,12 +56,14 @@ export async function startDaemon(
 
   const watcher = new SuperpowersWatcher(cwd, db, bus);
   const stories = new StoryService(cwd, db, bus);
+  const standupService = new StandupService(db);
+  const handoffService = new HandoffService(cwd, db);
   const wsServer = new WsServer(bus);
 
   await watcher.start();
   await stories.start();
 
-  const apiCtx: ApiCtx = { db, watcher, stories };
+  const apiCtx: ApiCtx = { db, watcher, stories, standup: standupService, handoff: handoffService };
 
   const activityRef = { fn: () => {} };
 
