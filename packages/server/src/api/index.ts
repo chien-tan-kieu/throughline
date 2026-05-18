@@ -41,8 +41,8 @@ export function mountApiRoutes(
   if (url.pathname === "/api/standup") {
     return mountStandupRoutes(req, url, ctx.standup);
   }
-  if (url.pathname.startsWith("/api/handoff") || url.pathname === "/api/handoffs") {
-    return mountHandoffRoutes(req, url, ctx.handoff, ctx.db);
+  if (url.pathname.startsWith("/api/handoff")) {
+    return mountHandoffRoutes(req, url, ctx.handoff);
   }
   return Response.json({ error: "not found" }, { status: 404 });
 }

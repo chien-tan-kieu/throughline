@@ -22,7 +22,7 @@ export class HandoffService {
     private db: Database,
   ) {}
 
-  async generate(storyId: string): Promise<HandoffResult> {
+  async generate(storyId: string): Promise<HandoffResult | null> {
     const story = this.db
       .query<StoryRow, [string]>(
         `SELECT id, title, file_path, linked_plan_path, size, status
@@ -30,7 +30,7 @@ export class HandoffService {
       )
       .get(storyId);
 
-    if (!story) throw new Error(`Story not found: ${storyId}`);
+    if (!story) return null;
 
     const storyBody = await Bun.file(story.file_path).text().catch(() => "");
 
@@ -89,5 +89,13 @@ export class HandoffService {
     }
 
     return lines[taskIndices[taskIndices.length - 1]];
+  }
+
+  list(): Array<{ id: number; story_id: string; file_path: string; generated_at: number }> {
+    return this.db
+      .query<{ id: number; story_id: string; file_path: string; generated_at: number }, []>(
+        `SELECT id, story_id, file_path, generated_at FROM handoffs ORDER BY generated_at DESC`,
+      )
+      .all();
   }
 }

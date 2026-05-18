@@ -71,8 +71,9 @@ describe("HandoffService", () => {
     expect(result.content).toContain("As a developer");
   });
 
-  test("generate() throws if story not found", async () => {
-    await expect(svc.generate("US-NONEXISTENT")).rejects.toThrow("Story not found");
+  test("generate() returns null if story not found", async () => {
+    const result = await svc.generate("US-NONEXISTENT");
+    expect(result).toBeNull();
   });
 
   test("generate() succeeds when story has no linked plan", async () => {

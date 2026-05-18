@@ -61,4 +61,28 @@ describe("standup + handoff routes", () => {
     const body = await res.json();
     expect(Array.isArray(body)).toBe(true);
   });
+
+  test("POST /api/handoff/:storyId returns 201 with filePath and content", async () => {
+    // Seed a story in the DB for the daemon to find
+    // We need to insert directly into the daemon's DB
+    const storyId = "US-2026-05-17-test-handoff";
+    const cwd = join(tmpdir(), `cc-cwd-sh-${Date.now()}`);
+    await mkdir(join(cwd, "docs/superpowers/stories"), { recursive: true });
+    const storiesDir = join(cwd, "docs/superpowers/stories");
+    const storyPath = join(storiesDir, `${storyId}.md`);
+    await Bun.write(storyPath, `---\nid: ${storyId}\ntitle: Test Handoff Story\nstatus: in-progress\ncreated: 2026-05-17\n---\n\nStory body.`);
+    daemon.db.run(
+      `INSERT INTO stories (id, file_path, title, size, status, created_at, updated_at)
+       VALUES (?, ?, ?, NULL, 'in-progress', ?, ?)`,
+      [storyId, storyPath, "Test Handoff Story", Date.now(), Date.now()],
+    );
+
+    const res = await fetch(`${base}/api/handoff/${storyId}`, { method: "POST", headers });
+    expect(res.status).toBe(201);
+    const body = await res.json();
+    expect(typeof body.filePath).toBe("string");
+    expect(body.filePath).toContain(storyId);
+    expect(typeof body.content).toBe("string");
+    expect(body.content).toContain("Test Handoff Story");
+  });
 });
