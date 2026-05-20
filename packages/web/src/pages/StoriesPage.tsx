@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
+import { FilterBar } from "../components/stories/FilterBar.tsx";
 import { KanbanColumn } from "../components/stories/KanbanColumn.tsx";
 import { api } from "../lib/api.ts";
+import { useUiStore } from "../store/ui.ts";
 
 export function StoriesPage() {
   const { data: stories = [] } = useQuery({
     queryKey: ["stories"],
     queryFn: api.fetchStories,
   });
+  const { storyFilter } = useUiStore();
 
   const backlog = stories.filter((s) => s.status === "backlog");
   const inProgress = stories.filter((s) => s.status === "in-progress");
@@ -19,11 +22,12 @@ export function StoriesPage() {
           Workspace
         </div>
         <div className="issue-title">All Stories</div>
+        <FilterBar counts={{ backlog: backlog.length, "in-progress": inProgress.length, done: done.length }} />
       </div>
       <div className="board">
-        <KanbanColumn status="backlog" stories={backlog} />
-        <KanbanColumn status="in-progress" stories={inProgress} />
-        <KanbanColumn status="done" stories={done} />
+        <KanbanColumn status="backlog" stories={backlog} isFiltered={storyFilter !== "all" && storyFilter !== "backlog"} />
+        <KanbanColumn status="in-progress" stories={inProgress} isFiltered={storyFilter !== "all" && storyFilter !== "in-progress"} />
+        <KanbanColumn status="done" stories={done} isFiltered={storyFilter !== "all" && storyFilter !== "done"} />
       </div>
     </div>
   );
