@@ -1,6 +1,4 @@
-import { useUiStore } from "../../store/ui.ts";
-
-type StoryFilter = "all" | "backlog" | "in-progress" | "done";
+import { useUiStore, type StoryFilter } from "../../store/ui.ts";
 
 type Props = {
   counts: { backlog: number; "in-progress": number; done: number };

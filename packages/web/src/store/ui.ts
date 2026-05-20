@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type StoryFilter = "all" | "backlog" | "in-progress" | "done";
+export type StoryFilter = "all" | "backlog" | "in-progress" | "done";
 
 interface UiState {
   storyFilter: StoryFilter;
