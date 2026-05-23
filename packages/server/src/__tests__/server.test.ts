@@ -87,6 +87,13 @@ describe("HTTP server", () => {
     expect(res.status).toBe(200);
   });
 
+  test("GET / without auth returns 200 (SPA bootstrap must load without token)", async () => {
+    const res = await fetch(`${base}/`, {
+      headers: { Host: `127.0.0.1:${server.port}` },
+    });
+    expect(res.status).toBe(200);
+  });
+
   test("GET /assets/* without auth returns 404 not 401", async () => {
     const res = await fetch(`${base}/assets/nonexistent.js`, {
       headers: { Host: `127.0.0.1:${server.port}` },
