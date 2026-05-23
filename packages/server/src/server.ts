@@ -38,9 +38,9 @@ export function createServer(config: ServerConfig): Server {
 
       if (req.method === "GET" && url.pathname === "/ws") {
         if (!config.wsServer) return new Response("Not Found", { status: 404 });
-        const upgraded = config.wsServer.upgrade(req, server, token);
+        const upgraded = config.wsServer.upgrade(req, server);
         if (upgraded) return undefined as unknown as Response;
-        return new Response("Unauthorized", { status: 401 });
+        return new Response("WebSocket upgrade failed", { status: 400 });
       }
 
       if (req.method === "GET" && url.pathname.startsWith("/assets/")) {

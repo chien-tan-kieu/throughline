@@ -58,7 +58,7 @@ export async function startDaemon(
   const stories = new StoryService(cwd, db, bus);
   const standupService = new StandupService(db);
   const handoffService = new HandoffService(cwd, db);
-  const wsServer = new WsServer(bus);
+  const wsServer = new WsServer(bus, token);
 
   await watcher.start();
   await stories.start();

@@ -197,12 +197,12 @@ describe("plan file change via PostToolUse → WS delivery", () => {
       ),
     );
 
-    const ws = new WebSocket(
-      `ws://127.0.0.1:${daemon.port}/ws?token=${daemon.token}`,
-    );
+    const ws = new WebSocket(`ws://127.0.0.1:${daemon.port}/ws`);
     await new Promise<void>((resolve) =>
       ws.addEventListener("open", () => resolve()),
     );
+    ws.send(JSON.stringify({ type: "auth", token: daemon.token }));
+    await new Promise((r) => setTimeout(r, 20));
     ws.send(
       JSON.stringify({ type: "subscribe", topics: [`plan:${planPath}`] }),
     );
