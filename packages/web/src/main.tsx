@@ -5,9 +5,10 @@ import App from "./App.tsx";
 import "./index.css";
 import { useWsStore } from "./store/ws.ts";
 
-const params = new URLSearchParams(window.location.search);
+const hash = new URLSearchParams(window.location.hash.slice(1));
 const port = window.location.port ? Number(window.location.port) : 47821;
-const token = params.get("token") ?? "";
+const token = hash.get("token") ?? "";
+if (token) history.replaceState(null, "", window.location.pathname);
 useWsStore.getState().setPort(port);
 useWsStore.getState().setToken(token);
 
