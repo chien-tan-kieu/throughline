@@ -16,10 +16,11 @@ export function useWebSocket() {
 
     function connect() {
       if (destroyed) return;
-      const ws = new WebSocket(`ws://127.0.0.1:${port}/ws?token=${token}`);
+      const ws = new WebSocket(`ws://127.0.0.1:${port}/ws`);
       wsRef.current = ws;
 
       ws.onopen = () => {
+        ws.send(JSON.stringify({ type: "auth", token }));
         setConnectionStatus("live");
         retryDelayRef.current = 1000;
       };

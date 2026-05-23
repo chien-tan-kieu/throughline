@@ -11,8 +11,9 @@ class MockWebSocket {
   onclose: (() => void) | null = null;
   onerror: (() => void) | null = null;
   readyState = 0;
+  sentMessages: string[] = [];
   constructor(public url: string) { MockWebSocket.instances.push(this); }
-  send(_data: string) {}
+  send(data: string) { this.sentMessages.push(data); }
   close() { this.readyState = 3; this.onclose?.(); }
   open() { this.readyState = 1; this.onopen?.(); }
   receive(data: object) { this.onmessage?.({ data: JSON.stringify(data) }); }
@@ -28,12 +29,24 @@ function wrapper({ children }: { children: ReactNode }) {
 }
 
 describe("useWebSocket", () => {
-  test("opens connection with correct URL", () => {
+  test("opens connection without token in URL", () => {
     MockWebSocket.instances.length = 0;
     useWsStore.setState({ port: 47821, token: "abc123" });
     renderHook(() => useWebSocket(), { wrapper });
     expect(MockWebSocket.instances).toHaveLength(1);
-    expect(MockWebSocket.instances[0].url).toBe("ws://127.0.0.1:47821/ws?token=abc123");
+    expect(MockWebSocket.instances[0].url).toBe("ws://127.0.0.1:47821/ws");
+  });
+
+  test("sends auth message as first message on open", () => {
+    MockWebSocket.instances.length = 0;
+    useWsStore.setState({ port: 47821, token: "abc123" });
+    renderHook(() => useWebSocket(), { wrapper });
+    act(() => { MockWebSocket.instances[0].open(); });
+    expect(MockWebSocket.instances[0].sentMessages).toHaveLength(1);
+    expect(JSON.parse(MockWebSocket.instances[0].sentMessages[0])).toEqual({
+      type: "auth",
+      token: "abc123",
+    });
   });
 
   test("sets connectionStatus to live on open", () => {
