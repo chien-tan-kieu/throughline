@@ -1,8 +1,8 @@
 ---
 id: US-2026-05-19-filter-stories-by-status-on-the-board-vi
 title: Filter stories by status on the board view
-status: in-progress
-size: 
+status: done
+size: S
 created: 2026-05-19
 ---
 
