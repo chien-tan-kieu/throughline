@@ -167,6 +167,21 @@ describe("rate limiting integration", () => {
   });
 });
 
+describe("token persistence across restarts", () => {
+  test("second startDaemon with the same dataDir reuses the token", async () => {
+    const dataDir = join(tmpdir(), `cc-token-persist-${Date.now()}`);
+    const d1 = await startDaemon({ port: 0, dataDir });
+    const token1 = d1.token;
+    await d1.stop();
+
+    const d2 = await startDaemon({ port: 0, dataDir });
+    const token2 = d2.token;
+    await d2.stop();
+
+    expect(token2).toBe(token1);
+  });
+});
+
 describe("plan file change via PostToolUse → WS delivery", () => {
   let daemon: DaemonHandle;
   let cwd: string;
