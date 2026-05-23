@@ -23,7 +23,6 @@ async function connectAndAuth(port: number): Promise<WebSocket> {
 describe("WsServer", () => {
   let db: Database;
   let server: ReturnType<typeof createServer>;
-  let base: string;
   let bus: ReturnType<typeof createBus>;
   let wsServer: WsServer;
 
@@ -33,7 +32,6 @@ describe("WsServer", () => {
     bus = createBus();
     wsServer = new WsServer(bus, TOKEN);
     server = createServer({ port: 0, token: TOKEN, db, bus, wsServer });
-    base = `http://127.0.0.1:${server.port}`;
   });
 
   afterAll(() => {
