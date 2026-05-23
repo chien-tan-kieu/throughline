@@ -43,6 +43,13 @@ export function createServer(config: ServerConfig): Server {
         return new Response("Unauthorized", { status: 401 });
       }
 
+      if (req.method === "GET" && url.pathname.startsWith("/assets/")) {
+        const webDist = join(import.meta.dir, "../../web/dist");
+        const file = Bun.file(join(webDist, url.pathname));
+        if (await file.exists()) return new Response(file);
+        return new Response("Not Found", { status: 404 });
+      }
+
       const authError = checkAuth(req, server.port, token);
       if (authError) return authError;
 
@@ -79,9 +86,8 @@ export function createServer(config: ServerConfig): Server {
       }
 
       if (req.method === "GET") {
-        const webDist = join(import.meta.dir, "../../../web/dist");
-        const assetPath = url.pathname.startsWith("/assets/") ? url.pathname : "/index.html";
-        const file = Bun.file(join(webDist, assetPath));
+        const webDist = join(import.meta.dir, "../../web/dist");
+        const file = Bun.file(join(webDist, "/index.html"));
         if (await file.exists()) return new Response(file);
       }
 
