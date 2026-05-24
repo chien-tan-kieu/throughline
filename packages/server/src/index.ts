@@ -1,6 +1,6 @@
 // packages/server/src/index.ts
 import { Database } from "bun:sqlite";
-import { mkdir } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { ApiCtx } from "./api/index.ts";
 import { createBus } from "./bus.ts";
@@ -48,9 +48,14 @@ export async function startDaemon(
   const db = new Database(join(dataDir, "claude-control.db"));
   await runMigrations(db, MIGRATIONS_DIR);
 
-  const token = Buffer.from(
-    crypto.getRandomValues(new Uint8Array(32)),
-  ).toString("hex");
+  const tokenFile = join(dataDir, "token");
+  let token: string;
+  try {
+    token = (await readFile(tokenFile, "utf8")).trim();
+  } catch {
+    token = Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString("hex");
+    await writeFile(tokenFile, token, { mode: 0o600 });
+  }
 
   const bus = createBus();
 
@@ -58,7 +63,7 @@ export async function startDaemon(
   const stories = new StoryService(cwd, db, bus);
   const standupService = new StandupService(db);
   const handoffService = new HandoffService(cwd, db);
-  const wsServer = new WsServer(bus);
+  const wsServer = new WsServer(bus, token);
 
   await watcher.start();
   await stories.start();

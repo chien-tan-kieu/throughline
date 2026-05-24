@@ -38,9 +38,22 @@ export function createServer(config: ServerConfig): Server {
 
       if (req.method === "GET" && url.pathname === "/ws") {
         if (!config.wsServer) return new Response("Not Found", { status: 404 });
-        const upgraded = config.wsServer.upgrade(req, server, token);
+        const upgraded = config.wsServer.upgrade(req, server);
         if (upgraded) return undefined as unknown as Response;
-        return new Response("Unauthorized", { status: 401 });
+        return new Response("WebSocket upgrade failed", { status: 400 });
+      }
+
+      if (req.method === "GET" && url.pathname.startsWith("/assets/")) {
+        const webDist = join(import.meta.dir, "../../web/dist");
+        const file = Bun.file(join(webDist, url.pathname));
+        if (await file.exists()) return new Response(file);
+        return new Response("Not Found", { status: 404 });
+      }
+
+      if (req.method === "GET" && !url.pathname.startsWith("/api/") && !url.pathname.startsWith("/hooks/")) {
+        const webDist = join(import.meta.dir, "../../web/dist");
+        const file = Bun.file(join(webDist, "/index.html"));
+        if (await file.exists()) return new Response(file);
       }
 
       const authError = checkAuth(req, server.port, token);
@@ -76,13 +89,6 @@ export function createServer(config: ServerConfig): Server {
       if (url.pathname.startsWith("/api/")) {
         if (config.apiCtx) return mountApiRoutes(req, url, config.apiCtx);
         return new Response("{}", { status: 501 });
-      }
-
-      if (req.method === "GET") {
-        const webDist = join(import.meta.dir, "../../../web/dist");
-        const assetPath = url.pathname.startsWith("/assets/") ? url.pathname : "/index.html";
-        const file = Bun.file(join(webDist, assetPath));
-        if (await file.exists()) return new Response(file);
       }
 
       return new Response("Not Found", { status: 404 });

@@ -1,0 +1,5105 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "claude-control",
+    "languages": [
+      "css",
+      "html",
+      "javascript",
+      "json",
+      "markdown",
+      "shell",
+      "sql",
+      "typescript",
+      "yaml"
+    ],
+    "frameworks": [
+      "React",
+      "Tailwind CSS",
+      "Vite",
+      "Vitest",
+      "Zustand"
+    ],
+    "description": "Workflow visualizer for Claude Code + Superpowers that acts as an observer-only plugin.",
+    "analyzedAt": "2026-05-23T23:34:59.895Z",
+    "gitCommitHash": "0b739b1327422089faf62e9e787f8f03686edb57"
+  },
+  "nodes": [
+    {
+      "id": "config:.claude-plugin/marketplace.json",
+      "type": "config",
+      "name": "marketplace.json",
+      "filePath": ".claude-plugin/marketplace.json",
+      "summary": "Local marketplace registry that registers the claude-control plugin (v0.1.0) as a locally-sourced observer-only workflow visualizer for Claude Code.",
+      "tags": [
+        "configuration",
+        "plugin-registry",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.claude-plugin/plugin.json",
+      "type": "config",
+      "name": "plugin.json",
+      "filePath": ".claude-plugin/plugin.json",
+      "summary": "Plugin manifest declaring the claude-control plugin's metadata, entry points for commands, hooks, and skills used by the Claude Code plugin loader.",
+      "tags": [
+        "configuration",
+        "plugin-registry",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.claude/constitution.md",
+      "type": "document",
+      "name": "constitution.md",
+      "filePath": ".claude/constitution.md",
+      "summary": "Project constitution codifying four core engineering principles (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) plus project-specific rules including mandatory TDD, verification gates, and commit discipline.",
+      "tags": [
+        "documentation",
+        "development",
+        "configuration"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.claude/settings.json",
+      "type": "config",
+      "name": "settings.json",
+      "filePath": ".claude/settings.json",
+      "summary": "Claude Code project settings enabling shell/git/node permissions, registering lifecycle hooks that load the constitution on session start and audit tool usage, and declaring enabled plugins including claude-mem, frontend-design, and understand-anything.",
+      "tags": [
+        "configuration",
+        "security",
+        "ci-cd"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:biome.json",
+      "type": "config",
+      "name": "biome.json",
+      "filePath": "biome.json",
+      "summary": "Biome linter and formatter configuration for the monorepo, enabling VCS integration, import organization, linting with recommended rules, and tab-based formatting.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "linting"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:CLAUDE.md",
+      "type": "document",
+      "name": "CLAUDE.md",
+      "filePath": "CLAUDE.md",
+      "summary": "Project-level Claude Code instructions file; currently empty, serving as a placeholder for future codebase-specific guidance.",
+      "tags": [
+        "documentation",
+        "configuration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:DESIGN.md",
+      "type": "document",
+      "name": "DESIGN.md",
+      "filePath": "DESIGN.md",
+      "summary": "Comprehensive design system reference inspired by Supabase, covering color palette, typography, component styling, layout principles, depth/elevation, responsive behavior, and an agent prompt guide for consistent UI generation.",
+      "tags": [
+        "documentation",
+        "design-system",
+        "frontend-design"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "package.json",
+      "summary": "Root monorepo package configuration defining workspace packages under packages/*, dev scripts for running the server, building the web app, running tests, and linting with Biome.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "monorepo"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:pnpm-workspace.yaml",
+      "type": "config",
+      "name": "pnpm-workspace.yaml",
+      "filePath": "pnpm-workspace.yaml",
+      "summary": "pnpm workspace definition declaring all packages under the packages/ directory as workspace members for monorepo dependency management.",
+      "tags": [
+        "configuration",
+        "monorepo",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:tsconfig.base.json",
+      "type": "config",
+      "name": "tsconfig.base.json",
+      "filePath": "tsconfig.base.json",
+      "summary": "Shared TypeScript base configuration providing common compiler options (bundler module resolution, strict mode) extended by workspace packages.",
+      "tags": [
+        "configuration",
+        "typescript",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:plugin/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "plugin/README.md",
+      "summary": "Developer guide for the claude-control plugin covering local development setup, verification steps, and instructions for running tests and the background daemon directly.",
+      "tags": [
+        "documentation",
+        "development",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:plugin/commands/handoff.md",
+      "type": "document",
+      "name": "handoff.md",
+      "filePath": "plugin/commands/handoff.md",
+      "summary": "Slash command definition for /claude-control:handoff that generates a structured design handoff document for a given story, pulling context from spec and plan files.",
+      "tags": [
+        "documentation",
+        "command",
+        "workflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:plugin/commands/open.md",
+      "type": "document",
+      "name": "open.md",
+      "filePath": "plugin/commands/open.md",
+      "summary": "Slash command definition for /claude-control:open that prints the Claude Control dashboard URL and optionally opens it in the default browser.",
+      "tags": [
+        "documentation",
+        "command",
+        "workflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:plugin/commands/standup.md",
+      "type": "document",
+      "name": "standup.md",
+      "filePath": "plugin/commands/standup.md",
+      "summary": "Slash command definition for /claude-control:standup that generates today's standup digest summarizing shipped work, in-progress items, and blockers from the active session.",
+      "tags": [
+        "documentation",
+        "command",
+        "workflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:plugin/commands/start.md",
+      "type": "document",
+      "name": "start.md",
+      "filePath": "plugin/commands/start.md",
+      "summary": "Slash command definition for /claude-control:start that loads a story and launches the Superpowers brainstorming workflow, setting up the session context for feature implementation.",
+      "tags": [
+        "documentation",
+        "command",
+        "workflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:plugin/commands/status.md",
+      "type": "document",
+      "name": "status.md",
+      "filePath": "plugin/commands/status.md",
+      "summary": "Slash command definition for /claude-control:status that displays the daemon status, active session context, and inferred current development phase.",
+      "tags": [
+        "documentation",
+        "command",
+        "workflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:plugin/commands/story.md",
+      "type": "document",
+      "name": "story.md",
+      "filePath": "plugin/commands/story.md",
+      "summary": "Slash command definition for /claude-control:story covering new story creation, listing stories, and sizing subcommands with detailed behavior for each subcommand.",
+      "tags": [
+        "documentation",
+        "command",
+        "workflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:plugin/hooks/bootstrap.sh",
+      "type": "file",
+      "name": "bootstrap.sh",
+      "filePath": "plugin/hooks/bootstrap.sh",
+      "summary": "SessionStart hook that probes for a running daemon on the saved port and, if absent, launches the backend server (via bun or a compiled binary) then polls until it is healthy.",
+      "tags": [
+        "entry-point",
+        "infrastructure",
+        "service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Uses jq to parse runtime.json for port/token and curl for health checks; gracefully falls back between bun dev server and precompiled binary."
+    },
+    {
+      "id": "file:plugin/hooks/forward.sh",
+      "type": "file",
+      "name": "forward.sh",
+      "filePath": "plugin/hooks/forward.sh",
+      "summary": "Generic hook forwarder that reads the daemon port and auth token from runtime.json, then POSTs the Claude Code hook payload to the local daemon's HTTP endpoint asynchronously.",
+      "tags": [
+        "middleware",
+        "event-handler",
+        "service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Runs curl in the background (& at end) so it never blocks the Claude Code hook lifecycle."
+    },
+    {
+      "id": "config:plugin/hooks/hooks.json",
+      "type": "config",
+      "name": "hooks.json",
+      "filePath": "plugin/hooks/hooks.json",
+      "summary": "Plugin hook registration configuration mapping all Claude Code lifecycle events (SessionStart, PreToolUse, PostToolUse, Stop, Notification, UserPromptSubmit, etc.) to the bootstrap and forward shell scripts.",
+      "tags": [
+        "configuration",
+        "event-handler",
+        "infrastructure"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "SessionStart uses bootstrap.sh (synchronous); all other events use forward.sh, with async=true on non-blocking paths."
+    },
+    {
+      "id": "document:plugin/skills/claude-control/SKILL.md",
+      "type": "document",
+      "name": "SKILL.md",
+      "filePath": "plugin/skills/claude-control/SKILL.md",
+      "summary": "Minimal skill definition file declaring the claude-control skill entry point used by the Claude Code plugin skill loader.",
+      "tags": [
+        "documentation",
+        "configuration",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:assets/claude-control-dashboard-hierarchy.html",
+      "type": "file",
+      "name": "claude-control-dashboard-hierarchy.html",
+      "filePath": "assets/claude-control-dashboard-hierarchy.html",
+      "summary": "Self-contained static HTML prototype of the Claude Control dashboard, embedding full CSS and JavaScript to render the stories board, plan view, standup digest, and sidebar navigation without a build step.",
+      "tags": [
+        "markup",
+        "prototype",
+        "documentation"
+      ],
+      "complexity": "complex",
+      "languageNotes": "2535-line single-file prototype with inline styles and scripts; serves as the visual ground truth reference for the production React implementation."
+    },
+    {
+      "id": "document:assets/claude-control-handoff.md",
+      "type": "document",
+      "name": "claude-control-handoff.md",
+      "filePath": "assets/claude-control-handoff.md",
+      "summary": "Comprehensive design handoff document for the Claude Control dashboard covering purpose, information architecture, five view specifications, component library, design tokens, data model mapping, and open questions for the spec phase.",
+      "tags": [
+        "documentation",
+        "design-system",
+        "frontend-design"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/features/claude-control-plugin/PRD.md",
+      "type": "document",
+      "name": "PRD.md",
+      "filePath": "docs/features/claude-control-plugin/PRD.md",
+      "summary": "Comprehensive Product Requirements Document for Claude Control, defining the observer-only plugin that provides a workflow visualizer and agile layer on top of Claude Code + Superpowers, covering goals, surfaces, hook event model, and delivery phases.",
+      "tags": [
+        "documentation",
+        "product-requirements",
+        "overview",
+        "architecture"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/superpowers/plans/2026-05-06-claude-control-foundation.md",
+      "type": "document",
+      "name": "2026-05-06-claude-control-foundation.md",
+      "filePath": "docs/superpowers/plans/2026-05-06-claude-control-foundation.md",
+      "summary": "Detailed implementation plan for the Claude Control foundation (Weeks 1–2), covering 10 tasks including monorepo scaffolding, shared Zod event schemas, SQLite migrations, the security gate, hook handlers, HTTP server routes, daemon lifecycle, integration tests, and plugin scaffold.",
+      "tags": [
+        "documentation",
+        "implementation-plan",
+        "foundation",
+        "infrastructure"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md",
+      "type": "document",
+      "name": "2026-05-16-phase2-superpowers-integration.md",
+      "filePath": "docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md",
+      "summary": "Phase 2 implementation plan for Superpowers integration and the Stories layer, covering 16 tasks including plan/story parsers, checkbox diff, SuperpowersWatcher, StoryService, WebSocket server, REST API routes, and slash commands.",
+      "tags": [
+        "documentation",
+        "implementation-plan",
+        "phase2",
+        "websocket"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/superpowers/plans/2026-05-17-phase3-dashboard.md",
+      "type": "document",
+      "name": "2026-05-17-phase3-dashboard.md",
+      "filePath": "docs/superpowers/plans/2026-05-17-phase3-dashboard.md",
+      "summary": "Phase 3 implementation plan for the React dashboard including StandupService, HandoffService, API routes, the full web package scaffold with Vite/Zustand/React Router, all SPA views (Plan, Stories, Story, Spec, Standup), and the SPA catch-all serving integration.",
+      "tags": [
+        "documentation",
+        "implementation-plan",
+        "phase3",
+        "dashboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/superpowers/plans/2026-05-21-filter-stories-by-status.md",
+      "type": "document",
+      "name": "2026-05-21-filter-stories-by-status.md",
+      "filePath": "docs/superpowers/plans/2026-05-21-filter-stories-by-status.md",
+      "summary": "Implementation plan for the filter-stories-by-status feature, detailing 5 tasks: adding filter state to useUiStore, CSS for filter pills, building the FilterBar component, modifying KanbanColumn with an isFiltered prop, and wiring StoriesPage.",
+      "tags": [
+        "documentation",
+        "implementation-plan",
+        "feature",
+        "filtering"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/superpowers/plans/2026-05-23-fix-auth-token-url-exposure.md",
+      "type": "document",
+      "name": "2026-05-23-fix-auth-token-url-exposure.md",
+      "filePath": "docs/superpowers/plans/2026-05-23-fix-auth-token-url-exposure.md",
+      "summary": "Implementation plan for fixing auth token URL exposure, covering 6 tasks: removing query-param fallback from checkAuth, first-message WebSocket auth, removing token from WebSocket URL in the browser hook, reading the bootstrap token from the URL hash, updating the plugin open command, and end-to-end verification.",
+      "tags": [
+        "documentation",
+        "implementation-plan",
+        "security",
+        "authentication"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md",
+      "type": "document",
+      "name": "2026-05-06-claude-control-foundation-design.md",
+      "filePath": "docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md",
+      "summary": "Foundation design spec covering the monorepo structure, Hooks API event model, shared Zod schemas, daemon architecture, plugin scaffold, SQLite schema, testing strategy, and dev workflow for the Claude Control project.",
+      "tags": [
+        "documentation",
+        "design-spec",
+        "architecture",
+        "foundation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-05-13-superpowers-integration-stories-design.md",
+      "type": "document",
+      "name": "2026-05-13-superpowers-integration-stories-design.md",
+      "filePath": "docs/superpowers/specs/2026-05-13-superpowers-integration-stories-design.md",
+      "summary": "Phase 2 design spec for Superpowers integration and the Stories layer, detailing plan parser, checkbox diff, SuperpowersWatcher, phase inference, story format with frontmatter, StoryService, WebSocket protocol, REST API endpoints, and success criteria.",
+      "tags": [
+        "documentation",
+        "design-spec",
+        "phase2",
+        "api-schema"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-05-17-phase3-dashboard-design.md",
+      "type": "document",
+      "name": "2026-05-17-phase3-dashboard-design.md",
+      "filePath": "docs/superpowers/specs/2026-05-17-phase3-dashboard-design.md",
+      "summary": "Phase 3 design spec for the dashboard frontend and backend additions, covering the SPA architecture, token/port discovery, WebSocket integration, all frontend views, StandupService, HandoffService, API routes, and testing approach.",
+      "tags": [
+        "documentation",
+        "design-spec",
+        "phase3",
+        "dashboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-05-20-filter-stories-by-status-design.md",
+      "type": "document",
+      "name": "2026-05-20-filter-stories-by-status-design.md",
+      "filePath": "docs/superpowers/specs/2026-05-20-filter-stories-by-status-design.md",
+      "summary": "Design spec for the filter-stories-by-status feature, specifying the useUiStore filter state slice, FilterBar component with pill tabs and count badges, KanbanColumn isFiltered prop, StoriesPage wiring, visual design, and behaviour rules.",
+      "tags": [
+        "documentation",
+        "design-spec",
+        "feature",
+        "filtering"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-05-23-fix-auth-token-url-exposure-design.md",
+      "type": "document",
+      "name": "2026-05-23-fix-auth-token-url-exposure-design.md",
+      "filePath": "docs/superpowers/specs/2026-05-23-fix-auth-token-url-exposure-design.md",
+      "summary": "Design spec for fixing auth token exposure in the browser URL, describing the problem of tokens appearing in query params, the proposed solution of moving the token to the URL hash, and the component-by-component changes required across the plugin, web, and server packages.",
+      "tags": [
+        "documentation",
+        "design-spec",
+        "security",
+        "authentication"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/superpowers/stories/US-2026-05-19-filter-stories-by-status-on-the-board-vi.md",
+      "type": "document",
+      "name": "US-2026-05-19-filter-stories-by-status-on-the-board-vi.md",
+      "filePath": "docs/superpowers/stories/US-2026-05-19-filter-stories-by-status-on-the-board-vi.md",
+      "summary": "User story card for filtering stories by status on the Kanban board, including acceptance criteria for the filter pill UI and filtered column empty state.",
+      "tags": [
+        "documentation",
+        "user-story",
+        "feature",
+        "filtering"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/superpowers/stories/US-2026-05-23-fix-auth-stop-exposing-token-via-url-in-.md",
+      "type": "document",
+      "name": "US-2026-05-23-fix-auth-stop-exposing-token-via-url-in-.md",
+      "filePath": "docs/superpowers/stories/US-2026-05-23-fix-auth-stop-exposing-token-via-url-in-.md",
+      "summary": "User story card for stopping auth token exposure via the browser URL, with acceptance criteria ensuring the token never appears in query strings and is instead passed through the URL hash.",
+      "tags": [
+        "documentation",
+        "user-story",
+        "security",
+        "authentication"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:packages/server/migrations/001_initial.sql:sessions",
+      "type": "table",
+      "name": "sessions",
+      "filePath": "packages/server/migrations/001_initial.sql",
+      "lineRange": [
+        1,
+        11
+      ],
+      "summary": "Core sessions table recording each Claude Code session with its working directory, model, agent type, permission mode, timestamps, active/ended status, and inferred Superpowers phase.",
+      "tags": [
+        "database",
+        "schema-definition",
+        "sessions"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:packages/server/migrations/001_initial.sql:events",
+      "type": "table",
+      "name": "events",
+      "filePath": "packages/server/migrations/001_initial.sql",
+      "lineRange": [
+        13,
+        20
+      ],
+      "summary": "Events table storing all hook events fired by Claude Code, keyed to a session and subagent, with JSON payload and timestamp, indexed for efficient session and event-name lookups.",
+      "tags": [
+        "database",
+        "schema-definition",
+        "events"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:packages/server/migrations/002_superpowers.sql:stories",
+      "type": "table",
+      "name": "stories",
+      "filePath": "packages/server/migrations/002_superpowers.sql",
+      "lineRange": [
+        5,
+        15
+      ],
+      "summary": "Stories table linking file paths to parsed story metadata (title, size, status, linked spec/plan paths) with timestamps, indexed by status for the Kanban board filter feature.",
+      "tags": [
+        "database",
+        "schema-definition",
+        "stories"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:packages/server/migrations/002_superpowers.sql:plan_tasks",
+      "type": "table",
+      "name": "plan_tasks",
+      "filePath": "packages/server/migrations/002_superpowers.sql",
+      "lineRange": [
+        17,
+        24
+      ],
+      "summary": "Plan tasks table recording parsed task headings and their associated file lists from implementation plan documents, indexed by plan path.",
+      "tags": [
+        "database",
+        "schema-definition",
+        "plans"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:packages/server/migrations/002_superpowers.sql:plan_steps",
+      "type": "table",
+      "name": "plan_steps",
+      "filePath": "packages/server/migrations/002_superpowers.sql",
+      "lineRange": [
+        26,
+        36
+      ],
+      "summary": "Plan steps table tracking individual checkbox items within plan tasks, including their completion state, completion timestamp, and the inferred hook event that triggered completion.",
+      "tags": [
+        "database",
+        "schema-definition",
+        "plans"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:packages/server/migrations/003_handoffs.sql:handoffs",
+      "type": "table",
+      "name": "handoffs",
+      "filePath": "packages/server/migrations/003_handoffs.sql",
+      "lineRange": [
+        1,
+        6
+      ],
+      "summary": "Handoffs table recording generated handoff documents associated with stories, tracking the file path and generation timestamp for retrieval in the dashboard.",
+      "tags": [
+        "database",
+        "schema-definition",
+        "handoffs"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/server/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/server/package.json",
+      "summary": "Package manifest for the @cc/server Bun-based daemon, declaring the dev (watch) and test scripts, with @cc/shared as the only workspace dependency.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "server"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/server/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/server/tsconfig.json",
+      "summary": "TypeScript configuration for the server package, extending a shared base config and including only the src directory.",
+      "tags": [
+        "configuration",
+        "typescript",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/shared/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/shared/package.json",
+      "summary": "Package manifest for the @cc/shared library, exposing src/index.ts as the public entry point with Zod as the only runtime dependency, consumed by both server and web packages via workspace protocol.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "shared-library"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/shared/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/shared/tsconfig.json",
+      "summary": "TypeScript configuration for the shared package, extending a shared base config and including only the src directory.",
+      "tags": [
+        "configuration",
+        "typescript",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/web/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/web/package.json",
+      "summary": "Package manifest for the @cc/web React SPA, declaring Vite build scripts, runtime dependencies (React 18, React Router 6, Zustand 5, TanStack Query 5, react-markdown), and dev tooling (Vitest, Testing Library, Tailwind CSS).",
+      "tags": [
+        "configuration",
+        "build-system",
+        "frontend"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/web/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "packages/web/tsconfig.json",
+      "summary": "TypeScript compiler configuration for the React web package, enabling strict mode, JSX transform via react-jsx, bundler module resolution with no emit, targeting ES2020 with DOM libs.",
+      "tags": [
+        "configuration",
+        "typescript",
+        "frontend"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Uses moduleResolution: bundler and noEmit: true because Vite handles bundling; TypeScript is used only for type checking."
+    },
+    {
+      "id": "file:packages/server/src/bus.ts",
+      "type": "file",
+      "name": "bus.ts",
+      "filePath": "packages/server/src/bus.ts",
+      "summary": "Implements a typed publish/subscribe event bus used as the central message-passing backbone throughout the server, with a createBus factory and a stubBus no-op for testing.",
+      "tags": [
+        "event-handler",
+        "singleton",
+        "utility",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/bus.ts:createBus",
+      "type": "function",
+      "name": "createBus",
+      "filePath": "packages/server/src/bus.ts",
+      "lineRange": [
+        20,
+        31
+      ],
+      "summary": "Factory that creates a typed publish/subscribe bus instance with a handler registry for internal event distribution.",
+      "tags": [
+        "factory",
+        "event-handler",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/index.ts",
+      "summary": "Server entry point that bootstraps the full daemon: initializes the SQLite database, token auth, HTTP server, WebSocket server, story watcher, and superpowers file watcher, then registers idle shutdown and process signal handlers.",
+      "tags": [
+        "entry-point",
+        "service",
+        "singleton",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/server/src/index.ts:startDaemon",
+      "type": "function",
+      "name": "startDaemon",
+      "filePath": "packages/server/src/index.ts",
+      "lineRange": [
+        37,
+        131
+      ],
+      "summary": "Orchestrates full daemon startup: creates data directories, runs DB migrations, generates or reads the auth token, starts all subsystems, and registers graceful shutdown handlers.",
+      "tags": [
+        "entry-point",
+        "service",
+        "factory"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/server/src/server.ts",
+      "type": "file",
+      "name": "server.ts",
+      "filePath": "packages/server/src/server.ts",
+      "summary": "Creates and configures the Bun HTTP server, handling static asset serving, WebSocket upgrades, hook event routing, API route dispatching, and auth/rate-limit enforcement.",
+      "tags": [
+        "api-handler",
+        "middleware",
+        "service",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/server/src/server.ts:createServer",
+      "type": "function",
+      "name": "createServer",
+      "filePath": "packages/server/src/server.ts",
+      "lineRange": [
+        23,
+        108
+      ],
+      "summary": "Builds and returns a Bun HTTP/WebSocket server with full request routing including auth checks, static files, hook events, and API routes.",
+      "tags": [
+        "factory",
+        "api-handler",
+        "middleware"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/server/src/api/handoff.ts",
+      "type": "file",
+      "name": "handoff.ts",
+      "filePath": "packages/server/src/api/handoff.ts",
+      "summary": "Mounts HTTP route handlers for the handoff API, supporting listing all handoffs and generating a handoff document for a specific story ID.",
+      "tags": [
+        "api-handler",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/api/handoff.ts:mountHandoffRoutes",
+      "type": "function",
+      "name": "mountHandoffRoutes",
+      "filePath": "packages/server/src/api/handoff.ts",
+      "lineRange": [
+        5,
+        29
+      ],
+      "summary": "Routes handoff API requests: lists handoffs or generates a handoff document for a validated story ID.",
+      "tags": [
+        "api-handler",
+        "routing"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/api/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/api/index.ts",
+      "summary": "Central API router that dispatches incoming requests to sub-routers for sessions, stories, superpowers, standup, and handoff by URL prefix matching.",
+      "tags": [
+        "api-handler",
+        "middleware",
+        "barrel",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/api/index.ts:mountApiRoutes",
+      "type": "function",
+      "name": "mountApiRoutes",
+      "filePath": "packages/server/src/api/index.ts",
+      "lineRange": [
+        21,
+        48
+      ],
+      "summary": "Dispatches API requests to the appropriate sub-router based on URL prefix, returning 404 for unmatched paths.",
+      "tags": [
+        "api-handler",
+        "routing",
+        "middleware"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/api/sessions.ts",
+      "type": "file",
+      "name": "sessions.ts",
+      "filePath": "packages/server/src/api/sessions.ts",
+      "summary": "Mounts HTTP route handlers for session and event queries, supporting listing sessions, fetching individual session details with events, and polling new events with cursor-based pagination.",
+      "tags": [
+        "api-handler",
+        "data-model"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/server/src/api/sessions.ts:mountSessionRoutes",
+      "type": "function",
+      "name": "mountSessionRoutes",
+      "filePath": "packages/server/src/api/sessions.ts",
+      "lineRange": [
+        5,
+        52
+      ],
+      "summary": "Routes session-related API requests including list all, get by ID with events, and paginated event polling.",
+      "tags": [
+        "api-handler",
+        "data-model"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/api/standup.ts",
+      "type": "file",
+      "name": "standup.ts",
+      "filePath": "packages/server/src/api/standup.ts",
+      "summary": "Mounts the standup API route, generating a daily standup digest for a given date via the StandupService.",
+      "tags": [
+        "api-handler",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/api/stories.ts",
+      "type": "file",
+      "name": "stories.ts",
+      "filePath": "packages/server/src/api/stories.ts",
+      "summary": "Mounts HTTP route handlers for the stories CRUD API, supporting list, create, get, update, and archive operations on story records.",
+      "tags": [
+        "api-handler",
+        "data-model"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/server/src/api/stories.ts:mountStoryRoutes",
+      "type": "function",
+      "name": "mountStoryRoutes",
+      "filePath": "packages/server/src/api/stories.ts",
+      "lineRange": [
+        5,
+        59
+      ],
+      "summary": "Routes story API requests implementing full CRUD: list all, create, get by ID, patch update, and archive operations.",
+      "tags": [
+        "api-handler",
+        "data-model"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/api/superpowers.ts",
+      "type": "file",
+      "name": "superpowers.ts",
+      "filePath": "packages/server/src/api/superpowers.ts",
+      "summary": "Mounts HTTP route handlers for reading superpowers plan and spec documents, with path validation to prevent directory traversal.",
+      "tags": [
+        "api-handler",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/api/superpowers.ts:mountSuperpowersRoutes",
+      "type": "function",
+      "name": "mountSuperpowersRoutes",
+      "filePath": "packages/server/src/api/superpowers.ts",
+      "lineRange": [
+        11,
+        35
+      ],
+      "summary": "Routes superpowers plan and spec API requests, validating paths and returning parsed plan or spec body content.",
+      "tags": [
+        "api-handler",
+        "validation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/handoff/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/handoff/index.ts",
+      "summary": "Implements HandoffService which generates Markdown handoff documents from story and plan data, persisting them to disk and the database, and lists all generated handoffs.",
+      "tags": [
+        "service",
+        "data-model",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:packages/server/src/handoff/index.ts:HandoffService",
+      "type": "class",
+      "name": "HandoffService",
+      "filePath": "packages/server/src/handoff/index.ts",
+      "lineRange": [
+        19,
+        101
+      ],
+      "summary": "Service class that generates structured handoff Markdown documents combining story metadata, plan summaries, and story body content, then writes them to disk and records them in the database.",
+      "tags": [
+        "service",
+        "data-model"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/hooks/handlers.ts",
+      "type": "file",
+      "name": "handlers.ts",
+      "filePath": "packages/server/src/hooks/handlers.ts",
+      "summary": "Provides the dispatchEvent function that persists a hook event to the database and publishes it on the event bus.",
+      "tags": [
+        "event-handler",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/hooks/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/hooks/index.ts",
+      "summary": "Handles incoming Claude Code hook events by parsing and validating the payload, triggering superpowers file-change detection for Write events, and dispatching the event to the store and bus.",
+      "tags": [
+        "event-handler",
+        "middleware",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/hooks/index.ts:handleHookEvent",
+      "type": "function",
+      "name": "handleHookEvent",
+      "filePath": "packages/server/src/hooks/index.ts",
+      "lineRange": [
+        8,
+        38
+      ],
+      "summary": "Validates and processes an incoming hook event: triggers file-change handlers for Write events and dispatches all events to the store and bus.",
+      "tags": [
+        "event-handler",
+        "middleware"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/lifecycle/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/lifecycle/index.ts",
+      "summary": "Provides daemon lifecycle utilities: writing the runtime PID/port JSON file, managing an idle-shutdown timer that stops the server after inactivity, and registering graceful SIGTERM/SIGINT shutdown handlers.",
+      "tags": [
+        "service",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/server/src/lifecycle/index.ts:writeRuntimeJson",
+      "type": "function",
+      "name": "writeRuntimeJson",
+      "filePath": "packages/server/src/lifecycle/index.ts",
+      "lineRange": [
+        14,
+        20
+      ],
+      "summary": "Writes the daemon runtime metadata (port, pid, token) as JSON to the data directory for CLI client discovery.",
+      "tags": [
+        "utility",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/lifecycle/index.ts:startIdleTimer",
+      "type": "function",
+      "name": "startIdleTimer",
+      "filePath": "packages/server/src/lifecycle/index.ts",
+      "lineRange": [
+        22,
+        44
+      ],
+      "summary": "Creates a resettable idle timer that triggers a graceful server shutdown after a configurable period of inactivity.",
+      "tags": [
+        "service",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/server/src/lifecycle/index.ts:registerShutdownHandler",
+      "type": "function",
+      "name": "registerShutdownHandler",
+      "filePath": "packages/server/src/lifecycle/index.ts",
+      "lineRange": [
+        46,
+        57
+      ],
+      "summary": "Registers SIGTERM and SIGINT process signal handlers that perform graceful shutdown by closing the database and HTTP server.",
+      "tags": [
+        "service",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/security/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/security/index.ts",
+      "summary": "Provides request authentication via bearer token and localhost-only host header checks, plus a sliding-window RateLimiter class for per-route request throttling.",
+      "tags": [
+        "security",
+        "middleware",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:packages/server/src/security/index.ts:RateLimiter",
+      "type": "class",
+      "name": "RateLimiter",
+      "filePath": "packages/server/src/security/index.ts",
+      "lineRange": [
+        6,
+        24
+      ],
+      "summary": "Sliding-window rate limiter that tracks request counts per key within a configurable time window to enforce per-route throttling.",
+      "tags": [
+        "security",
+        "middleware",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/security/index.ts:checkAuth",
+      "type": "function",
+      "name": "checkAuth",
+      "filePath": "packages/server/src/security/index.ts",
+      "lineRange": [
+        26,
+        48
+      ],
+      "summary": "Validates incoming requests by enforcing localhost-only Host headers and requiring a matching bearer token for non-localhost origins.",
+      "tags": [
+        "security",
+        "validation",
+        "middleware"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/standup/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/standup/index.ts",
+      "summary": "Implements StandupService which queries the database to generate a daily standup report including shipped stories, work-in-progress items, and detected blockers from repeated tool failures.",
+      "tags": [
+        "service",
+        "data-model",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:packages/server/src/standup/index.ts:StandupService",
+      "type": "class",
+      "name": "StandupService",
+      "filePath": "packages/server/src/standup/index.ts",
+      "lineRange": [
+        4,
+        75
+      ],
+      "summary": "Service class that generates a structured daily standup digest by querying done, in-progress, and blocked stories from the database for a given date.",
+      "tags": [
+        "service",
+        "data-model"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/store/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/store/index.ts",
+      "summary": "Provides database write helpers for session lifecycle and event persistence: upsertSession, endSession, and persistEvent, which upserts a session and writes each hook event with its full payload to the events table.",
+      "tags": [
+        "data-model",
+        "utility",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/store/index.ts:persistEvent",
+      "type": "function",
+      "name": "persistEvent",
+      "filePath": "packages/server/src/store/index.ts",
+      "lineRange": [
+        20,
+        44
+      ],
+      "summary": "Upserts the session record and writes a hook event row to the database, also ending the session on StopSession events.",
+      "tags": [
+        "data-model",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/store/migrate.ts",
+      "type": "file",
+      "name": "migrate.ts",
+      "filePath": "packages/server/src/store/migrate.ts",
+      "summary": "Implements runMigrations which reads SQL migration files from a directory in sorted order and applies any not yet recorded in the _migrations tracking table.",
+      "tags": [
+        "database",
+        "utility",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/store/migrate.ts:runMigrations",
+      "type": "function",
+      "name": "runMigrations",
+      "filePath": "packages/server/src/store/migrate.ts",
+      "lineRange": [
+        5,
+        33
+      ],
+      "summary": "Reads .sql files from the migrations directory, skips already-applied ones tracked in _migrations, and executes new migrations transactionally.",
+      "tags": [
+        "database",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/stories/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/stories/index.ts",
+      "summary": "Core StoryService implementation managing the full story lifecycle: filesystem CRUD with Markdown frontmatter, SQLite sync, file watching for live updates, and bus publishing on changes.",
+      "tags": [
+        "service",
+        "data-model",
+        "event-handler",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:packages/server/src/stories/index.ts:StoryService",
+      "type": "class",
+      "name": "StoryService",
+      "filePath": "packages/server/src/stories/index.ts",
+      "lineRange": [
+        52,
+        244
+      ],
+      "summary": "Service class managing story documents: creates Markdown files with YAML frontmatter, syncs them to SQLite via file watching, and publishes change events on the bus for real-time clients.",
+      "tags": [
+        "service",
+        "data-model",
+        "event-handler"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/server/src/stories/template.ts",
+      "type": "file",
+      "name": "template.ts",
+      "filePath": "packages/server/src/stories/template.ts",
+      "summary": "Provides the scaffoldStory template function that generates the initial Markdown content with YAML frontmatter for a newly created story file.",
+      "tags": [
+        "utility",
+        "factory"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/stories/template.ts:scaffoldStory",
+      "type": "function",
+      "name": "scaffoldStory",
+      "filePath": "packages/server/src/stories/template.ts",
+      "lineRange": [
+        2,
+        26
+      ],
+      "summary": "Generates the initial Markdown story file content with YAML frontmatter fields for id, title, status, size, and creation date.",
+      "tags": [
+        "utility",
+        "factory"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/superpowers/diff.ts",
+      "type": "file",
+      "name": "diff.ts",
+      "filePath": "packages/server/src/superpowers/diff.ts",
+      "summary": "Provides diffCheckboxState which compares two arrays of parsed checkbox states to produce a list of checkbox changes (index, old value, new value) for plan progress tracking.",
+      "tags": [
+        "utility",
+        "validation",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/superpowers/diff.ts:diffCheckboxState",
+      "type": "function",
+      "name": "diffCheckboxState",
+      "filePath": "packages/server/src/superpowers/diff.ts",
+      "lineRange": [
+        10,
+        32
+      ],
+      "summary": "Compares two checkbox-state arrays and returns a list of changed positions with their old and new checked values.",
+      "tags": [
+        "utility",
+        "validation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/superpowers/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/superpowers/index.ts",
+      "summary": "Implements SuperpowersWatcher which watches plan and spec Markdown directories for file changes, parses plan checkbox state, diffs progress, persists to SQLite, publishes events on the bus, and infers the current workflow phase.",
+      "tags": [
+        "service",
+        "event-handler",
+        "data-model",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:packages/server/src/superpowers/index.ts:SuperpowersWatcher",
+      "type": "class",
+      "name": "SuperpowersWatcher",
+      "filePath": "packages/server/src/superpowers/index.ts",
+      "lineRange": [
+        11,
+        179
+      ],
+      "summary": "Watches superpowers plan and spec directories, parsing plan checkbox progress and spec metadata on file changes, persisting state to SQLite, and broadcasting updates via the event bus.",
+      "tags": [
+        "service",
+        "event-handler",
+        "data-model"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/server/src/superpowers/parser.ts",
+      "type": "file",
+      "name": "parser.ts",
+      "filePath": "packages/server/src/superpowers/parser.ts",
+      "summary": "Exports parsePlan (re-exported from an external dependency) and parseSpec, a function that extracts the spec title from a Markdown heading.",
+      "tags": [
+        "utility",
+        "serialization",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/superpowers/phase.ts",
+      "type": "file",
+      "name": "phase.ts",
+      "filePath": "packages/server/src/superpowers/phase.ts",
+      "summary": "Provides advancePhase and inferPhase utilities for managing the superpowers workflow phase: advancing phase order and inferring the current phase from recent file-write events in the database.",
+      "tags": [
+        "utility",
+        "service",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/superpowers/phase.ts:inferPhase",
+      "type": "function",
+      "name": "inferPhase",
+      "filePath": "packages/server/src/superpowers/phase.ts",
+      "lineRange": [
+        13,
+        39
+      ],
+      "summary": "Queries recent file-write events from the database to infer the current superpowers workflow phase based on which file paths were written.",
+      "tags": [
+        "utility",
+        "service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/ws/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/server/src/ws/index.ts",
+      "summary": "Implements WsServer, a WebSocket server class that manages connected clients, handles topic subscription/unsubscription via JSON messages, and fans out bus events to subscribed sockets.",
+      "tags": [
+        "service",
+        "event-handler",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:packages/server/src/ws/index.ts:WsServer",
+      "type": "class",
+      "name": "WsServer",
+      "filePath": "packages/server/src/ws/index.ts",
+      "lineRange": [
+        8,
+        114
+      ],
+      "summary": "WebSocket server managing client socket lifecycle, topic-based subscriptions, and fan-out delivery of bus events to connected clients.",
+      "tags": [
+        "service",
+        "event-handler"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/server/src/__tests__/daemon.test.ts",
+      "type": "file",
+      "name": "daemon.test.ts",
+      "filePath": "packages/server/src/__tests__/daemon.test.ts",
+      "summary": "Tests for the daemon lifecycle, verifying that the server index module starts and stops correctly as a background process.",
+      "tags": [
+        "test",
+        "daemon",
+        "lifecycle"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/__tests__/integration.test.ts",
+      "type": "file",
+      "name": "integration.test.ts",
+      "filePath": "packages/server/src/__tests__/integration.test.ts",
+      "summary": "End-to-end integration tests for the server, exercising multiple subsystems together through the main server entry point across a broad range of scenarios.",
+      "tags": [
+        "test",
+        "integration",
+        "end-to-end"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/server/src/__tests__/server.test.ts",
+      "type": "file",
+      "name": "server.test.ts",
+      "filePath": "packages/server/src/__tests__/server.test.ts",
+      "summary": "Unit tests for the core HTTP server, verifying routing, middleware, and basic request handling using the bus and migration utilities.",
+      "tags": [
+        "test",
+        "server",
+        "middleware"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/api/__tests__/routes.test.ts",
+      "type": "file",
+      "name": "routes.test.ts",
+      "filePath": "packages/server/src/api/__tests__/routes.test.ts",
+      "summary": "Tests for the API route layer, covering all major REST endpoints by spinning up the full server and asserting response shapes across stories, superpowers, and the API module.",
+      "tags": [
+        "test",
+        "api-handler",
+        "routes"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/server/src/api/__tests__/standup-handoff.test.ts",
+      "type": "file",
+      "name": "standup-handoff.test.ts",
+      "filePath": "packages/server/src/api/__tests__/standup-handoff.test.ts",
+      "summary": "Integration tests for the standup and handoff API endpoints, exercising report generation and document output through the main server entry point.",
+      "tags": [
+        "test",
+        "integration",
+        "api-handler"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/handoff/__tests__/service.test.ts",
+      "type": "file",
+      "name": "service.test.ts",
+      "filePath": "packages/server/src/handoff/__tests__/service.test.ts",
+      "summary": "Unit tests for the handoff service, validating document generation logic from story and event data seeded into an in-memory SQLite database.",
+      "tags": [
+        "test",
+        "service",
+        "handoff"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/server/src/handoff/__tests__/service.test.ts:seedStoryFile",
+      "type": "function",
+      "name": "seedStoryFile",
+      "filePath": "packages/server/src/handoff/__tests__/service.test.ts",
+      "lineRange": [
+        12,
+        29
+      ],
+      "summary": "Test helper that writes a story markdown file to disk and inserts a matching story row into the database, establishing preconditions for handoff service tests.",
+      "tags": [
+        "test",
+        "utility",
+        "seeding"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/hooks/__tests__/observer-contract.test.ts",
+      "type": "file",
+      "name": "observer-contract.test.ts",
+      "filePath": "packages/server/src/hooks/__tests__/observer-contract.test.ts",
+      "summary": "Contract tests for the hooks observer module, verifying that hook events are captured and published to the event bus without modifying any Claude Code behavior.",
+      "tags": [
+        "test",
+        "observer",
+        "event-handler"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/hooks/__tests__/phase-inference.test.ts",
+      "type": "file",
+      "name": "phase-inference.test.ts",
+      "filePath": "packages/server/src/hooks/__tests__/phase-inference.test.ts",
+      "summary": "Tests for the phase inference logic in the hooks module, asserting that the correct workflow phase is derived from sequences of hook events on the bus.",
+      "tags": [
+        "test",
+        "phase-inference",
+        "event-handler"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/server/src/hooks/__tests__/phase-inference.test.ts:collectPhaseEvents",
+      "type": "function",
+      "name": "collectPhaseEvents",
+      "filePath": "packages/server/src/hooks/__tests__/phase-inference.test.ts",
+      "lineRange": [
+        22,
+        26
+      ],
+      "summary": "Test helper that subscribes to the bus and collects all phase-related events into an array for assertion.",
+      "tags": [
+        "test",
+        "utility",
+        "event-handler"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/security/__tests__/security.test.ts",
+      "type": "file",
+      "name": "security.test.ts",
+      "filePath": "packages/server/src/security/__tests__/security.test.ts",
+      "summary": "Tests for the security middleware, verifying token validation, header checks, and that unauthorized requests are correctly rejected.",
+      "tags": [
+        "test",
+        "security",
+        "middleware"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/server/src/security/__tests__/security.test.ts:makeRequest",
+      "type": "function",
+      "name": "makeRequest",
+      "filePath": "packages/server/src/security/__tests__/security.test.ts",
+      "lineRange": [
+        7,
+        24
+      ],
+      "summary": "Test helper that constructs and dispatches an HTTP request with configurable headers and overrides for security middleware testing.",
+      "tags": [
+        "test",
+        "utility",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/standup/__tests__/service.test.ts",
+      "type": "file",
+      "name": "service.test.ts",
+      "filePath": "packages/server/src/standup/__tests__/service.test.ts",
+      "summary": "Unit tests for the standup service, covering report generation from stories and blocker events seeded into an in-memory SQLite database.",
+      "tags": [
+        "test",
+        "service",
+        "standup"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/server/src/standup/__tests__/service.test.ts:seedStory",
+      "type": "function",
+      "name": "seedStory",
+      "filePath": "packages/server/src/standup/__tests__/service.test.ts",
+      "lineRange": [
+        9,
+        18
+      ],
+      "summary": "Test helper that inserts a story record with configurable status and timestamps into the database for standup service test scenarios.",
+      "tags": [
+        "test",
+        "utility",
+        "seeding"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/server/src/standup/__tests__/service.test.ts:seedBlockerEvents",
+      "type": "function",
+      "name": "seedBlockerEvents",
+      "filePath": "packages/server/src/standup/__tests__/service.test.ts",
+      "lineRange": [
+        20,
+        34
+      ],
+      "summary": "Test helper that bulk-inserts hook events marking permission blockers for a given story and session, used to exercise blocker detection in standup reports.",
+      "tags": [
+        "test",
+        "utility",
+        "seeding"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/store/__tests__/migrate.test.ts",
+      "type": "file",
+      "name": "migrate.test.ts",
+      "filePath": "packages/server/src/store/__tests__/migrate.test.ts",
+      "summary": "Tests for the database migration module, verifying schema creation, idempotency of migrations, and that all expected tables and columns exist after migration.",
+      "tags": [
+        "test",
+        "database",
+        "migration"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/store/__tests__/store.test.ts",
+      "type": "file",
+      "name": "store.test.ts",
+      "filePath": "packages/server/src/store/__tests__/store.test.ts",
+      "summary": "Unit tests for the data store module, covering CRUD operations and query correctness against an in-memory SQLite database initialized with migrations.",
+      "tags": [
+        "test",
+        "database",
+        "service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/stories/__tests__/service.test.ts",
+      "type": "file",
+      "name": "service.test.ts",
+      "filePath": "packages/server/src/stories/__tests__/service.test.ts",
+      "summary": "Unit tests for the stories service, verifying story CRUD operations and event publishing through the bus against an in-memory database.",
+      "tags": [
+        "test",
+        "service",
+        "stories"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/superpowers/__tests__/diff.test.ts",
+      "type": "file",
+      "name": "diff.test.ts",
+      "filePath": "packages/server/src/superpowers/__tests__/diff.test.ts",
+      "summary": "Tests for the superpowers diff module, verifying plan comparison and change detection logic across various task step configurations.",
+      "tags": [
+        "test",
+        "superpowers",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/server/src/superpowers/__tests__/diff.test.ts:makePlan",
+      "type": "function",
+      "name": "makePlan",
+      "filePath": "packages/server/src/superpowers/__tests__/diff.test.ts",
+      "lineRange": [
+        5,
+        20
+      ],
+      "summary": "Test fixture factory that constructs a structured plan object from an array of task step descriptions for use in diff test cases.",
+      "tags": [
+        "test",
+        "utility",
+        "factory"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/superpowers/__tests__/parser.test.ts",
+      "type": "file",
+      "name": "parser.test.ts",
+      "filePath": "packages/server/src/superpowers/__tests__/parser.test.ts",
+      "summary": "Tests for the superpowers parser module, checking correct extraction of structured data from Claude hook event payloads.",
+      "tags": [
+        "test",
+        "superpowers",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/server/src/superpowers/__tests__/phase.test.ts",
+      "type": "file",
+      "name": "phase.test.ts",
+      "filePath": "packages/server/src/superpowers/__tests__/phase.test.ts",
+      "summary": "Tests for the superpowers phase module, verifying phase detection and state transitions from raw hook events stored in the database.",
+      "tags": [
+        "test",
+        "superpowers",
+        "phase-inference"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/superpowers/__tests__/watcher.test.ts",
+      "type": "file",
+      "name": "watcher.test.ts",
+      "filePath": "packages/server/src/superpowers/__tests__/watcher.test.ts",
+      "summary": "Tests for the superpowers watcher module, verifying that filesystem or event watching correctly detects changes and emits events on the bus.",
+      "tags": [
+        "test",
+        "superpowers",
+        "event-handler"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/server/src/ws/__tests__/ws.test.ts",
+      "type": "file",
+      "name": "ws.test.ts",
+      "filePath": "packages/server/src/ws/__tests__/ws.test.ts",
+      "summary": "Tests for the WebSocket handler, verifying authentication handshake, message broadcasting, and client lifecycle management over a real WebSocket connection.",
+      "tags": [
+        "test",
+        "websocket",
+        "api-handler"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/server/src/ws/__tests__/ws.test.ts:connectAndAuth",
+      "type": "function",
+      "name": "connectAndAuth",
+      "filePath": "packages/server/src/ws/__tests__/ws.test.ts",
+      "lineRange": [
+        13,
+        21
+      ],
+      "summary": "Test helper that opens a WebSocket connection to the given port and completes the authentication handshake, resolving when the connection is ready.",
+      "tags": [
+        "test",
+        "utility",
+        "websocket"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/shared/src/api.ts",
+      "type": "file",
+      "name": "api.ts",
+      "filePath": "packages/shared/src/api.ts",
+      "summary": "Defines the shared `HookEvent` API type by composing types from events, plan, and story modules. Acts as the top-level API surface type for WebSocket messages exchanged between server and client.",
+      "tags": [
+        "type-definition",
+        "api-handler",
+        "shared"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/shared/src/events.ts",
+      "type": "file",
+      "name": "events.ts",
+      "filePath": "packages/shared/src/events.ts",
+      "summary": "Defines the `HookEventSchema` Zod schema covering all Claude Code hook event types (PreToolUse, PostToolUse, Stop, etc.) with discriminated unions. The canonical runtime-validated event type definition for the shared package.",
+      "tags": [
+        "type-definition",
+        "schema-definition",
+        "shared",
+        "validation",
+        "tested"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Uses Zod discriminated unions with z.literal for exhaustive hook event type coverage."
+    },
+    {
+      "id": "file:packages/shared/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/shared/src/index.ts",
+      "summary": "Barrel entry point for the shared package, re-exporting all public types and functions from events, plan, story, and api modules.",
+      "tags": [
+        "entry-point",
+        "barrel",
+        "shared"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/shared/src/plan.ts",
+      "type": "file",
+      "name": "plan.ts",
+      "filePath": "packages/shared/src/plan.ts",
+      "summary": "Defines plan-related types (`ParsedPlan`, `PlanTask`, `PlanStep`) and exports the `parsePlan` function that parses markdown plan documents into structured task/step objects.",
+      "tags": [
+        "utility",
+        "type-definition",
+        "serialization",
+        "shared",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/shared/src/plan.ts:parsePlan",
+      "type": "function",
+      "name": "parsePlan",
+      "filePath": "packages/shared/src/plan.ts",
+      "lineRange": [
+        20,
+        85
+      ],
+      "summary": "Parses a markdown plan document into a structured `ParsedPlan` object with tasks, steps, and file references by iterating lines and matching heading/checkbox patterns.",
+      "tags": [
+        "utility",
+        "serialization",
+        "parsing"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/shared/src/story.ts",
+      "type": "file",
+      "name": "story.ts",
+      "filePath": "packages/shared/src/story.ts",
+      "summary": "Defines story-related types (`Story`, `StoryFrontmatter`, `StoryDetail`, `StoryPatch`, `StorySize`) and exports `parseFrontmatter` which extracts YAML frontmatter from story markdown files.",
+      "tags": [
+        "type-definition",
+        "utility",
+        "serialization",
+        "shared",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/shared/src/story.ts:parseFrontmatter",
+      "type": "function",
+      "name": "parseFrontmatter",
+      "filePath": "packages/shared/src/story.ts",
+      "lineRange": [
+        41,
+        58
+      ],
+      "summary": "Splits a markdown document on `---` delimiters to extract the YAML frontmatter block, parses key-value pairs, and validates against `StoryFrontmatterSchema` via Zod safeParse.",
+      "tags": [
+        "utility",
+        "parsing",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/shared/src/__tests__/events.test.ts",
+      "type": "file",
+      "name": "events.test.ts",
+      "filePath": "packages/shared/src/__tests__/events.test.ts",
+      "summary": "Vitest unit tests for the `HookEventSchema` Zod schema, covering parse success and failure cases for all hook event variants.",
+      "tags": [
+        "test",
+        "validation",
+        "shared"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/shared/src/__tests__/plan.test.ts",
+      "type": "file",
+      "name": "plan.test.ts",
+      "filePath": "packages/shared/src/__tests__/plan.test.ts",
+      "summary": "Vitest unit tests for the `parsePlan` function, verifying correct extraction of tasks, steps, file lists, and completion status from markdown plan documents.",
+      "tags": [
+        "test",
+        "utility",
+        "shared"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/shared/src/__tests__/story.test.ts",
+      "type": "file",
+      "name": "story.test.ts",
+      "filePath": "packages/shared/src/__tests__/story.test.ts",
+      "summary": "Vitest unit tests for `parseFrontmatter`, covering valid frontmatter extraction, missing frontmatter handling, and field validation edge cases.",
+      "tags": [
+        "test",
+        "utility",
+        "shared"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/main.tsx",
+      "type": "file",
+      "name": "main.tsx",
+      "filePath": "packages/web/src/main.tsx",
+      "summary": "React application entry point that mounts the root `App` component into the DOM and initializes the WebSocket store.",
+      "tags": [
+        "entry-point",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/App.tsx",
+      "type": "file",
+      "name": "App.tsx",
+      "filePath": "packages/web/src/App.tsx",
+      "summary": "Root React application component that sets up React Query, React Router, and renders the main shell layout with sidebar, topbar, and all page routes.",
+      "tags": [
+        "entry-point",
+        "component",
+        "middleware"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/App.tsx:Shell",
+      "type": "function",
+      "name": "Shell",
+      "filePath": "packages/web/src/App.tsx",
+      "lineRange": [
+        11,
+        31
+      ],
+      "summary": "Inner layout component that initializes the WebSocket connection via `useWebSocket` and composes the sidebar, topbar, and routed page content.",
+      "tags": [
+        "component",
+        "middleware",
+        "event-handler"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/App.tsx:App",
+      "type": "function",
+      "name": "App",
+      "filePath": "packages/web/src/App.tsx",
+      "lineRange": [
+        33,
+        39
+      ],
+      "summary": "Top-level exported React component that wraps the shell in `QueryClientProvider` and `BrowserRouter` providers.",
+      "tags": [
+        "component",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/index.css",
+      "type": "file",
+      "name": "index.css",
+      "filePath": "packages/web/src/index.css",
+      "summary": "Global stylesheet with Tailwind CSS directives and custom CSS variables defining the dark-mode design token palette, custom scrollbar styles, and utility overrides for the dashboard UI.",
+      "tags": [
+        "configuration",
+        "documentation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/web/index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "packages/web/index.html",
+      "summary": "Vite HTML entry document declaring the root `<div id='root'>` mount point and loading the React application via `src/main.tsx`.",
+      "tags": [
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/hooks/useWebSocket.ts",
+      "type": "file",
+      "name": "useWebSocket.ts",
+      "filePath": "packages/web/src/hooks/useWebSocket.ts",
+      "summary": "Custom React hook that manages the WebSocket lifecycle: connects to the server, dispatches incoming event payloads to the Zustand ws store, invalidates React Query caches on relevant events, and implements exponential backoff reconnection.",
+      "tags": [
+        "hook",
+        "event-handler",
+        "middleware",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/hooks/useWebSocket.ts:useWebSocket",
+      "type": "function",
+      "name": "useWebSocket",
+      "filePath": "packages/web/src/hooks/useWebSocket.ts",
+      "lineRange": [
+        5,
+        63
+      ],
+      "summary": "Establishes and maintains a WebSocket connection with exponential-backoff reconnection, routing server messages to Zustand store setters and React Query cache invalidations.",
+      "tags": [
+        "hook",
+        "event-handler",
+        "middleware"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/web/src/lib/api.ts",
+      "type": "file",
+      "name": "api.ts",
+      "filePath": "packages/web/src/lib/api.ts",
+      "summary": "Thin HTTP fetch wrapper that reads the server base URL from the Zustand ws store and exposes an `api` object with typed REST methods (get, post, patch, delete) for the web frontend.",
+      "tags": [
+        "api-handler",
+        "utility",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/store/ui.ts",
+      "type": "file",
+      "name": "ui.ts",
+      "filePath": "packages/web/src/store/ui.ts",
+      "summary": "Zustand store slice managing UI state (e.g., active sidebar item or modal visibility) for the web dashboard.",
+      "tags": [
+        "service",
+        "singleton",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/store/ws.ts",
+      "type": "file",
+      "name": "ws.ts",
+      "filePath": "packages/web/src/store/ws.ts",
+      "summary": "Zustand store slice holding WebSocket connection state including connection status, active session ID, current phase, and active story ID, exposed via `useWsStore`.",
+      "tags": [
+        "service",
+        "singleton",
+        "event-handler",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/vite.config.ts",
+      "type": "file",
+      "name": "vite.config.ts",
+      "filePath": "packages/web/vite.config.ts",
+      "summary": "Vite build configuration for the React web package, defining the React plugin, dev-server proxy rules for API and WebSocket routes, and build output settings.",
+      "tags": [
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/postcss.config.js",
+      "type": "file",
+      "name": "postcss.config.js",
+      "filePath": "packages/web/postcss.config.js",
+      "summary": "Minimal PostCSS configuration enabling the Tailwind CSS plugin for the web package.",
+      "tags": [
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/tailwind.config.js",
+      "type": "file",
+      "name": "tailwind.config.js",
+      "filePath": "packages/web/tailwind.config.js",
+      "summary": "Tailwind CSS configuration scoping content paths to the web package source files and enabling any custom theme extensions.",
+      "tags": [
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/tsconfig.tsbuildinfo",
+      "type": "file",
+      "name": "tsconfig.tsbuildinfo",
+      "filePath": "packages/web/tsconfig.tsbuildinfo",
+      "summary": "TypeScript incremental compilation cache file generated by `tsc --build`; records file hashes and dependency graph for faster subsequent builds.",
+      "tags": [
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/layout/Sidebar.tsx",
+      "type": "file",
+      "name": "Sidebar.tsx",
+      "filePath": "packages/web/src/components/layout/Sidebar.tsx",
+      "summary": "Navigation sidebar component that displays the active story context, phase tabs (story/spec/plan), and session navigation links, reading session state from the WebSocket store and fetching story data via API.",
+      "tags": [
+        "component",
+        "navigation",
+        "sidebar"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/components/layout/Sidebar.tsx:Sidebar",
+      "type": "function",
+      "name": "Sidebar",
+      "filePath": "packages/web/src/components/layout/Sidebar.tsx",
+      "lineRange": [
+        6,
+        100
+      ],
+      "summary": "Exported React component that renders the application sidebar with story context, facet navigation tabs, and session links driven by WebSocket and API state.",
+      "tags": [
+        "component",
+        "navigation",
+        "sidebar"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/components/layout/Topbar.tsx",
+      "type": "file",
+      "name": "Topbar.tsx",
+      "filePath": "packages/web/src/components/layout/Topbar.tsx",
+      "summary": "Top navigation bar component that displays the current workflow phase as a progress stepper and shows the active session ID, reading phase and session data from the WebSocket store.",
+      "tags": [
+        "component",
+        "navigation",
+        "phase-indicator"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/web/src/components/layout/Topbar.tsx:Topbar",
+      "type": "function",
+      "name": "Topbar",
+      "filePath": "packages/web/src/components/layout/Topbar.tsx",
+      "lineRange": [
+        5,
+        52
+      ],
+      "summary": "Exported React component rendering a phase progress stepper and session identifier in the application top bar.",
+      "tags": [
+        "component",
+        "navigation",
+        "phase-indicator"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/shared/HierarchyStrip.tsx",
+      "type": "file",
+      "name": "HierarchyStrip.tsx",
+      "filePath": "packages/web/src/components/shared/HierarchyStrip.tsx",
+      "summary": "Shared breadcrumb/hierarchy strip component that renders a sequence of navigable nodes as clickable breadcrumb labels for drill-down navigation within detail pages.",
+      "tags": [
+        "component",
+        "utility",
+        "navigation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/shared/LinkedCard.tsx",
+      "type": "file",
+      "name": "LinkedCard.tsx",
+      "filePath": "packages/web/src/components/shared/LinkedCard.tsx",
+      "summary": "Shared card component that renders a linked artifact reference (icon, filename, sub-label, optional progress bar) and navigates to the target path on click.",
+      "tags": [
+        "component",
+        "utility",
+        "navigation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/shared/SizePill.tsx",
+      "type": "file",
+      "name": "SizePill.tsx",
+      "filePath": "packages/web/src/components/shared/SizePill.tsx",
+      "summary": "Small pill badge component that displays a story size label (e.g., S/M/L/XL) with color-coded styling and an optional click handler.",
+      "tags": [
+        "component",
+        "utility",
+        "badge"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/shared/StatusPill.tsx",
+      "type": "file",
+      "name": "StatusPill.tsx",
+      "filePath": "packages/web/src/components/shared/StatusPill.tsx",
+      "summary": "Small pill badge component that displays a story status label with color-coded styling and an optional click handler for status cycling.",
+      "tags": [
+        "component",
+        "utility",
+        "badge"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/shared/StepRow.tsx",
+      "type": "file",
+      "name": "StepRow.tsx",
+      "filePath": "packages/web/src/components/shared/StepRow.tsx",
+      "summary": "Shared row component that renders a single plan step with its label, state indicator (done/active/pending), and optional timestamp.",
+      "tags": [
+        "component",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/shared/TaskCard.tsx",
+      "type": "file",
+      "name": "TaskCard.tsx",
+      "filePath": "packages/web/src/components/shared/TaskCard.tsx",
+      "summary": "Expandable task card component that renders a task's overall state (done/in-progress/pending) derived from its steps, with a collapsible step list rendered via StepRow.",
+      "tags": [
+        "component",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/components/shared/TaskCard.tsx:TaskCard",
+      "type": "function",
+      "name": "TaskCard",
+      "filePath": "packages/web/src/components/shared/TaskCard.tsx",
+      "lineRange": [
+        13,
+        52
+      ],
+      "summary": "Exported React component rendering an expandable task card with step-level progress and collapsible details.",
+      "tags": [
+        "component",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/components/shared/TypeIcon.tsx",
+      "type": "file",
+      "name": "TypeIcon.tsx",
+      "filePath": "packages/web/src/components/shared/TypeIcon.tsx",
+      "summary": "Tiny shared component that renders an emoji or icon character representing an artifact type (story, spec, plan, etc.).",
+      "tags": [
+        "component",
+        "utility",
+        "icon"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/standup/StandupSection.tsx",
+      "type": "file",
+      "name": "StandupSection.tsx",
+      "filePath": "packages/web/src/components/standup/StandupSection.tsx",
+      "summary": "Standup digest section component that renders a labeled list of standup items (shipped/in-progress/blockers) with story ID and detail formatting.",
+      "tags": [
+        "component",
+        "standup"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/standup/StatsGrid.tsx",
+      "type": "file",
+      "name": "StatsGrid.tsx",
+      "filePath": "packages/web/src/components/standup/StatsGrid.tsx",
+      "summary": "Simple stats grid component that renders a row of key-value stat tiles from a provided stats array for the standup dashboard summary.",
+      "tags": [
+        "component",
+        "standup",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/stories/FilterBar.tsx",
+      "type": "file",
+      "name": "FilterBar.tsx",
+      "filePath": "packages/web/src/components/stories/FilterBar.tsx",
+      "summary": "Pill-tab filter bar component for the stories board that reads and sets the active story filter from the UI store, displaying story counts per status as badge labels.",
+      "tags": [
+        "component",
+        "filter",
+        "stories",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/web/src/components/stories/FilterBar.tsx:FilterBar",
+      "type": "function",
+      "name": "FilterBar",
+      "filePath": "packages/web/src/components/stories/FilterBar.tsx",
+      "lineRange": [
+        14,
+        37
+      ],
+      "summary": "Exported React component rendering a set of pill filter tabs for story status filtering, reading active filter from ui store and emitting setStoryFilter actions.",
+      "tags": [
+        "component",
+        "filter",
+        "stories"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/stories/KanbanColumn.tsx",
+      "type": "file",
+      "name": "KanbanColumn.tsx",
+      "filePath": "packages/web/src/components/stories/KanbanColumn.tsx",
+      "summary": "Kanban board column component that renders stories for a given status with an empty-state message when filtered, and a clear-filter action driven by the UI store.",
+      "tags": [
+        "component",
+        "kanban",
+        "stories",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/web/src/components/stories/KanbanColumn.tsx:KanbanColumn",
+      "type": "function",
+      "name": "KanbanColumn",
+      "filePath": "packages/web/src/components/stories/KanbanColumn.tsx",
+      "lineRange": [
+        10,
+        40
+      ],
+      "summary": "Exported React component that renders a Kanban column for a story status with filter-aware empty state and a list of StoryCard items.",
+      "tags": [
+        "component",
+        "kanban",
+        "stories"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/components/stories/StoryCard.tsx",
+      "type": "file",
+      "name": "StoryCard.tsx",
+      "filePath": "packages/web/src/components/stories/StoryCard.tsx",
+      "summary": "Story card component that renders a story's title, status, size, and active session indicator on the Kanban board, navigating to the story detail page on click.",
+      "tags": [
+        "component",
+        "stories",
+        "kanban"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/components/stories/StoryCard.tsx:StoryCard",
+      "type": "function",
+      "name": "StoryCard",
+      "filePath": "packages/web/src/components/stories/StoryCard.tsx",
+      "lineRange": [
+        7,
+        47
+      ],
+      "summary": "Exported React component rendering a clickable story card on the Kanban board with title, status, size badge, and active session highlighting.",
+      "tags": [
+        "component",
+        "stories",
+        "kanban"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/pages/PlanPage.tsx",
+      "type": "file",
+      "name": "PlanPage.tsx",
+      "filePath": "packages/web/src/pages/PlanPage.tsx",
+      "summary": "Detail page for a story's implementation plan that fetches plan tasks and story metadata, displays task cards with step progress, and shows linked spec/plan artifact cards.",
+      "tags": [
+        "component",
+        "page",
+        "plan"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/pages/PlanPage.tsx:PlanPage",
+      "type": "function",
+      "name": "PlanPage",
+      "filePath": "packages/web/src/pages/PlanPage.tsx",
+      "lineRange": [
+        12,
+        99
+      ],
+      "summary": "Exported React page component that fetches story and plan data, renders task cards with progress, and links to related spec/plan artifacts.",
+      "tags": [
+        "component",
+        "page",
+        "plan"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/pages/SpecPage.tsx",
+      "type": "file",
+      "name": "SpecPage.tsx",
+      "filePath": "packages/web/src/pages/SpecPage.tsx",
+      "summary": "Detail page for a story's design specification that fetches and renders the spec markdown content alongside a hierarchy breadcrumb and linked artifact cards.",
+      "tags": [
+        "component",
+        "page",
+        "spec"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/pages/SpecPage.tsx:SpecPage",
+      "type": "function",
+      "name": "SpecPage",
+      "filePath": "packages/web/src/pages/SpecPage.tsx",
+      "lineRange": [
+        9,
+        82
+      ],
+      "summary": "Exported React page component that fetches story and spec data and renders a markdown spec view with hierarchy breadcrumb and linked artifact references.",
+      "tags": [
+        "component",
+        "page",
+        "spec"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/pages/StandupPage.tsx",
+      "type": "file",
+      "name": "StandupPage.tsx",
+      "filePath": "packages/web/src/pages/StandupPage.tsx",
+      "summary": "Standup dashboard page that fetches the daily digest and renders shipped/in-progress/blocker sections with a clipboard copy action for markdown export.",
+      "tags": [
+        "component",
+        "page",
+        "standup"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/pages/StandupPage.tsx:StandupPage",
+      "type": "function",
+      "name": "StandupPage",
+      "filePath": "packages/web/src/pages/StandupPage.tsx",
+      "lineRange": [
+        28,
+        78
+      ],
+      "summary": "Exported React page component that fetches the standup digest and renders section components with a copy-to-clipboard action.",
+      "tags": [
+        "component",
+        "page",
+        "standup"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/web/src/pages/StandupPage.tsx:formatDigest",
+      "type": "function",
+      "name": "formatDigest",
+      "filePath": "packages/web/src/pages/StandupPage.tsx",
+      "lineRange": [
+        8,
+        26
+      ],
+      "summary": "Utility function that serializes a standup digest object into a copyable markdown string with dated header and three categorized sections.",
+      "tags": [
+        "utility",
+        "formatting",
+        "standup"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/pages/StoriesPage.tsx",
+      "type": "file",
+      "name": "StoriesPage.tsx",
+      "filePath": "packages/web/src/pages/StoriesPage.tsx",
+      "summary": "Stories board page that fetches all stories and renders a Kanban layout with FilterBar and per-status KanbanColumn components, applying the active UI store filter.",
+      "tags": [
+        "component",
+        "page",
+        "stories",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/web/src/pages/StoriesPage.tsx:StoriesPage",
+      "type": "function",
+      "name": "StoriesPage",
+      "filePath": "packages/web/src/pages/StoriesPage.tsx",
+      "lineRange": [
+        7,
+        34
+      ],
+      "summary": "Exported React page component rendering the stories Kanban board with filter bar and three status columns filtered from the full story list.",
+      "tags": [
+        "component",
+        "page",
+        "stories"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/pages/StoryPage.tsx",
+      "type": "file",
+      "name": "StoryPage.tsx",
+      "filePath": "packages/web/src/pages/StoryPage.tsx",
+      "summary": "Detailed story view page that fetches story data, parses user-story acceptance criteria from markdown, supports optimistic status/size mutation, and links to related spec and plan artifacts.",
+      "tags": [
+        "component",
+        "page",
+        "stories"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/web/src/pages/StoryPage.tsx:StoryPage",
+      "type": "function",
+      "name": "StoryPage",
+      "filePath": "packages/web/src/pages/StoryPage.tsx",
+      "lineRange": [
+        37,
+        163
+      ],
+      "summary": "Exported React page component that provides full story detail with editable status/size fields, acceptance criteria checklist, and navigation to linked spec and plan.",
+      "tags": [
+        "component",
+        "page",
+        "stories"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/web/src/pages/StoryPage.tsx:parseUserStory",
+      "type": "function",
+      "name": "parseUserStory",
+      "filePath": "packages/web/src/pages/StoryPage.tsx",
+      "lineRange": [
+        14,
+        35
+      ],
+      "summary": "Parses a raw markdown story body to extract the user story sentence and structured acceptance criteria items with their checked state.",
+      "tags": [
+        "utility",
+        "parsing"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/__tests__/FilterBar.test.tsx",
+      "type": "file",
+      "name": "FilterBar.test.tsx",
+      "filePath": "packages/web/src/__tests__/FilterBar.test.tsx",
+      "summary": "Unit tests for the FilterBar component, verifying pill rendering, active state, count badges, and filter state mutation via the UI store.",
+      "tags": [
+        "test",
+        "component",
+        "filter"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/__tests__/KanbanColumn.test.tsx",
+      "type": "file",
+      "name": "KanbanColumn.test.tsx",
+      "filePath": "packages/web/src/__tests__/KanbanColumn.test.tsx",
+      "summary": "Unit tests for the KanbanColumn component, verifying story rendering, filtered empty-state display, and clear-filter interaction with the UI store.",
+      "tags": [
+        "test",
+        "component",
+        "kanban"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/__tests__/StoriesPage.test.tsx",
+      "type": "file",
+      "name": "StoriesPage.test.tsx",
+      "filePath": "packages/web/src/__tests__/StoriesPage.test.tsx",
+      "summary": "Integration-level tests for the StoriesPage component, verifying that the Kanban board renders with filter bar and columns and that the active filter is applied correctly.",
+      "tags": [
+        "test",
+        "component",
+        "stories"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/web/src/__tests__/ui-store.test.ts",
+      "type": "file",
+      "name": "ui-store.test.ts",
+      "filePath": "packages/web/src/__tests__/ui-store.test.ts",
+      "summary": "Unit tests for the UI Zustand store, verifying initial state and setStoryFilter action behavior.",
+      "tags": [
+        "test",
+        "store",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/web/src/__tests__/useWebSocket.test.ts",
+      "type": "file",
+      "name": "useWebSocket.test.ts",
+      "filePath": "packages/web/src/__tests__/useWebSocket.test.ts",
+      "summary": "Unit tests for the useWebSocket hook and WebSocket store, using a MockWebSocket class to simulate connection lifecycle, reconnection, and message dispatching.",
+      "tags": [
+        "test",
+        "hook",
+        "websocket"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:packages/web/src/__tests__/useWebSocket.test.ts:MockWebSocket",
+      "type": "class",
+      "name": "MockWebSocket",
+      "filePath": "packages/web/src/__tests__/useWebSocket.test.ts",
+      "lineRange": [
+        7,
+        20
+      ],
+      "summary": "Test double class implementing the WebSocket interface with helpers to simulate open, close, and incoming message events for deterministic hook testing.",
+      "tags": [
+        "test",
+        "mock",
+        "websocket"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "config:.claude-plugin/plugin.json",
+      "target": "config:plugin/hooks/hooks.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.claude-plugin/plugin.json",
+      "target": "document:plugin/commands/handoff.md",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.claude-plugin/plugin.json",
+      "target": "document:plugin/commands/open.md",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.claude-plugin/plugin.json",
+      "target": "document:plugin/commands/standup.md",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.claude-plugin/plugin.json",
+      "target": "document:plugin/commands/start.md",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.claude-plugin/plugin.json",
+      "target": "document:plugin/commands/status.md",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.claude-plugin/plugin.json",
+      "target": "document:plugin/commands/story.md",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.claude-plugin/plugin.json",
+      "target": "document:plugin/skills/claude-control/SKILL.md",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.claude-plugin/marketplace.json",
+      "target": "config:.claude-plugin/plugin.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.claude/settings.json",
+      "target": "document:.claude/constitution.md",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:plugin/hooks/hooks.json",
+      "target": "file:plugin/hooks/bootstrap.sh",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:plugin/hooks/hooks.json",
+      "target": "file:plugin/hooks/forward.sh",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:tsconfig.base.json",
+      "target": "config:package.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:biome.json",
+      "target": "config:package.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:pnpm-workspace.yaml",
+      "target": "config:package.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:DESIGN.md",
+      "target": "file:assets/claude-control-dashboard-hierarchy.html",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:assets/claude-control-handoff.md",
+      "target": "file:assets/claude-control-dashboard-hierarchy.html",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:plugin/README.md",
+      "target": "file:plugin/hooks/bootstrap.sh",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:plugin/README.md",
+      "target": "file:plugin/hooks/forward.sh",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:plugin/hooks/bootstrap.sh",
+      "target": "file:plugin/hooks/forward.sh",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:docs/features/claude-control-plugin/PRD.md",
+      "target": "document:docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/features/claude-control-plugin/PRD.md",
+      "target": "document:docs/superpowers/specs/2026-05-13-superpowers-integration-stories-design.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/features/claude-control-plugin/PRD.md",
+      "target": "document:docs/superpowers/specs/2026-05-17-phase3-dashboard-design.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md",
+      "target": "document:docs/superpowers/plans/2026-05-06-claude-control-foundation.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-05-13-superpowers-integration-stories-design.md",
+      "target": "document:docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-05-17-phase3-dashboard-design.md",
+      "target": "document:docs/superpowers/plans/2026-05-17-phase3-dashboard.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-05-20-filter-stories-by-status-design.md",
+      "target": "document:docs/superpowers/plans/2026-05-21-filter-stories-by-status.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-05-20-filter-stories-by-status-design.md",
+      "target": "document:docs/superpowers/stories/US-2026-05-19-filter-stories-by-status-on-the-board-vi.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-05-23-fix-auth-token-url-exposure-design.md",
+      "target": "document:docs/superpowers/plans/2026-05-23-fix-auth-token-url-exposure.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-05-23-fix-auth-token-url-exposure-design.md",
+      "target": "document:docs/superpowers/stories/US-2026-05-23-fix-auth-stop-exposing-token-via-url-in-.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-05-06-claude-control-foundation.md",
+      "target": "table:packages/server/migrations/001_initial.sql:sessions",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-05-06-claude-control-foundation.md",
+      "target": "table:packages/server/migrations/001_initial.sql:events",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md",
+      "target": "table:packages/server/migrations/002_superpowers.sql:stories",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md",
+      "target": "table:packages/server/migrations/002_superpowers.sql:plan_tasks",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md",
+      "target": "table:packages/server/migrations/002_superpowers.sql:plan_steps",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-05-17-phase3-dashboard.md",
+      "target": "table:packages/server/migrations/003_handoffs.sql:handoffs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "config:packages/server/tsconfig.json",
+      "target": "config:packages/server/package.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/shared/tsconfig.json",
+      "target": "config:packages/shared/package.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/web/tsconfig.json",
+      "target": "config:packages/web/package.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/server/src/bus.ts",
+      "target": "function:packages/server/src/bus.ts:createBus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/bus.ts",
+      "target": "function:packages/server/src/bus.ts:createBus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "function:packages/server/src/index.ts:startDaemon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "function:packages/server/src/index.ts:startDaemon",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/api/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/handoff/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/lifecycle/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/server.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/standup/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/stories/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/superpowers/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/ws/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/server.ts",
+      "target": "function:packages/server/src/server.ts:createServer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/server.ts",
+      "target": "function:packages/server/src/server.ts:createServer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/server.ts",
+      "target": "file:packages/server/src/api/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/server.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/server.ts",
+      "target": "file:packages/server/src/hooks/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/server.ts",
+      "target": "file:packages/server/src/security/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/server.ts",
+      "target": "file:packages/server/src/ws/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/handoff.ts",
+      "target": "function:packages/server/src/api/handoff.ts:mountHandoffRoutes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/api/handoff.ts",
+      "target": "function:packages/server/src/api/handoff.ts:mountHandoffRoutes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/api/handoff.ts",
+      "target": "file:packages/server/src/handoff/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "function:packages/server/src/api/index.ts:mountApiRoutes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "function:packages/server/src/api/index.ts:mountApiRoutes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/handoff/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/standup/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/stories/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/superpowers/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/api/handoff.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/api/sessions.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/api/standup.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/api/stories.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/api/superpowers.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/sessions.ts",
+      "target": "function:packages/server/src/api/sessions.ts:mountSessionRoutes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/api/sessions.ts",
+      "target": "function:packages/server/src/api/sessions.ts:mountSessionRoutes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/api/standup.ts",
+      "target": "file:packages/server/src/standup/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/stories.ts",
+      "target": "function:packages/server/src/api/stories.ts:mountStoryRoutes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/api/stories.ts",
+      "target": "function:packages/server/src/api/stories.ts:mountStoryRoutes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/api/stories.ts",
+      "target": "file:packages/server/src/stories/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/superpowers.ts",
+      "target": "function:packages/server/src/api/superpowers.ts:mountSuperpowersRoutes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/api/superpowers.ts",
+      "target": "function:packages/server/src/api/superpowers.ts:mountSuperpowersRoutes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/api/superpowers.ts",
+      "target": "file:packages/server/src/superpowers/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/superpowers.ts",
+      "target": "file:packages/server/src/superpowers/parser.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/handoff/index.ts",
+      "target": "class:packages/server/src/handoff/index.ts:HandoffService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/handoff/index.ts",
+      "target": "class:packages/server/src/handoff/index.ts:HandoffService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/hooks/handlers.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/handlers.ts",
+      "target": "file:packages/server/src/store/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/index.ts",
+      "target": "function:packages/server/src/hooks/index.ts:handleHookEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/hooks/index.ts",
+      "target": "function:packages/server/src/hooks/index.ts:handleHookEvent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/hooks/index.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/index.ts",
+      "target": "file:packages/server/src/superpowers/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/index.ts",
+      "target": "file:packages/server/src/hooks/handlers.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/lifecycle/index.ts",
+      "target": "function:packages/server/src/lifecycle/index.ts:writeRuntimeJson",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/lifecycle/index.ts",
+      "target": "function:packages/server/src/lifecycle/index.ts:writeRuntimeJson",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/lifecycle/index.ts",
+      "target": "function:packages/server/src/lifecycle/index.ts:startIdleTimer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/lifecycle/index.ts",
+      "target": "function:packages/server/src/lifecycle/index.ts:startIdleTimer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/lifecycle/index.ts",
+      "target": "function:packages/server/src/lifecycle/index.ts:registerShutdownHandler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/lifecycle/index.ts",
+      "target": "function:packages/server/src/lifecycle/index.ts:registerShutdownHandler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/security/index.ts",
+      "target": "class:packages/server/src/security/index.ts:RateLimiter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/security/index.ts",
+      "target": "class:packages/server/src/security/index.ts:RateLimiter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/security/index.ts",
+      "target": "function:packages/server/src/security/index.ts:checkAuth",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/security/index.ts",
+      "target": "function:packages/server/src/security/index.ts:checkAuth",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/standup/index.ts",
+      "target": "class:packages/server/src/standup/index.ts:StandupService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/standup/index.ts",
+      "target": "class:packages/server/src/standup/index.ts:StandupService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/store/index.ts",
+      "target": "function:packages/server/src/store/index.ts:persistEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/store/index.ts",
+      "target": "function:packages/server/src/store/index.ts:persistEvent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/store/migrate.ts",
+      "target": "function:packages/server/src/store/migrate.ts:runMigrations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/store/migrate.ts",
+      "target": "function:packages/server/src/store/migrate.ts:runMigrations",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/stories/index.ts",
+      "target": "class:packages/server/src/stories/index.ts:StoryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/stories/index.ts",
+      "target": "class:packages/server/src/stories/index.ts:StoryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/stories/index.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/stories/index.ts",
+      "target": "file:packages/server/src/stories/template.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/stories/template.ts",
+      "target": "function:packages/server/src/stories/template.ts:scaffoldStory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/stories/template.ts",
+      "target": "function:packages/server/src/stories/template.ts:scaffoldStory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/superpowers/diff.ts",
+      "target": "function:packages/server/src/superpowers/diff.ts:diffCheckboxState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/superpowers/diff.ts",
+      "target": "function:packages/server/src/superpowers/diff.ts:diffCheckboxState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/superpowers/index.ts",
+      "target": "class:packages/server/src/superpowers/index.ts:SuperpowersWatcher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/superpowers/index.ts",
+      "target": "class:packages/server/src/superpowers/index.ts:SuperpowersWatcher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/superpowers/index.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/index.ts",
+      "target": "file:packages/server/src/superpowers/diff.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/index.ts",
+      "target": "file:packages/server/src/superpowers/parser.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/index.ts",
+      "target": "file:packages/server/src/superpowers/phase.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/phase.ts",
+      "target": "function:packages/server/src/superpowers/phase.ts:inferPhase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/superpowers/phase.ts",
+      "target": "function:packages/server/src/superpowers/phase.ts:inferPhase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/ws/index.ts",
+      "target": "class:packages/server/src/ws/index.ts:WsServer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/ws/index.ts",
+      "target": "class:packages/server/src/ws/index.ts:WsServer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/server/src/ws/index.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/__tests__/daemon.test.ts",
+      "target": "file:packages/server/src/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/__tests__/daemon.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/__tests__/integration.test.ts",
+      "target": "file:packages/server/src/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/index.ts",
+      "target": "file:packages/server/src/__tests__/integration.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/__tests__/server.test.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/__tests__/server.test.ts",
+      "target": "file:packages/server/src/server.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/__tests__/server.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/server.ts",
+      "target": "file:packages/server/src/__tests__/server.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/api/__tests__/routes.test.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/__tests__/routes.test.ts",
+      "target": "file:packages/server/src/server.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/__tests__/routes.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/__tests__/routes.test.ts",
+      "target": "file:packages/server/src/stories/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/__tests__/routes.test.ts",
+      "target": "file:packages/server/src/superpowers/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/__tests__/routes.test.ts",
+      "target": "file:packages/server/src/api/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/api/index.ts",
+      "target": "file:packages/server/src/api/__tests__/routes.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/api/__tests__/standup-handoff.test.ts",
+      "target": "file:packages/server/src/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/handoff/__tests__/service.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/handoff/__tests__/service.test.ts",
+      "target": "file:packages/server/src/handoff/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/handoff/index.ts",
+      "target": "file:packages/server/src/handoff/__tests__/service.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/handoff/__tests__/service.test.ts",
+      "target": "function:packages/server/src/handoff/__tests__/service.test.ts:seedStoryFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/hooks/__tests__/observer-contract.test.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/__tests__/observer-contract.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/__tests__/observer-contract.test.ts",
+      "target": "file:packages/server/src/hooks/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/index.ts",
+      "target": "file:packages/server/src/hooks/__tests__/observer-contract.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/hooks/__tests__/phase-inference.test.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/__tests__/phase-inference.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/__tests__/phase-inference.test.ts",
+      "target": "file:packages/server/src/hooks/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/hooks/__tests__/phase-inference.test.ts",
+      "target": "function:packages/server/src/hooks/__tests__/phase-inference.test.ts:collectPhaseEvents",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/security/__tests__/security.test.ts",
+      "target": "file:packages/server/src/security/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/security/index.ts",
+      "target": "file:packages/server/src/security/__tests__/security.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/security/__tests__/security.test.ts",
+      "target": "function:packages/server/src/security/__tests__/security.test.ts:makeRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/standup/__tests__/service.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/standup/__tests__/service.test.ts",
+      "target": "file:packages/server/src/standup/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/standup/index.ts",
+      "target": "file:packages/server/src/standup/__tests__/service.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/standup/__tests__/service.test.ts",
+      "target": "function:packages/server/src/standup/__tests__/service.test.ts:seedStory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/standup/__tests__/service.test.ts",
+      "target": "function:packages/server/src/standup/__tests__/service.test.ts:seedBlockerEvents",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/store/__tests__/migrate.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/store/migrate.ts",
+      "target": "file:packages/server/src/store/__tests__/migrate.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/store/__tests__/store.test.ts",
+      "target": "file:packages/server/src/store/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/store/__tests__/store.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/store/index.ts",
+      "target": "file:packages/server/src/store/__tests__/store.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/stories/__tests__/service.test.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/stories/__tests__/service.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/stories/__tests__/service.test.ts",
+      "target": "file:packages/server/src/stories/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/stories/index.ts",
+      "target": "file:packages/server/src/stories/__tests__/service.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/superpowers/__tests__/diff.test.ts",
+      "target": "file:packages/server/src/superpowers/diff.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/diff.ts",
+      "target": "file:packages/server/src/superpowers/__tests__/diff.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/superpowers/__tests__/diff.test.ts",
+      "target": "function:packages/server/src/superpowers/__tests__/diff.test.ts:makePlan",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/server/src/superpowers/__tests__/parser.test.ts",
+      "target": "file:packages/server/src/superpowers/parser.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/parser.ts",
+      "target": "file:packages/server/src/superpowers/__tests__/parser.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/superpowers/__tests__/phase.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/__tests__/phase.test.ts",
+      "target": "file:packages/server/src/superpowers/phase.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/phase.ts",
+      "target": "file:packages/server/src/superpowers/__tests__/phase.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/superpowers/__tests__/watcher.test.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/__tests__/watcher.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/__tests__/watcher.test.ts",
+      "target": "file:packages/server/src/superpowers/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/superpowers/index.ts",
+      "target": "file:packages/server/src/superpowers/__tests__/watcher.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/ws/__tests__/ws.test.ts",
+      "target": "file:packages/server/src/bus.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/ws/__tests__/ws.test.ts",
+      "target": "file:packages/server/src/server.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/ws/__tests__/ws.test.ts",
+      "target": "file:packages/server/src/store/migrate.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/ws/__tests__/ws.test.ts",
+      "target": "file:packages/server/src/ws/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/server/src/ws/index.ts",
+      "target": "file:packages/server/src/ws/__tests__/ws.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/server/src/ws/__tests__/ws.test.ts",
+      "target": "function:packages/server/src/ws/__tests__/ws.test.ts:connectAndAuth",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/shared/src/api.ts",
+      "target": "file:packages/shared/src/events.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/api.ts",
+      "target": "file:packages/shared/src/plan.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/api.ts",
+      "target": "file:packages/shared/src/story.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/index.ts",
+      "target": "file:packages/shared/src/events.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/index.ts",
+      "target": "file:packages/shared/src/plan.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/index.ts",
+      "target": "file:packages/shared/src/story.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/index.ts",
+      "target": "file:packages/shared/src/api.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/__tests__/events.test.ts",
+      "target": "file:packages/shared/src/events.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/__tests__/plan.test.ts",
+      "target": "file:packages/shared/src/plan.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/__tests__/story.test.ts",
+      "target": "file:packages/shared/src/story.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/main.tsx",
+      "target": "file:packages/web/src/App.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/main.tsx",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "file:packages/web/src/components/layout/Sidebar.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "file:packages/web/src/components/layout/Topbar.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "file:packages/web/src/hooks/useWebSocket.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "file:packages/web/src/pages/PlanPage.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "file:packages/web/src/pages/SpecPage.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "file:packages/web/src/pages/StandupPage.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "file:packages/web/src/pages/StoriesPage.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "file:packages/web/src/pages/StoryPage.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/hooks/useWebSocket.ts",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/lib/api.ts",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/shared/src/plan.ts",
+      "target": "function:packages/shared/src/plan.ts:parsePlan",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/shared/src/plan.ts",
+      "target": "function:packages/shared/src/plan.ts:parsePlan",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/shared/src/story.ts",
+      "target": "function:packages/shared/src/story.ts:parseFrontmatter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/shared/src/story.ts",
+      "target": "function:packages/shared/src/story.ts:parseFrontmatter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "function:packages/web/src/App.tsx:Shell",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "function:packages/web/src/App.tsx:App",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/App.tsx",
+      "target": "function:packages/web/src/App.tsx:App",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/hooks/useWebSocket.ts",
+      "target": "function:packages/web/src/hooks/useWebSocket.ts:useWebSocket",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/hooks/useWebSocket.ts",
+      "target": "function:packages/web/src/hooks/useWebSocket.ts:useWebSocket",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/hooks/useWebSocket.ts",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/web/src/lib/api.ts",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/shared/src/events.ts",
+      "target": "file:packages/shared/src/__tests__/events.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/shared/src/plan.ts",
+      "target": "file:packages/shared/src/__tests__/plan.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/shared/src/story.ts",
+      "target": "file:packages/shared/src/__tests__/story.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/web/src/main.tsx",
+      "target": "file:packages/web/src/App.tsx",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/web/index.html",
+      "target": "file:packages/web/src/main.tsx",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/web/src/components/layout/Sidebar.tsx",
+      "target": "function:packages/web/src/components/layout/Sidebar.tsx:Sidebar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/components/layout/Sidebar.tsx",
+      "target": "function:packages/web/src/components/layout/Sidebar.tsx:Sidebar",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/components/layout/Sidebar.tsx",
+      "target": "file:packages/web/src/lib/api.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/components/layout/Sidebar.tsx",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/components/layout/Topbar.tsx",
+      "target": "function:packages/web/src/components/layout/Topbar.tsx:Topbar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/components/layout/Topbar.tsx",
+      "target": "function:packages/web/src/components/layout/Topbar.tsx:Topbar",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/components/layout/Topbar.tsx",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/components/shared/TaskCard.tsx",
+      "target": "function:packages/web/src/components/shared/TaskCard.tsx:TaskCard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/components/shared/TaskCard.tsx",
+      "target": "function:packages/web/src/components/shared/TaskCard.tsx:TaskCard",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/components/shared/TaskCard.tsx",
+      "target": "file:packages/web/src/components/shared/StepRow.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/components/stories/FilterBar.tsx",
+      "target": "function:packages/web/src/components/stories/FilterBar.tsx:FilterBar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/components/stories/FilterBar.tsx",
+      "target": "function:packages/web/src/components/stories/FilterBar.tsx:FilterBar",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/components/stories/FilterBar.tsx",
+      "target": "file:packages/web/src/store/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/components/stories/KanbanColumn.tsx",
+      "target": "function:packages/web/src/components/stories/KanbanColumn.tsx:KanbanColumn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/components/stories/KanbanColumn.tsx",
+      "target": "function:packages/web/src/components/stories/KanbanColumn.tsx:KanbanColumn",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/components/stories/KanbanColumn.tsx",
+      "target": "file:packages/web/src/store/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/components/stories/KanbanColumn.tsx",
+      "target": "file:packages/web/src/components/stories/StoryCard.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/components/stories/StoryCard.tsx",
+      "target": "function:packages/web/src/components/stories/StoryCard.tsx:StoryCard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/components/stories/StoryCard.tsx",
+      "target": "function:packages/web/src/components/stories/StoryCard.tsx:StoryCard",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/components/stories/StoryCard.tsx",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "function:packages/web/src/pages/PlanPage.tsx:PlanPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "function:packages/web/src/pages/PlanPage.tsx:PlanPage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "file:packages/web/src/components/shared/HierarchyStrip.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "file:packages/web/src/components/shared/LinkedCard.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "file:packages/web/src/components/shared/SizePill.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "file:packages/web/src/components/shared/StatusPill.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "file:packages/web/src/components/shared/TaskCard.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "file:packages/web/src/components/shared/TypeIcon.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "file:packages/web/src/lib/api.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/PlanPage.tsx",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/SpecPage.tsx",
+      "target": "function:packages/web/src/pages/SpecPage.tsx:SpecPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/pages/SpecPage.tsx",
+      "target": "function:packages/web/src/pages/SpecPage.tsx:SpecPage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/pages/SpecPage.tsx",
+      "target": "file:packages/web/src/components/shared/HierarchyStrip.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/SpecPage.tsx",
+      "target": "file:packages/web/src/components/shared/LinkedCard.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/SpecPage.tsx",
+      "target": "file:packages/web/src/lib/api.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/SpecPage.tsx",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StandupPage.tsx",
+      "target": "function:packages/web/src/pages/StandupPage.tsx:StandupPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/pages/StandupPage.tsx",
+      "target": "function:packages/web/src/pages/StandupPage.tsx:formatDigest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/pages/StandupPage.tsx",
+      "target": "function:packages/web/src/pages/StandupPage.tsx:StandupPage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/pages/StandupPage.tsx",
+      "target": "file:packages/web/src/components/standup/StandupSection.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StandupPage.tsx",
+      "target": "file:packages/web/src/components/standup/StatsGrid.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StandupPage.tsx",
+      "target": "file:packages/web/src/lib/api.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoriesPage.tsx",
+      "target": "function:packages/web/src/pages/StoriesPage.tsx:StoriesPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/pages/StoriesPage.tsx",
+      "target": "function:packages/web/src/pages/StoriesPage.tsx:StoriesPage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/pages/StoriesPage.tsx",
+      "target": "file:packages/web/src/components/stories/FilterBar.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoriesPage.tsx",
+      "target": "file:packages/web/src/components/stories/KanbanColumn.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoriesPage.tsx",
+      "target": "file:packages/web/src/lib/api.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoriesPage.tsx",
+      "target": "file:packages/web/src/store/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoryPage.tsx",
+      "target": "function:packages/web/src/pages/StoryPage.tsx:StoryPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/pages/StoryPage.tsx",
+      "target": "function:packages/web/src/pages/StoryPage.tsx:parseUserStory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/pages/StoryPage.tsx",
+      "target": "function:packages/web/src/pages/StoryPage.tsx:StoryPage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/web/src/pages/StoryPage.tsx",
+      "target": "file:packages/web/src/components/shared/HierarchyStrip.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoryPage.tsx",
+      "target": "file:packages/web/src/components/shared/LinkedCard.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoryPage.tsx",
+      "target": "file:packages/web/src/components/shared/SizePill.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoryPage.tsx",
+      "target": "file:packages/web/src/components/shared/StatusPill.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoryPage.tsx",
+      "target": "file:packages/web/src/components/shared/TypeIcon.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoryPage.tsx",
+      "target": "file:packages/web/src/lib/api.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/__tests__/FilterBar.test.tsx",
+      "target": "file:packages/web/src/components/stories/FilterBar.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/__tests__/FilterBar.test.tsx",
+      "target": "file:packages/web/src/store/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/components/stories/FilterBar.tsx",
+      "target": "file:packages/web/src/__tests__/FilterBar.test.tsx",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/web/src/__tests__/KanbanColumn.test.tsx",
+      "target": "file:packages/web/src/components/stories/KanbanColumn.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/__tests__/KanbanColumn.test.tsx",
+      "target": "file:packages/web/src/store/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/components/stories/KanbanColumn.tsx",
+      "target": "file:packages/web/src/__tests__/KanbanColumn.test.tsx",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/web/src/__tests__/StoriesPage.test.tsx",
+      "target": "file:packages/web/src/pages/StoriesPage.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/__tests__/StoriesPage.test.tsx",
+      "target": "file:packages/web/src/store/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/pages/StoriesPage.tsx",
+      "target": "file:packages/web/src/__tests__/StoriesPage.test.tsx",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/web/src/__tests__/ui-store.test.ts",
+      "target": "file:packages/web/src/store/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/store/ui.ts",
+      "target": "file:packages/web/src/__tests__/ui-store.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/web/src/__tests__/useWebSocket.test.ts",
+      "target": "file:packages/web/src/store/ws.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/__tests__/useWebSocket.test.ts",
+      "target": "file:packages/web/src/hooks/useWebSocket.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/web/src/__tests__/useWebSocket.test.ts",
+      "target": "class:packages/web/src/__tests__/useWebSocket.test.ts:MockWebSocket",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:packages/web/src/store/ws.ts",
+      "target": "file:packages/web/src/__tests__/useWebSocket.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/web/src/hooks/useWebSocket.ts",
+      "target": "file:packages/web/src/__tests__/useWebSocket.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:plugin",
+      "name": "Claude Code Plugin",
+      "description": "The observer-only Claude Code plugin integration layer, including the plugin manifest, slash command definitions, lifecycle hook scripts that forward events to the daemon, and the plugin skill namespace.",
+      "nodeIds": [
+        "config:.claude-plugin/marketplace.json",
+        "config:.claude-plugin/plugin.json",
+        "document:plugin/README.md",
+        "document:plugin/commands/handoff.md",
+        "document:plugin/commands/open.md",
+        "document:plugin/commands/standup.md",
+        "document:plugin/commands/start.md",
+        "document:plugin/commands/status.md",
+        "document:plugin/commands/story.md",
+        "file:plugin/hooks/bootstrap.sh",
+        "file:plugin/hooks/forward.sh",
+        "config:plugin/hooks/hooks.json",
+        "document:plugin/skills/claude-control/SKILL.md"
+      ]
+    },
+    {
+      "id": "layer:shared-types",
+      "name": "Shared Types",
+      "description": "Cross-package TypeScript type definitions, enums, and parsing utilities for stories, plans, API response schemas, and WebSocket events consumed by both the server daemon and the React dashboard.",
+      "nodeIds": [
+        "file:packages/shared/src/api.ts",
+        "file:packages/shared/src/events.ts",
+        "file:packages/shared/src/index.ts",
+        "file:packages/shared/src/plan.ts",
+        "file:packages/shared/src/story.ts",
+        "file:packages/shared/src/__tests__/events.test.ts",
+        "file:packages/shared/src/__tests__/plan.test.ts",
+        "file:packages/shared/src/__tests__/story.test.ts"
+      ]
+    },
+    {
+      "id": "layer:data",
+      "name": "Data Layer",
+      "description": "SQLite database schema migrations defining the sessions, events, stories, plan tasks, plan steps, and handoffs tables, plus the server-side SQLite access layer and migration runner.",
+      "nodeIds": [
+        "table:packages/server/migrations/001_initial.sql:sessions",
+        "table:packages/server/migrations/001_initial.sql:events",
+        "table:packages/server/migrations/002_superpowers.sql:stories",
+        "table:packages/server/migrations/002_superpowers.sql:plan_tasks",
+        "table:packages/server/migrations/002_superpowers.sql:plan_steps",
+        "table:packages/server/migrations/003_handoffs.sql:handoffs",
+        "file:packages/server/src/store/index.ts",
+        "file:packages/server/src/store/migrate.ts"
+      ]
+    },
+    {
+      "id": "layer:server",
+      "name": "Server Daemon",
+      "description": "The Bun/Hono HTTP server daemon implementing API routes, Claude Code hook event ingestion, WebSocket broadcasting, Superpowers workflow observation, session and story business logic, standup aggregation, handoff document generation, security middleware, and process lifecycle management.",
+      "nodeIds": [
+        "file:packages/server/src/bus.ts",
+        "file:packages/server/src/index.ts",
+        "file:packages/server/src/server.ts",
+        "file:packages/server/src/api/handoff.ts",
+        "file:packages/server/src/api/index.ts",
+        "file:packages/server/src/api/sessions.ts",
+        "file:packages/server/src/api/standup.ts",
+        "file:packages/server/src/api/stories.ts",
+        "file:packages/server/src/api/superpowers.ts",
+        "file:packages/server/src/handoff/index.ts",
+        "file:packages/server/src/hooks/handlers.ts",
+        "file:packages/server/src/hooks/index.ts",
+        "file:packages/server/src/lifecycle/index.ts",
+        "file:packages/server/src/security/index.ts",
+        "file:packages/server/src/standup/index.ts",
+        "file:packages/server/src/stories/index.ts",
+        "file:packages/server/src/stories/template.ts",
+        "file:packages/server/src/superpowers/diff.ts",
+        "file:packages/server/src/superpowers/index.ts",
+        "file:packages/server/src/superpowers/parser.ts",
+        "file:packages/server/src/superpowers/phase.ts",
+        "file:packages/server/src/ws/index.ts"
+      ]
+    },
+    {
+      "id": "layer:state",
+      "name": "Client State & Services",
+      "description": "Zustand stores for WebSocket connection state and UI filter state, the custom useWebSocket hook managing real-time updates, and the typed HTTP API client connecting the React dashboard to the server daemon.",
+      "nodeIds": [
+        "file:packages/web/src/hooks/useWebSocket.ts",
+        "file:packages/web/src/lib/api.ts",
+        "file:packages/web/src/store/ui.ts",
+        "file:packages/web/src/store/ws.ts"
+      ]
+    },
+    {
+      "id": "layer:ui",
+      "name": "UI Layer",
+      "description": "The React dashboard UI comprising the application entry point, routing configuration, layout shell components, reusable shared components (badges, cards, icons), domain-specific story and standup components, and the Kanban board, standup, plan, spec, and story detail pages.",
+      "nodeIds": [
+        "file:packages/web/index.html",
+        "file:packages/web/src/main.tsx",
+        "file:packages/web/src/App.tsx",
+        "file:packages/web/src/index.css",
+        "file:packages/web/src/components/layout/Sidebar.tsx",
+        "file:packages/web/src/components/layout/Topbar.tsx",
+        "file:packages/web/src/components/shared/HierarchyStrip.tsx",
+        "file:packages/web/src/components/shared/LinkedCard.tsx",
+        "file:packages/web/src/components/shared/SizePill.tsx",
+        "file:packages/web/src/components/shared/StatusPill.tsx",
+        "file:packages/web/src/components/shared/StepRow.tsx",
+        "file:packages/web/src/components/shared/TaskCard.tsx",
+        "file:packages/web/src/components/shared/TypeIcon.tsx",
+        "file:packages/web/src/components/standup/StandupSection.tsx",
+        "file:packages/web/src/components/standup/StatsGrid.tsx",
+        "file:packages/web/src/components/stories/FilterBar.tsx",
+        "file:packages/web/src/components/stories/KanbanColumn.tsx",
+        "file:packages/web/src/components/stories/StoryCard.tsx",
+        "file:packages/web/src/pages/PlanPage.tsx",
+        "file:packages/web/src/pages/SpecPage.tsx",
+        "file:packages/web/src/pages/StandupPage.tsx",
+        "file:packages/web/src/pages/StoriesPage.tsx",
+        "file:packages/web/src/pages/StoryPage.tsx"
+      ]
+    },
+    {
+      "id": "layer:test",
+      "name": "Test Suite",
+      "description": "Vitest unit, integration, and contract tests covering the server API routes, domain services, hook observer pipeline, phase inference, WebSocket hub, security middleware, SQLite store, and all React components and Zustand stores in the web package.",
+      "nodeIds": [
+        "file:packages/server/src/__tests__/daemon.test.ts",
+        "file:packages/server/src/__tests__/integration.test.ts",
+        "file:packages/server/src/__tests__/server.test.ts",
+        "file:packages/server/src/api/__tests__/routes.test.ts",
+        "file:packages/server/src/api/__tests__/standup-handoff.test.ts",
+        "file:packages/server/src/handoff/__tests__/service.test.ts",
+        "file:packages/server/src/hooks/__tests__/observer-contract.test.ts",
+        "file:packages/server/src/hooks/__tests__/phase-inference.test.ts",
+        "file:packages/server/src/security/__tests__/security.test.ts",
+        "file:packages/server/src/standup/__tests__/service.test.ts",
+        "file:packages/server/src/store/__tests__/migrate.test.ts",
+        "file:packages/server/src/store/__tests__/store.test.ts",
+        "file:packages/server/src/stories/__tests__/service.test.ts",
+        "file:packages/server/src/superpowers/__tests__/diff.test.ts",
+        "file:packages/server/src/superpowers/__tests__/parser.test.ts",
+        "file:packages/server/src/superpowers/__tests__/phase.test.ts",
+        "file:packages/server/src/superpowers/__tests__/watcher.test.ts",
+        "file:packages/server/src/ws/__tests__/ws.test.ts",
+        "file:packages/web/src/__tests__/FilterBar.test.tsx",
+        "file:packages/web/src/__tests__/KanbanColumn.test.tsx",
+        "file:packages/web/src/__tests__/StoriesPage.test.tsx",
+        "file:packages/web/src/__tests__/ui-store.test.ts",
+        "file:packages/web/src/__tests__/useWebSocket.test.ts"
+      ]
+    },
+    {
+      "id": "layer:config",
+      "name": "Configuration",
+      "description": "Monorepo-level and per-package build and tooling configuration including TypeScript compiler settings, pnpm workspace definition, Biome linting rules, Vite build and proxy config, PostCSS/Tailwind setup, and Claude Code project permissions.",
+      "nodeIds": [
+        "config:biome.json",
+        "config:package.json",
+        "config:pnpm-workspace.yaml",
+        "config:tsconfig.base.json",
+        "config:.claude/settings.json",
+        "config:packages/server/package.json",
+        "config:packages/server/tsconfig.json",
+        "config:packages/shared/package.json",
+        "config:packages/shared/tsconfig.json",
+        "config:packages/web/package.json",
+        "config:packages/web/tsconfig.json",
+        "file:packages/web/vite.config.ts",
+        "file:packages/web/postcss.config.js",
+        "file:packages/web/tailwind.config.js",
+        "file:packages/web/tsconfig.tsbuildinfo"
+      ]
+    },
+    {
+      "id": "layer:documentation",
+      "name": "Documentation",
+      "description": "Project-level documentation covering the design system reference, engineering constitution, PRD, implementation plans, design specifications, user stories, dashboard prototypes, and handoff artifacts for the Claude Control workflow visualizer.",
+      "nodeIds": [
+        "document:.claude/constitution.md",
+        "document:CLAUDE.md",
+        "document:DESIGN.md",
+        "file:assets/claude-control-dashboard-hierarchy.html",
+        "document:assets/claude-control-handoff.md",
+        "document:docs/features/claude-control-plugin/PRD.md",
+        "document:docs/superpowers/plans/2026-05-06-claude-control-foundation.md",
+        "document:docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md",
+        "document:docs/superpowers/plans/2026-05-17-phase3-dashboard.md",
+        "document:docs/superpowers/plans/2026-05-21-filter-stories-by-status.md",
+        "document:docs/superpowers/plans/2026-05-23-fix-auth-token-url-exposure.md",
+        "document:docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md",
+        "document:docs/superpowers/specs/2026-05-13-superpowers-integration-stories-design.md",
+        "document:docs/superpowers/specs/2026-05-17-phase3-dashboard-design.md",
+        "document:docs/superpowers/specs/2026-05-20-filter-stories-by-status-design.md",
+        "document:docs/superpowers/specs/2026-05-23-fix-auth-token-url-exposure-design.md",
+        "document:docs/superpowers/stories/US-2026-05-19-filter-stories-by-status-on-the-board-vi.md",
+        "document:docs/superpowers/stories/US-2026-05-23-fix-auth-stop-exposing-token-via-url-in-.md"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "Product Vision & PRD",
+      "description": "Start with the Product Requirements Document to understand what Claude Control is and why it exists. This doc establishes the core observer-only design constraint — the plugin never modifies Claude's behavior, it only watches and reports — and lays out the full feature surface: session tracking, story lifecycle, Kanban dashboard, and real-time streaming. Everything else in the codebase exists to fulfil these requirements.",
+      "nodeIds": [
+        "document:docs/features/claude-control-plugin/PRD.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "Monorepo Structure",
+      "description": "The root package.json and pnpm-workspace.yaml reveal the monorepo layout: three workspace packages (plugin, server, web) sharing a common TypeScript base config. Understanding this three-package topology is essential before exploring any individual package, because every import boundary and build step in the project flows from this structure.",
+      "nodeIds": [
+        "config:package.json",
+        "config:pnpm-workspace.yaml",
+        "config:tsconfig.base.json"
+      ]
+    },
+    {
+      "order": 3,
+      "title": "Plugin Manifest & Hook Registration",
+      "description": "The plugin.json manifest and hooks.json registration file are the bridge between Claude Code and the rest of the system. They declare which lifecycle events (session start, tool use, session end) Claude Code will forward to the daemon, and they point to the two shell scripts that implement event delivery. This is the entry point of all data flowing into Claude Control.",
+      "nodeIds": [
+        "config:.claude-plugin/plugin.json",
+        "config:plugin/hooks/hooks.json"
+      ]
+    },
+    {
+      "order": 4,
+      "title": "Plugin Hook Scripts",
+      "description": "With the registration understood, these two shell scripts show exactly how the observer pattern is implemented at the OS level. bootstrap.sh starts the Bun daemon when a Claude Code session opens, while forward.sh reads each hook payload from stdin and POSTs it to the daemon over HTTP. The entire observer pipeline depends on these two files firing correctly.",
+      "nodeIds": [
+        "file:plugin/hooks/bootstrap.sh",
+        "file:plugin/hooks/forward.sh"
+      ]
+    },
+    {
+      "order": 5,
+      "title": "Shared Type Contract",
+      "description": "Before diving into the server or dashboard, it is important to read the shared types that both sides agree on. events.ts defines the typed WebSocket protocol — every message the server sends to the dashboard is described here. story.ts defines the Story domain model, its status enum, and the frontmatter parser that reads story markdown files. These two files are the lingua franca of the entire system.",
+      "nodeIds": [
+        "file:packages/shared/src/events.ts",
+        "file:packages/shared/src/story.ts"
+      ]
+    },
+    {
+      "order": 6,
+      "title": "Database Schema",
+      "description": "The three SQL migration files define the full persistence model for the daemon. The initial migration creates the sessions and events tables that record every Claude Code session and tool call. The second migration adds the Superpowers domain: stories, plan_tasks, and plan_steps. The third adds handoffs. Together they show that the daemon is not just a proxy — it is a queryable event store.",
+      "nodeIds": [
+        "table:packages/server/migrations/001_initial.sql:sessions",
+        "table:packages/server/migrations/001_initial.sql:events",
+        "table:packages/server/migrations/002_superpowers.sql:stories",
+        "table:packages/server/migrations/002_superpowers.sql:plan_tasks",
+        "table:packages/server/migrations/002_superpowers.sql:plan_steps",
+        "table:packages/server/migrations/003_handoffs.sql:handoffs"
+      ]
+    },
+    {
+      "order": 7,
+      "title": "Server Daemon Entry Point",
+      "description": "packages/server/src/index.ts is where the daemon comes to life. It runs the migration runner to ensure the SQLite schema is current, initialises the event bus, wires together the HTTP server and WebSocket hub, and registers SIGTERM/SIGINT shutdown handlers. Reading this file gives a complete mental map of which subsystems exist and how they are composed at startup.",
+      "nodeIds": [
+        "file:packages/server/src/index.ts",
+        "file:packages/server/src/store/migrate.ts"
+      ]
+    },
+    {
+      "order": 8,
+      "title": "Hono HTTP Server & Security",
+      "description": "server.ts builds the Hono application: it applies the security middleware (bearer token auth and rate limiting from security/index.ts), configures CORS, handles WebSocket upgrade requests, and mounts the API router. This file shows how every inbound connection — whether a curl from forward.sh or a browser WebSocket — is authenticated before reaching business logic.",
+      "nodeIds": [
+        "file:packages/server/src/server.ts",
+        "file:packages/server/src/security/index.ts"
+      ]
+    },
+    {
+      "order": 9,
+      "title": "Event Bus & WebSocket Hub",
+      "description": "The event bus (bus.ts) provides an in-process pub/sub channel that decouples the hook ingestion pipeline from the WebSocket broadcaster. When a hook event arrives, the hooks router publishes it to the bus; the WebSocket hub (ws/index.ts) subscribes and broadcasts it to all connected dashboard clients. This architecture means adding a new consumer — for example, a standup aggregator — requires zero changes to the ingestion path.",
+      "nodeIds": [
+        "file:packages/server/src/bus.ts",
+        "file:packages/server/src/ws/index.ts"
+      ]
+    },
+    {
+      "order": 10,
+      "title": "Hook Ingestion & Phase Inference",
+      "description": "The hooks router (hooks/index.ts) is the server-side counterpart to forward.sh: it receives raw Claude Code lifecycle payloads, classifies them by event type, persists them via the store, and publishes them to the bus. It also delegates to the SuperpowersWatcher (superpowers/index.ts), which watches the filesystem for plan and spec file changes. phase.ts contains the heuristic logic that maps file change patterns to a named Superpowers workflow phase — brainstorming, planning, executing, or verifying.",
+      "nodeIds": [
+        "file:packages/server/src/hooks/index.ts",
+        "file:packages/server/src/superpowers/index.ts",
+        "file:packages/server/src/superpowers/phase.ts"
+      ]
+    },
+    {
+      "order": 11,
+      "title": "Story Service & REST API",
+      "description": "The story service (stories/index.ts) manages the full story lifecycle, persisting to both SQLite and markdown files on disk — ensuring that stories survive daemon restarts and are human-readable. The API router (api/index.ts) and stories route handler (api/stories.ts) expose these operations as REST endpoints, consumed by the dashboard to list, create, update, and size stories.",
+      "nodeIds": [
+        "file:packages/server/src/stories/index.ts",
+        "file:packages/server/src/api/index.ts",
+        "file:packages/server/src/api/stories.ts"
+      ]
+    },
+    {
+      "order": 12,
+      "title": "React App Entry & Routing",
+      "description": "Shifting to the dashboard, packages/web/src/main.tsx bootstraps the React app: it extracts the bearer token from the URL hash (so the dashboard URL is self-authenticating) and mounts the App component. App.tsx defines the route tree with React Router, wrapping routes behind a token guard. This is where the user lands when they open the dashboard URL printed by /claude-control:open.",
+      "nodeIds": [
+        "file:packages/web/src/main.tsx",
+        "file:packages/web/src/App.tsx"
+      ]
+    },
+    {
+      "order": 13,
+      "title": "Client State & WebSocket Hook",
+      "description": "The Zustand stores (store/ws.ts and store/ui.ts) hold all client-side state: ws.ts owns the live WebSocket connection, the auth token, and all real-time data received from the daemon; ui.ts owns UI-only state like the active story status filter. The useWebSocket hook wires the connection lifecycle to ws.ts, parsing incoming messages and dispatching typed updates. This clean separation between server state and UI state keeps the components thin.",
+      "nodeIds": [
+        "file:packages/web/src/store/ws.ts",
+        "file:packages/web/src/store/ui.ts",
+        "file:packages/web/src/hooks/useWebSocket.ts"
+      ]
+    },
+    {
+      "order": 14,
+      "title": "Stories Kanban Board",
+      "description": "StoriesPage.tsx is the centrepiece of the dashboard, composing the FilterBar and KanbanColumn components to create the stories board. FilterBar reads and writes the active filter from ui.ts (introduced in Step 13), displaying pill tabs with live count badges. KanbanColumn receives filtered stories and renders them as cards, with an empty state and a clear-filter action when no stories match. These three files complete the full data flow from daemon event to rendered card.",
+      "nodeIds": [
+        "file:packages/web/src/pages/StoriesPage.tsx",
+        "file:packages/web/src/components/stories/FilterBar.tsx",
+        "file:packages/web/src/components/stories/KanbanColumn.tsx"
+      ]
+    },
+    {
+      "order": 15,
+      "title": "Plugin Slash Commands",
+      "description": "The plugin exposes five slash commands that developers use daily. /claude-control:status shows the daemon health and inferred phase, /claude-control:story creates and lists stories, /claude-control:start kicks off the Superpowers brainstorming workflow, /claude-control:standup generates a daily digest, and /claude-control:open prints the dashboard URL. These markdown files are also the definitive documentation of the plugin's user-facing surface.",
+      "nodeIds": [
+        "document:plugin/commands/status.md",
+        "document:plugin/commands/story.md",
+        "document:plugin/commands/start.md",
+        "document:plugin/commands/standup.md",
+        "document:plugin/commands/open.md"
+      ]
+    }
+  ]
+}

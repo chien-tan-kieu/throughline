@@ -28,5 +28,5 @@ Open the Claude Control dashboard.
 3. Print:
    ```
    Open this URL in your browser:
-   http://127.0.0.1:<port>/?token=<token>
+   http://127.0.0.1:<port>/#token=<token>
    ```

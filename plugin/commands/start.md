@@ -36,16 +36,18 @@ Usage: `/claude-control:start <story-id>`
    ```
    If 404, print "Story <story-id> not found." and stop.
 
-4. Return this prompt expansion to Claude (do not execute it yourself — output it as the next user message):
+4. Invoke the `superpowers:brainstorming` skill directly via the Skill tool, passing the story as context:
 
    ```
-   I want to work on this story:
+   skill: superpowers:brainstorming
+   args: |
+     I want to work on this story:
 
-   **ID:** <id>
-   **Title:** <title>
-   **Status:** <status>
+     **ID:** <id>
+     **Title:** <title>
+     **Status:** <status>
 
-   <body>
-
-   Please invoke the Superpowers brainstorming skill to explore this story's requirements, identify design decisions, and help me write a spec.
+     <body>
    ```
+
+   Do not ask the user to invoke the skill — invoke it yourself immediately.

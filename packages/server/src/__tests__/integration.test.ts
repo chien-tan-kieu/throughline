@@ -167,6 +167,21 @@ describe("rate limiting integration", () => {
   });
 });
 
+describe("token persistence across restarts", () => {
+  test("second startDaemon with the same dataDir reuses the token", async () => {
+    const dataDir = join(tmpdir(), `cc-token-persist-${Date.now()}`);
+    const d1 = await startDaemon({ port: 0, dataDir });
+    const token1 = d1.token;
+    await d1.stop();
+
+    const d2 = await startDaemon({ port: 0, dataDir });
+    const token2 = d2.token;
+    await d2.stop();
+
+    expect(token2).toBe(token1);
+  });
+});
+
 describe("plan file change via PostToolUse → WS delivery", () => {
   let daemon: DaemonHandle;
   let cwd: string;
@@ -197,12 +212,12 @@ describe("plan file change via PostToolUse → WS delivery", () => {
       ),
     );
 
-    const ws = new WebSocket(
-      `ws://127.0.0.1:${daemon.port}/ws?token=${daemon.token}`,
-    );
+    const ws = new WebSocket(`ws://127.0.0.1:${daemon.port}/ws`);
     await new Promise<void>((resolve) =>
       ws.addEventListener("open", () => resolve()),
     );
+    ws.send(JSON.stringify({ type: "auth", token: daemon.token }));
+    await new Promise((r) => setTimeout(r, 20));
     ws.send(
       JSON.stringify({ type: "subscribe", topics: [`plan:${planPath}`] }),
     );

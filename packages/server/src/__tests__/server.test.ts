@@ -77,13 +77,29 @@ describe("HTTP server", () => {
     expect(res.status).toBe(501);
   });
 
-  test("unknown route returns 404", async () => {
+  test("GET unknown route serves SPA (200)", async () => {
     const res = await fetch(`${base}/not-a-route`, {
       headers: {
         Host: `127.0.0.1:${server.port}`,
         Authorization: `Bearer ${TOKEN}`,
       },
     });
+    expect(res.status).toBe(200);
+  });
+
+  test("GET / without auth returns 200 (SPA bootstrap must load without token)", async () => {
+    const res = await fetch(`${base}/`, {
+      headers: { Host: `127.0.0.1:${server.port}` },
+    });
+    expect(res.status).toBe(200);
+  });
+
+  test("GET /assets/* without auth returns 404 not 401", async () => {
+    const res = await fetch(`${base}/assets/nonexistent.js`, {
+      headers: { Host: `127.0.0.1:${server.port}` },
+    });
+    // 404 = auth passed, file just doesn't exist in test env
+    // 401 = checkAuth blocked it (the current bug)
     expect(res.status).toBe(404);
   });
 });

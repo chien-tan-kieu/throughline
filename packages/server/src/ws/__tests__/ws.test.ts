@@ -10,10 +10,19 @@ import { WsServer } from "../index.ts";
 const MIGRATIONS_DIR = join(import.meta.dir, "../../../migrations");
 const TOKEN = "ws-test-token";
 
+async function connectAndAuth(port: number): Promise<WebSocket> {
+  const ws = new WebSocket(`ws://127.0.0.1:${port}/ws`);
+  await new Promise<void>((resolve) =>
+    ws.addEventListener("open", () => resolve()),
+  );
+  ws.send(JSON.stringify({ type: "auth", token: TOKEN }));
+  await new Promise((r) => setTimeout(r, 20));
+  return ws;
+}
+
 describe("WsServer", () => {
   let db: Database;
   let server: ReturnType<typeof createServer>;
-  let base: string;
   let bus: ReturnType<typeof createBus>;
   let wsServer: WsServer;
 
@@ -21,9 +30,8 @@ describe("WsServer", () => {
     db = new Database(":memory:");
     await runMigrations(db, MIGRATIONS_DIR);
     bus = createBus();
-    wsServer = new WsServer(bus);
+    wsServer = new WsServer(bus, TOKEN);
     server = createServer({ port: 0, token: TOKEN, db, bus, wsServer });
-    base = `http://127.0.0.1:${server.port}`;
   });
 
   afterAll(() => {
@@ -32,18 +40,44 @@ describe("WsServer", () => {
     db.close();
   });
 
-  test("upgrade rejected without token returns 401", async () => {
-    const res = await fetch(`${base}/ws`, {
-      headers: { Host: `127.0.0.1:${server.port}`, Upgrade: "websocket" },
+  test("connection opens without token in URL", async () => {
+    const ws = new WebSocket(`ws://127.0.0.1:${server.port}/ws`);
+    const result = await new Promise<string>((resolve) => {
+      ws.addEventListener("open", () => resolve("open"));
+      ws.addEventListener("close", (e) =>
+        resolve(`closed:${(e as CloseEvent).code}`),
+      );
     });
-    expect(res.status).toBe(401);
+    expect(result).toBe("open");
+    ws.close();
   });
 
-  test("connects and receives pong on ping", async () => {
-    const ws = new WebSocket(`ws://127.0.0.1:${server.port}/ws?token=${TOKEN}`);
+  test("closes with 4001 when first message is not auth type", async () => {
+    const ws = new WebSocket(`ws://127.0.0.1:${server.port}/ws`);
     await new Promise<void>((resolve) =>
       ws.addEventListener("open", () => resolve()),
     );
+    const code = await new Promise<number>((resolve) => {
+      ws.addEventListener("close", (e) => resolve((e as CloseEvent).code));
+      ws.send(JSON.stringify({ type: "ping" }));
+    });
+    expect(code).toBe(4001);
+  });
+
+  test("closes with 4001 when auth token is wrong", async () => {
+    const ws = new WebSocket(`ws://127.0.0.1:${server.port}/ws`);
+    await new Promise<void>((resolve) =>
+      ws.addEventListener("open", () => resolve()),
+    );
+    const code = await new Promise<number>((resolve) => {
+      ws.addEventListener("close", (e) => resolve((e as CloseEvent).code));
+      ws.send(JSON.stringify({ type: "auth", token: "wrong-token" }));
+    });
+    expect(code).toBe(4001);
+  });
+
+  test("connects and receives pong on ping after auth", async () => {
+    const ws = await connectAndAuth(server.port);
 
     const pong = await new Promise<string>((resolve) => {
       ws.addEventListener("message", (e) => resolve(e.data as string));
@@ -56,10 +90,7 @@ describe("WsServer", () => {
   });
 
   test("fan-out delivers plan.changed only to subscribed client", async () => {
-    const ws = new WebSocket(`ws://127.0.0.1:${server.port}/ws?token=${TOKEN}`);
-    await new Promise<void>((resolve) =>
-      ws.addEventListener("open", () => resolve()),
-    );
+    const ws = await connectAndAuth(server.port);
 
     ws.send(
       JSON.stringify({ type: "subscribe", topics: ["plan:/some/path.md"] }),
@@ -80,10 +111,7 @@ describe("WsServer", () => {
   });
 
   test("unsubscribe stops delivery", async () => {
-    const ws = new WebSocket(`ws://127.0.0.1:${server.port}/ws?token=${TOKEN}`);
-    await new Promise<void>((resolve) =>
-      ws.addEventListener("open", () => resolve()),
-    );
+    const ws = await connectAndAuth(server.port);
 
     ws.send(JSON.stringify({ type: "subscribe", topics: ["stories"] }));
     await new Promise((r) => setTimeout(r, 30));
