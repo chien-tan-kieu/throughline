@@ -1,0 +1,4292 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "0b739b1327422089faf62e9e787f8f03686edb57",
+  "generatedAt": "2026-05-23T23:35:36.830Z",
+  "files": {
+    ".claude-plugin/marketplace.json": {
+      "filePath": ".claude-plugin/marketplace.json",
+      "contentHash": "f2643204788834a36b2081ea9c9259a33d7d8b9977644d22c5e2e119eedd9731",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 15,
+      "hasStructuralAnalysis": true
+    },
+    ".claude-plugin/plugin.json": {
+      "filePath": ".claude-plugin/plugin.json",
+      "contentHash": "3a05d4fcb4d5b4d523f65fb6777ba0dd30b656f2c826ec6ce5641ffa0c25b78e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    ".claude/constitution.md": {
+      "filePath": ".claude/constitution.md",
+      "contentHash": "caf6c6c51d9d6636482a7860bd9a337ea29346f092cb4c050d56ff82bfcc1f60",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 175,
+      "hasStructuralAnalysis": true
+    },
+    ".claude/settings.json": {
+      "filePath": ".claude/settings.json",
+      "contentHash": "41451943b44d0b9fe23c57d095807b423c82b988e36d8f0b7fa291463d878247",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 114,
+      "hasStructuralAnalysis": true
+    },
+    "biome.json": {
+      "filePath": "biome.json",
+      "contentHash": "3abef5e3b33b3568a61ac01ee4b281a0da5ffc85a672e385fbfdc9b7858b1409",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    "CLAUDE.md": {
+      "filePath": "CLAUDE.md",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "DESIGN.md": {
+      "filePath": "DESIGN.md",
+      "contentHash": "8c5aba1513d6bf8e6a9a5fafd1b449d644fd05b4159e8671b411909af54be12d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 256,
+      "hasStructuralAnalysis": true
+    },
+    "package.json": {
+      "filePath": "package.json",
+      "contentHash": "1d84d472b8bcae7d04f77267f146b6bb226162d2d250ff70b1f97236328dc43f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 19,
+      "hasStructuralAnalysis": true
+    },
+    "pnpm-workspace.yaml": {
+      "filePath": "pnpm-workspace.yaml",
+      "contentHash": "477e6c5f8b033a1ecb7f8919ad2726e4328c7893c4ad6228d62471425b22dbe7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3,
+      "hasStructuralAnalysis": true
+    },
+    "tsconfig.base.json": {
+      "filePath": "tsconfig.base.json",
+      "contentHash": "98536a95c26f848d9f378dad51a8b68124d55612a421810fade7d3c62d636f13",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/README.md": {
+      "filePath": "plugin/README.md",
+      "contentHash": "3fbc85f574807f8f8cc5a44c9b74ed89cf425ea8354fd9f365c66cc078bf28ea",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 46,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/commands/handoff.md": {
+      "filePath": "plugin/commands/handoff.md",
+      "contentHash": "8b0b39b3a2f64936edc93474464e1a823c82e83db244799c9327f5871c5e33d8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 46,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/commands/open.md": {
+      "filePath": "plugin/commands/open.md",
+      "contentHash": "31a0a56f6796167bc3072352f08c096322c632607d20d51f07e1b3ce1afeb7e0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/commands/standup.md": {
+      "filePath": "plugin/commands/standup.md",
+      "contentHash": "571f9c8967a4ba55d5811b9577c4704730dba88339d7d51ded1af1002c1a4d36",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 52,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/commands/start.md": {
+      "filePath": "plugin/commands/start.md",
+      "contentHash": "cf172a6541af89e13d85498cd5fe306564eb72d156652a399796887d2a78f840",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 54,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/commands/status.md": {
+      "filePath": "plugin/commands/status.md",
+      "contentHash": "fbe382c3443f63a1902c2ff36c6ba14de9c31010c3aa7c59d21a74db9bf1e772",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 46,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/commands/story.md": {
+      "filePath": "plugin/commands/story.md",
+      "contentHash": "2e3fdd35368af5268fa473c1d815d386f52b3e01f2ce2f9dfe602ae314d9847c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 103,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/hooks/bootstrap.sh": {
+      "filePath": "plugin/hooks/bootstrap.sh",
+      "contentHash": "91446b7b4d4d137d656b2605ab0020fea9e25b755cff9af153d8bb32135a1d4b",
+      "functions": [
+        {
+          "name": "probe",
+          "params": [],
+          "exported": false,
+          "lineCount": 1
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/hooks/forward.sh": {
+      "filePath": "plugin/hooks/forward.sh",
+      "contentHash": "96039805c9dd3edc75f5fcb2e1e88d7516628097e4d32e4693147ecf0b0f402f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/hooks/hooks.json": {
+      "filePath": "plugin/hooks/hooks.json",
+      "contentHash": "66e721b441a94ad4f49a503d69a8fa589f75bf28e45a47830fc82814f91ecda9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 156,
+      "hasStructuralAnalysis": true
+    },
+    "plugin/skills/claude-control/SKILL.md": {
+      "filePath": "plugin/skills/claude-control/SKILL.md",
+      "contentHash": "3a2a45b8ca497f735b9762e0cfab0de0cd01cb7af15ef1958988688c5d042564",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": true
+    },
+    "assets/claude-control-dashboard-hierarchy.html": {
+      "filePath": "assets/claude-control-dashboard-hierarchy.html",
+      "contentHash": "f7ef2f75f24e194404492c3c989f52a3229c026168b75085d19c6d72e4f634d0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2536,
+      "hasStructuralAnalysis": false
+    },
+    "assets/claude-control-handoff.md": {
+      "filePath": "assets/claude-control-handoff.md",
+      "contentHash": "649fcbb7c483acb772fb211f4f78ca3a09e02f15849b94d3fa1b253919367d87",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 546,
+      "hasStructuralAnalysis": true
+    },
+    "docs/features/claude-control-plugin/PRD.md": {
+      "filePath": "docs/features/claude-control-plugin/PRD.md",
+      "contentHash": "db3571dbab6a5dac7420ad41e9a15b1df92be4f2050ef90ba83bbaf076e3d179",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1315,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/plans/2026-05-06-claude-control-foundation.md": {
+      "filePath": "docs/superpowers/plans/2026-05-06-claude-control-foundation.md",
+      "contentHash": "ab45f9078f48dc550dd6ba9a13d2a1348eadb3a7ef45bdaf7cde3054a7f8f810",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2073,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md": {
+      "filePath": "docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md",
+      "contentHash": "f7c31a8b7d3ae65eb124775166fe1f4d2dff69cdfd8a5df051b78acfc5c1ac9b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2963,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/plans/2026-05-17-phase3-dashboard.md": {
+      "filePath": "docs/superpowers/plans/2026-05-17-phase3-dashboard.md",
+      "contentHash": "6cc8d5e41a782601c30012e9cad15163cba76ac583f1d342b18326abe717a047",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3132,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/plans/2026-05-21-filter-stories-by-status.md": {
+      "filePath": "docs/superpowers/plans/2026-05-21-filter-stories-by-status.md",
+      "contentHash": "55247af2c27ae45af6dbdc453cb5c5fa65b901fbc171216993b4cdb12d2ea003",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 561,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/plans/2026-05-23-fix-auth-token-url-exposure.md": {
+      "filePath": "docs/superpowers/plans/2026-05-23-fix-auth-token-url-exposure.md",
+      "contentHash": "20b40fa02a4170c2ab65dea6a58e3cc34fb7e14688dd43264bfca50fdc311c86",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 735,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md": {
+      "filePath": "docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md",
+      "contentHash": "2e3c0edb0ed074ef659d345a85759832d6e47830b51f74a5300297b187e2333d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 479,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/specs/2026-05-13-superpowers-integration-stories-design.md": {
+      "filePath": "docs/superpowers/specs/2026-05-13-superpowers-integration-stories-design.md",
+      "contentHash": "c9f54734de3c1c58a8d0fecb8dec7c265eeec835cb5d2110f22a16057f2c478e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 463,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/specs/2026-05-17-phase3-dashboard-design.md": {
+      "filePath": "docs/superpowers/specs/2026-05-17-phase3-dashboard-design.md",
+      "contentHash": "2b1c6b05e78ef8cefcbe9b796995336a615bef5b9ffb44a93b5aa2df31646148",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 421,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/specs/2026-05-20-filter-stories-by-status-design.md": {
+      "filePath": "docs/superpowers/specs/2026-05-20-filter-stories-by-status-design.md",
+      "contentHash": "2259d72df5a9e484f15fee25d5dd1d77ccfcbce5bf98c6382d104ebcab1fd0b4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 138,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/specs/2026-05-23-fix-auth-token-url-exposure-design.md": {
+      "filePath": "docs/superpowers/specs/2026-05-23-fix-auth-token-url-exposure-design.md",
+      "contentHash": "eb3d69acd68b1d6f8e93b6f7ad4ad1eacd01456f1e39e866ca77e6f0e001b5a3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 174,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/stories/US-2026-05-19-filter-stories-by-status-on-the-board-vi.md": {
+      "filePath": "docs/superpowers/stories/US-2026-05-19-filter-stories-by-status-on-the-board-vi.md",
+      "contentHash": "0912c460f3c32d451e38a64a93509f79ae13dd364a727f19c52da7004b52d088",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/stories/US-2026-05-23-fix-auth-stop-exposing-token-via-url-in-.md": {
+      "filePath": "docs/superpowers/stories/US-2026-05-23-fix-auth-stop-exposing-token-via-url-in-.md",
+      "contentHash": "062bfd964376d4542d0e8bf341ccd0d8d181c9e43af080ff64b14044cec3f8e5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/migrations/001_initial.sql": {
+      "filePath": "packages/server/migrations/001_initial.sql",
+      "contentHash": "70099d9d147871cd1205901ac06ffe4389569bded4343b24f3b34033008295ac",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 24,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/migrations/002_superpowers.sql": {
+      "filePath": "packages/server/migrations/002_superpowers.sql",
+      "contentHash": "2d3c8853158f957356f0ff767ce7918a416458e762cee7f26495872d9029d7b6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 41,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/migrations/003_handoffs.sql": {
+      "filePath": "packages/server/migrations/003_handoffs.sql",
+      "contentHash": "2eb4a2cfb451c2adb8704194d9e507e0375af96394a12417b5ce5fc823f2c91b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/package.json": {
+      "filePath": "packages/server/package.json",
+      "contentHash": "c8d6c2ca09595e6f5aaebaa07be850503fc0200175b9fa3899a5db365153aa42",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/tsconfig.json": {
+      "filePath": "packages/server/tsconfig.json",
+      "contentHash": "8f6e85eeaa8025fe7b2f01763e03f32540d3e2869ae857490d685098460f4e3a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/package.json": {
+      "filePath": "packages/shared/package.json",
+      "contentHash": "1869bff5519d66759f49b17d6f96f68a2e2f4312b7cda068bbb690005a87e1c3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/tsconfig.json": {
+      "filePath": "packages/shared/tsconfig.json",
+      "contentHash": "8f6e85eeaa8025fe7b2f01763e03f32540d3e2869ae857490d685098460f4e3a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/package.json": {
+      "filePath": "packages/web/package.json",
+      "contentHash": "afef8ff0309bae7a2c17ed0466d0f29c22fcceac2a6bd1f43d3ecde1b0073abf",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 37,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/tsconfig.json": {
+      "filePath": "packages/web/tsconfig.json",
+      "contentHash": "e807ecb53244818d62d86b582cb4f9f407d2e6d0cd11e314e8d0ad12b2b7c79e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/bus.ts": {
+      "filePath": "packages/server/src/bus.ts",
+      "contentHash": "f40cd034f5b6f970d98106d44e39d7a76ebf5b284e32265fae453f5e3e84abca",
+      "functions": [
+        {
+          "name": "createBus",
+          "params": [],
+          "returnType": "Bus",
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "HookEvent",
+            "Phase",
+            "PlanTask"
+          ]
+        }
+      ],
+      "exports": [
+        "createBus",
+        "stubBus"
+      ],
+      "totalLines": 37,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/index.ts": {
+      "filePath": "packages/server/src/index.ts",
+      "contentHash": "f793e80272dcaf8e057709e7e3e397fa977d80206b2dcdfe5a9797f9a062b3aa",
+      "functions": [
+        {
+          "name": "startDaemon",
+          "params": [
+            "options"
+          ],
+          "returnType": "Promise<DaemonHandle>",
+          "exported": true,
+          "lineCount": 95
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "mkdir",
+            "readFile",
+            "writeFile"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "./api/index.ts",
+          "specifiers": [
+            "ApiCtx"
+          ]
+        },
+        {
+          "source": "./bus.ts",
+          "specifiers": [
+            "createBus"
+          ]
+        },
+        {
+          "source": "./handoff/index.ts",
+          "specifiers": [
+            "HandoffService"
+          ]
+        },
+        {
+          "source": "./lifecycle/index.ts",
+          "specifiers": [
+            "registerShutdownHandler",
+            "startIdleTimer",
+            "writeRuntimeJson"
+          ]
+        },
+        {
+          "source": "./server.ts",
+          "specifiers": [
+            "createServer"
+          ]
+        },
+        {
+          "source": "./store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "./standup/index.ts",
+          "specifiers": [
+            "StandupService"
+          ]
+        },
+        {
+          "source": "./stories/index.ts",
+          "specifiers": [
+            "StoryService"
+          ]
+        },
+        {
+          "source": "./superpowers/index.ts",
+          "specifiers": [
+            "SuperpowersWatcher"
+          ]
+        },
+        {
+          "source": "./ws/index.ts",
+          "specifiers": [
+            "WsServer"
+          ]
+        }
+      ],
+      "exports": [
+        "startDaemon"
+      ],
+      "totalLines": 137,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/server.ts": {
+      "filePath": "packages/server/src/server.ts",
+      "contentHash": "c5071ca806bdeef1f4d568f4aa6331ce5da86098a7d0219fc9f5e04bbf0f0974",
+      "functions": [
+        {
+          "name": "createServer",
+          "params": [
+            "config"
+          ],
+          "returnType": "Server",
+          "exported": true,
+          "lineCount": 86
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun",
+          "specifiers": [
+            "Server"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "./api/index.ts",
+          "specifiers": [
+            "ApiCtx"
+          ]
+        },
+        {
+          "source": "./api/index.ts",
+          "specifiers": [
+            "mountApiRoutes"
+          ]
+        },
+        {
+          "source": "./bus.ts",
+          "specifiers": [
+            "Bus"
+          ]
+        },
+        {
+          "source": "./hooks/index.ts",
+          "specifiers": [
+            "handleHookEvent"
+          ]
+        },
+        {
+          "source": "./security/index.ts",
+          "specifiers": [
+            "RateLimiter",
+            "checkAuth"
+          ]
+        },
+        {
+          "source": "./ws/index.ts",
+          "specifiers": [
+            "WsData",
+            "WsServer"
+          ]
+        }
+      ],
+      "exports": [
+        "createServer"
+      ],
+      "totalLines": 109,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/api/handoff.ts": {
+      "filePath": "packages/server/src/api/handoff.ts",
+      "contentHash": "f152059778cb9e5b3e452e4b15fbdb8ee2461928cf8b1b91ac7a4a7ef58cd481",
+      "functions": [
+        {
+          "name": "mountHandoffRoutes",
+          "params": [
+            "req",
+            "url",
+            "handoff"
+          ],
+          "returnType": "Promise<Response>",
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../handoff/index.ts",
+          "specifiers": [
+            "HandoffService"
+          ]
+        }
+      ],
+      "exports": [
+        "mountHandoffRoutes"
+      ],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/api/index.ts": {
+      "filePath": "packages/server/src/api/index.ts",
+      "contentHash": "f02a7cdb4963c10a8b50d2c1545b34b238c11cd1dee65ff4dd6774ef0cb5d985",
+      "functions": [
+        {
+          "name": "mountApiRoutes",
+          "params": [
+            "req",
+            "url",
+            "ctx"
+          ],
+          "returnType": "Response | Promise<Response>",
+          "exported": true,
+          "lineCount": 28
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "../handoff/index.ts",
+          "specifiers": [
+            "HandoffService"
+          ]
+        },
+        {
+          "source": "../standup/index.ts",
+          "specifiers": [
+            "StandupService"
+          ]
+        },
+        {
+          "source": "../stories/index.ts",
+          "specifiers": [
+            "StoryService"
+          ]
+        },
+        {
+          "source": "../superpowers/index.ts",
+          "specifiers": [
+            "SuperpowersWatcher"
+          ]
+        },
+        {
+          "source": "./handoff.ts",
+          "specifiers": [
+            "mountHandoffRoutes"
+          ]
+        },
+        {
+          "source": "./sessions.ts",
+          "specifiers": [
+            "mountSessionRoutes"
+          ]
+        },
+        {
+          "source": "./standup.ts",
+          "specifiers": [
+            "mountStandupRoutes"
+          ]
+        },
+        {
+          "source": "./stories.ts",
+          "specifiers": [
+            "mountStoryRoutes"
+          ]
+        },
+        {
+          "source": "./superpowers.ts",
+          "specifiers": [
+            "mountSuperpowersRoutes"
+          ]
+        }
+      ],
+      "exports": [
+        "mountApiRoutes"
+      ],
+      "totalLines": 49,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/api/sessions.ts": {
+      "filePath": "packages/server/src/api/sessions.ts",
+      "contentHash": "14169ec79705ee80c685754e343e69bd8374f34e4db3cdd7ce34aab79625bf09",
+      "functions": [
+        {
+          "name": "mountSessionRoutes",
+          "params": [
+            "req",
+            "url",
+            "db"
+          ],
+          "returnType": "Response",
+          "exported": true,
+          "lineCount": 48
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "EventRecord",
+            "Session"
+          ]
+        }
+      ],
+      "exports": [
+        "mountSessionRoutes"
+      ],
+      "totalLines": 53,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/api/standup.ts": {
+      "filePath": "packages/server/src/api/standup.ts",
+      "contentHash": "944fc3c6f206e25a151172809f799b388bf4a5d64c417e16a96938c992c47464",
+      "functions": [
+        {
+          "name": "mountStandupRoutes",
+          "params": [
+            "req",
+            "url",
+            "standup"
+          ],
+          "returnType": "Response",
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../standup/index.ts",
+          "specifiers": [
+            "StandupService"
+          ]
+        }
+      ],
+      "exports": [
+        "mountStandupRoutes"
+      ],
+      "totalLines": 15,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/api/stories.ts": {
+      "filePath": "packages/server/src/api/stories.ts",
+      "contentHash": "f4cfc1a542e7719d799cbc96e1e5c109814fe8b5fffcb6cb2fa8e3924b3f23e9",
+      "functions": [
+        {
+          "name": "mountStoryRoutes",
+          "params": [
+            "req",
+            "url",
+            "stories"
+          ],
+          "returnType": "Promise<Response>",
+          "exported": true,
+          "lineCount": 55
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "StoryPatch"
+          ]
+        },
+        {
+          "source": "../stories/index.ts",
+          "specifiers": [
+            "StoryService"
+          ]
+        }
+      ],
+      "exports": [
+        "mountStoryRoutes"
+      ],
+      "totalLines": 60,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/api/superpowers.ts": {
+      "filePath": "packages/server/src/api/superpowers.ts",
+      "contentHash": "2974c6803b3444e086405c672a486815ef06cce485af05678b9f0d552543c380",
+      "functions": [
+        {
+          "name": "validatePath",
+          "params": [
+            "raw"
+          ],
+          "returnType": "string | null",
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "mountSuperpowersRoutes",
+          "params": [
+            "req",
+            "url",
+            "watcher"
+          ],
+          "returnType": "Response",
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../superpowers/index.ts",
+          "specifiers": [
+            "SuperpowersWatcher"
+          ]
+        },
+        {
+          "source": "../superpowers/parser.ts",
+          "specifiers": [
+            "parseSpec"
+          ]
+        }
+      ],
+      "exports": [
+        "mountSuperpowersRoutes"
+      ],
+      "totalLines": 36,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/handoff/index.ts": {
+      "filePath": "packages/server/src/handoff/index.ts",
+      "contentHash": "ddad3fcb64b0d7c365ccf4c047400be5fb8d008c3e694e19f976646135ffd5fc",
+      "functions": [],
+      "classes": [
+        {
+          "name": "HandoffService",
+          "methods": [
+            "constructor",
+            "generate",
+            "extractPlanSummary",
+            "list"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 83
+        }
+      ],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "mkdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        }
+      ],
+      "exports": [
+        "HandoffService"
+      ],
+      "totalLines": 102,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/hooks/handlers.ts": {
+      "filePath": "packages/server/src/hooks/handlers.ts",
+      "contentHash": "2a1a94527b80c27d54af7f3ccc422ad0485caa21ade2d1d7f42cdc572922c0fd",
+      "functions": [
+        {
+          "name": "dispatchEvent",
+          "params": [
+            "event",
+            "db",
+            "bus"
+          ],
+          "returnType": "Promise<Response>",
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "HookEvent"
+          ]
+        },
+        {
+          "source": "../bus.ts",
+          "specifiers": [
+            "Bus"
+          ]
+        },
+        {
+          "source": "../store/index.ts",
+          "specifiers": [
+            "persistEvent"
+          ]
+        }
+      ],
+      "exports": [
+        "dispatchEvent"
+      ],
+      "totalLines": 15,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/hooks/index.ts": {
+      "filePath": "packages/server/src/hooks/index.ts",
+      "contentHash": "cad2ceac4128289537f38a7199acddea54402086c2dea34dcb79547c06f22cbd",
+      "functions": [
+        {
+          "name": "handleHookEvent",
+          "params": [
+            "_eventName",
+            "body",
+            "db",
+            "bus",
+            "watcher"
+          ],
+          "returnType": "Promise<Response>",
+          "exported": true,
+          "lineCount": 31
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "HookEvent",
+            "HookEventSchema"
+          ]
+        },
+        {
+          "source": "../bus.ts",
+          "specifiers": [
+            "Bus"
+          ]
+        },
+        {
+          "source": "../superpowers/index.ts",
+          "specifiers": [
+            "SuperpowersWatcher"
+          ]
+        },
+        {
+          "source": "./handlers.ts",
+          "specifiers": [
+            "dispatchEvent"
+          ]
+        }
+      ],
+      "exports": [
+        "handleHookEvent"
+      ],
+      "totalLines": 39,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/lifecycle/index.ts": {
+      "filePath": "packages/server/src/lifecycle/index.ts",
+      "contentHash": "6cbaff1bbcd6eb7a79eead5f3efccef42c93e8638f117b99c4e57d489074cded",
+      "functions": [
+        {
+          "name": "writeRuntimeJson",
+          "params": [
+            "dataDir",
+            "data"
+          ],
+          "returnType": "Promise<void>",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "startIdleTimer",
+          "params": [
+            "server",
+            "db",
+            "idleMs"
+          ],
+          "returnType": "{ reset: () => void; cancel: () => void }",
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "registerShutdownHandler",
+          "params": [
+            "server",
+            "db",
+            "cancelIdle"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "writeFile"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "bun",
+          "specifiers": [
+            "Server"
+          ]
+        }
+      ],
+      "exports": [
+        "writeRuntimeJson",
+        "startIdleTimer",
+        "registerShutdownHandler"
+      ],
+      "totalLines": 58,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/security/index.ts": {
+      "filePath": "packages/server/src/security/index.ts",
+      "contentHash": "e68118b48833a3cf6c4bce15a177e05d6ee748b53907b3b25e60bd6977ec88b8",
+      "functions": [
+        {
+          "name": "checkAuth",
+          "params": [
+            "req",
+            "serverPort",
+            "token"
+          ],
+          "returnType": "Response | null",
+          "exported": true,
+          "lineCount": 23
+        }
+      ],
+      "classes": [
+        {
+          "name": "RateLimiter",
+          "methods": [
+            "constructor",
+            "allow"
+          ],
+          "properties": [
+            "windows"
+          ],
+          "exported": true,
+          "lineCount": 19
+        }
+      ],
+      "imports": [],
+      "exports": [
+        "RateLimiter",
+        "checkAuth"
+      ],
+      "totalLines": 49,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/standup/index.ts": {
+      "filePath": "packages/server/src/standup/index.ts",
+      "contentHash": "b08058254054580901a2946c4baf82714aaafe5aba70041e1ee2dbbda376335f",
+      "functions": [],
+      "classes": [
+        {
+          "name": "StandupService",
+          "methods": [
+            "constructor",
+            "generate"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 72
+        }
+      ],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "StandupDigest",
+            "StandupItem"
+          ]
+        }
+      ],
+      "exports": [
+        "StandupService"
+      ],
+      "totalLines": 76,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/store/index.ts": {
+      "filePath": "packages/server/src/store/index.ts",
+      "contentHash": "fa5d7e06173d2c6f71d004dd2bfede9626a9b637ea811f196e9e17af814c1d91",
+      "functions": [
+        {
+          "name": "upsertSession",
+          "params": [
+            "db",
+            "event"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "endSession",
+          "params": [
+            "db",
+            "sessionId"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "persistEvent",
+          "params": [
+            "db",
+            "event"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "HookEvent"
+          ]
+        }
+      ],
+      "exports": [
+        "upsertSession",
+        "endSession",
+        "persistEvent"
+      ],
+      "totalLines": 45,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/store/migrate.ts": {
+      "filePath": "packages/server/src/store/migrate.ts",
+      "contentHash": "d54932bcb79999b0c1421a8b15550ef1f5feffd26c5f9c22817acf455ec12e05",
+      "functions": [
+        {
+          "name": "runMigrations",
+          "params": [
+            "db",
+            "migrationsDir"
+          ],
+          "returnType": "Promise<void>",
+          "exported": true,
+          "lineCount": 29
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "readFile",
+            "readdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        }
+      ],
+      "exports": [
+        "runMigrations"
+      ],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/stories/index.ts": {
+      "filePath": "packages/server/src/stories/index.ts",
+      "contentHash": "9289869f48ee77d9d718f8491092b3cf9c7cce5d36bad9688bbd9440bd6701d4",
+      "functions": [
+        {
+          "name": "toSlug",
+          "params": [
+            "title"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "updateFrontmatterField",
+          "params": [
+            "yaml",
+            "key",
+            "value"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "applyPatch",
+          "params": [
+            "content",
+            "patch"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 14
+        }
+      ],
+      "classes": [
+        {
+          "name": "StoryService",
+          "methods": [
+            "constructor",
+            "start",
+            "stop",
+            "list",
+            "get",
+            "create",
+            "update",
+            "archive",
+            "loadAll",
+            "upsertRow"
+          ],
+          "properties": [
+            "storiesDir",
+            "watcher"
+          ],
+          "exported": true,
+          "lineCount": 193
+        }
+      ],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "watch"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "readFileSync"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "mkdir",
+            "readFile",
+            "readdir",
+            "rename",
+            "writeFile"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "Story",
+            "StoryDetail",
+            "StoryPatch",
+            "parseFrontmatter"
+          ]
+        },
+        {
+          "source": "../bus.ts",
+          "specifiers": [
+            "Bus"
+          ]
+        },
+        {
+          "source": "./template.ts",
+          "specifiers": [
+            "scaffoldStory"
+          ]
+        }
+      ],
+      "exports": [
+        "StoryService"
+      ],
+      "totalLines": 245,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/stories/template.ts": {
+      "filePath": "packages/server/src/stories/template.ts",
+      "contentHash": "7e630759c65bf7cd9b3fc35566fd8f7a2d1ca1ea37e2179f05db35502fd8928c",
+      "functions": [
+        {
+          "name": "scaffoldStory",
+          "params": [
+            "id",
+            "title",
+            "created"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "scaffoldStory"
+      ],
+      "totalLines": 27,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/superpowers/diff.ts": {
+      "filePath": "packages/server/src/superpowers/diff.ts",
+      "contentHash": "7f0ac295b2446ca5c6fdd07737904e3778e03f4ecc59b43695f3bf0b1b52c84e",
+      "functions": [
+        {
+          "name": "diffCheckboxState",
+          "params": [
+            "prev",
+            "next"
+          ],
+          "returnType": "CheckboxDiff[]",
+          "exported": true,
+          "lineCount": 23
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "ParsedPlan"
+          ]
+        }
+      ],
+      "exports": [
+        "diffCheckboxState"
+      ],
+      "totalLines": 33,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/superpowers/index.ts": {
+      "filePath": "packages/server/src/superpowers/index.ts",
+      "contentHash": "3da7ff332cad2efeefefce6a1746c917f1ff9439fd49559fdd67b3834051b5a2",
+      "functions": [],
+      "classes": [
+        {
+          "name": "SuperpowersWatcher",
+          "methods": [
+            "constructor",
+            "start",
+            "stop",
+            "getParsedPlan",
+            "getSpecBody",
+            "handleFileChange",
+            "loadDir",
+            "watchDir",
+            "upsertPlan",
+            "maybeAdvancePhase"
+          ],
+          "properties": [
+            "plans",
+            "specs",
+            "watchers",
+            "retryTimer"
+          ],
+          "exported": true,
+          "lineCount": 169
+        }
+      ],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "watch"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "readFile",
+            "readdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join",
+            "resolve"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "ParsedPlan",
+            "Phase"
+          ]
+        },
+        {
+          "source": "../bus.ts",
+          "specifiers": [
+            "Bus"
+          ]
+        },
+        {
+          "source": "./diff.ts",
+          "specifiers": [
+            "diffCheckboxState"
+          ]
+        },
+        {
+          "source": "./parser.ts",
+          "specifiers": [
+            "parsePlan"
+          ]
+        },
+        {
+          "source": "./phase.ts",
+          "specifiers": [
+            "advancePhase"
+          ]
+        }
+      ],
+      "exports": [
+        "SuperpowersWatcher"
+      ],
+      "totalLines": 180,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/superpowers/parser.ts": {
+      "filePath": "packages/server/src/superpowers/parser.ts",
+      "contentHash": "520bd54ea367d1a052e272d5b202aacf98e955c668c23041800eb573ad8e7cf4",
+      "functions": [
+        {
+          "name": "parseSpec",
+          "params": [
+            "content",
+            "path"
+          ],
+          "returnType": "{ path: string; title: string; body: string }",
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "parsePlan",
+        "parseSpec"
+      ],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/superpowers/phase.ts": {
+      "filePath": "packages/server/src/superpowers/phase.ts",
+      "contentHash": "5708c876761bc215899ad4395c1ab09f2d6a00119a3de1faa75d0345620f7f99",
+      "functions": [
+        {
+          "name": "advancePhase",
+          "params": [
+            "current",
+            "next"
+          ],
+          "returnType": "Phase",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "inferPhase",
+          "params": [
+            "sessionId",
+            "db"
+          ],
+          "returnType": "Phase | null",
+          "exported": true,
+          "lineCount": 27
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "Phase"
+          ]
+        }
+      ],
+      "exports": [
+        "advancePhase",
+        "inferPhase"
+      ],
+      "totalLines": 40,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/ws/index.ts": {
+      "filePath": "packages/server/src/ws/index.ts",
+      "contentHash": "da05dfef62989f1d63c10c3e58de14876d4722c5dcf6ed9a2c8e935e1120f765",
+      "functions": [],
+      "classes": [
+        {
+          "name": "WsServer",
+          "methods": [
+            "constructor",
+            "stop",
+            "upgrade",
+            "handleOpen",
+            "handleClose",
+            "handleMessage",
+            "fanOut",
+            "toWsMessages"
+          ],
+          "properties": [
+            "sockets",
+            "unsubscribe"
+          ],
+          "exported": true,
+          "lineCount": 107
+        }
+      ],
+      "imports": [
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "WSOut"
+          ]
+        },
+        {
+          "source": "bun",
+          "specifiers": [
+            "BunServer",
+            "ServerWebSocket"
+          ]
+        },
+        {
+          "source": "../bus.ts",
+          "specifiers": [
+            "Bus",
+            "BusEvent"
+          ]
+        }
+      ],
+      "exports": [
+        "WsServer"
+      ],
+      "totalLines": 115,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/__tests__/daemon.test.ts": {
+      "filePath": "packages/server/src/__tests__/daemon.test.ts",
+      "contentHash": "9f7e7bcd2ccd737b04eaeb95da9d504a833649f639342540356741a12e508094",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterAll",
+            "beforeAll",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "readFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "DaemonHandle",
+            "startDaemon"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 66,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/__tests__/integration.test.ts": {
+      "filePath": "packages/server/src/__tests__/integration.test.ts",
+      "contentHash": "4809334fac8d83810a3d123a04c064e61fcae51e17b6e43df94f56574eb10a2e",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterAll",
+            "beforeAll",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "mkdir"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "DaemonHandle",
+            "startDaemon"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 262,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/__tests__/server.test.ts": {
+      "filePath": "packages/server/src/__tests__/server.test.ts",
+      "contentHash": "24a3e0b706ddf254125645e44ecbad02b382ae784e31b0cf5d283627f300a79b",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterAll",
+            "beforeAll",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../bus.ts",
+          "specifiers": [
+            "stubBus"
+          ]
+        },
+        {
+          "source": "../server.ts",
+          "specifiers": [
+            "createServer"
+          ]
+        },
+        {
+          "source": "../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 106,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/api/__tests__/routes.test.ts": {
+      "filePath": "packages/server/src/api/__tests__/routes.test.ts",
+      "contentHash": "49715b563d09b0a6062dc19ec9d08ef1ca2af858477721ad724fa2ea985b2137",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterAll",
+            "beforeAll",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "mkdir"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "rm"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../bus.ts",
+          "specifiers": [
+            "createBus"
+          ]
+        },
+        {
+          "source": "../../server.ts",
+          "specifiers": [
+            "createServer"
+          ]
+        },
+        {
+          "source": "../../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "../../stories/index.ts",
+          "specifiers": [
+            "StoryService"
+          ]
+        },
+        {
+          "source": "../../superpowers/index.ts",
+          "specifiers": [
+            "SuperpowersWatcher"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "ApiCtx"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 143,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/api/__tests__/standup-handoff.test.ts": {
+      "filePath": "packages/server/src/api/__tests__/standup-handoff.test.ts",
+      "contentHash": "5aea0cf5176b2dd467c34f19d9e2fe286df78e37b85a5c95421c6a123590ab38",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterAll",
+            "beforeAll",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "mkdir",
+            "rm"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../index.ts",
+          "specifiers": [
+            "DaemonHandle",
+            "startDaemon"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 89,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/handoff/__tests__/service.test.ts": {
+      "filePath": "packages/server/src/handoff/__tests__/service.test.ts",
+      "contentHash": "ee55a0e7a701cd1141ccd2deacd66930b5a24c34a8b5a71df740876d50991558",
+      "functions": [
+        {
+          "name": "seedStoryFile",
+          "params": [
+            "cwd",
+            "db",
+            "opts"
+          ],
+          "exported": false,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "readFileSync"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "rm"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "HandoffService"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 105,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/hooks/__tests__/observer-contract.test.ts": {
+      "filePath": "packages/server/src/hooks/__tests__/observer-contract.test.ts",
+      "contentHash": "a9a4d9983f7cd00dd9ead603654a1d96902dce44328759b076dcab66b838301f",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../bus.ts",
+          "specifiers": [
+            "stubBus"
+          ]
+        },
+        {
+          "source": "../../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "handleHookEvent"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 108,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/hooks/__tests__/phase-inference.test.ts": {
+      "filePath": "packages/server/src/hooks/__tests__/phase-inference.test.ts",
+      "contentHash": "c0c1b556dabf15eb6ba2b5cee8f7fa647ea20149ccfabc9c2d0bc9d8f19590af",
+      "functions": [
+        {
+          "name": "collectPhaseEvents",
+          "params": [
+            "bus"
+          ],
+          "returnType": "BusEvent[]",
+          "exported": false,
+          "lineCount": 5
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../bus.ts",
+          "specifiers": [
+            "BusEvent"
+          ]
+        },
+        {
+          "source": "../../bus.ts",
+          "specifiers": [
+            "createBus"
+          ]
+        },
+        {
+          "source": "../../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "handleHookEvent"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 92,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/security/__tests__/security.test.ts": {
+      "filePath": "packages/server/src/security/__tests__/security.test.ts",
+      "contentHash": "81481a58c18271a5c05617b46ec357ae425df7b86e3ddd168e1642a47172ee48",
+      "functions": [
+        {
+          "name": "makeRequest",
+          "params": [
+            "overrides"
+          ],
+          "returnType": "Request",
+          "exported": false,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "RateLimiter",
+            "checkAuth"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 112,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/standup/__tests__/service.test.ts": {
+      "filePath": "packages/server/src/standup/__tests__/service.test.ts",
+      "contentHash": "d2afbe678496ee6ce13c6e28117ce2fd7ed2460f8b1e984e911a5887024656de",
+      "functions": [
+        {
+          "name": "seedStory",
+          "params": [
+            "db",
+            "opts"
+          ],
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "seedBlockerEvents",
+          "params": [
+            "db",
+            "sessionId",
+            "storyId",
+            "toolName",
+            "count",
+            "withinMs"
+          ],
+          "exported": false,
+          "lineCount": 15
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "StandupService"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 147,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/store/__tests__/migrate.test.ts": {
+      "filePath": "packages/server/src/store/__tests__/migrate.test.ts",
+      "contentHash": "2aee34cbd91c523ca119e7df9f9a1a5bd0218f7a811694e30c519800d41322d8",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 103,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/store/__tests__/store.test.ts": {
+      "filePath": "packages/server/src/store/__tests__/store.test.ts",
+      "contentHash": "545ef7bf63f5fce89c979a5cbd4d2ed2a821f699caa8cc5beb4c7f5bd4466912",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "endSession",
+            "persistEvent",
+            "upsertSession"
+          ]
+        },
+        {
+          "source": "../migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 119,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/stories/__tests__/service.test.ts": {
+      "filePath": "packages/server/src/stories/__tests__/service.test.ts",
+      "contentHash": "a5c381a6ee22de20aacefcc6d2fdacf3684a1317c016c5e4d1008c0bd5dccee5",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "rm"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../bus.ts",
+          "specifiers": [
+            "stubBus"
+          ]
+        },
+        {
+          "source": "../../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "StoryService"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 92,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/superpowers/__tests__/diff.test.ts": {
+      "filePath": "packages/server/src/superpowers/__tests__/diff.test.ts",
+      "contentHash": "76802b81f98e1b23b3285ff7ec9490726b6cb6d4e7b21ba3e2f06eac61973e3e",
+      "functions": [
+        {
+          "name": "makePlan",
+          "params": [
+            "taskSteps"
+          ],
+          "returnType": "ParsedPlan",
+          "exported": false,
+          "lineCount": 16
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "ParsedPlan"
+          ]
+        },
+        {
+          "source": "../diff.ts",
+          "specifiers": [
+            "diffCheckboxState"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 76,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/superpowers/__tests__/parser.test.ts": {
+      "filePath": "packages/server/src/superpowers/__tests__/parser.test.ts",
+      "contentHash": "f68c2fdd799fefc549b342331c769b33b586a4c24c378022f79f667864f813e6",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "../parser.ts",
+          "specifiers": [
+            "parsePlan",
+            "parseSpec"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 37,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/superpowers/__tests__/phase.test.ts": {
+      "filePath": "packages/server/src/superpowers/__tests__/phase.test.ts",
+      "contentHash": "34c6e90f3a7877839ca02270cbb400f85778ea7cf3cd7c4e30d40744bc6225c2",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "../phase.ts",
+          "specifiers": [
+            "advancePhase",
+            "inferPhase"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/superpowers/__tests__/watcher.test.ts": {
+      "filePath": "packages/server/src/superpowers/__tests__/watcher.test.ts",
+      "contentHash": "c9114281e70b2b021eebe46f2e553a785f7eb418090e2a370892e9e4e207bc2f",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterEach",
+            "beforeEach",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [
+            "mkdir",
+            "rm",
+            "writeFile"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../bus.ts",
+          "specifiers": [
+            "stubBus"
+          ]
+        },
+        {
+          "source": "../../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "SuperpowersWatcher"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 83,
+      "hasStructuralAnalysis": true
+    },
+    "packages/server/src/ws/__tests__/ws.test.ts": {
+      "filePath": "packages/server/src/ws/__tests__/ws.test.ts",
+      "contentHash": "537a5bbffbf43f7f8711cb4797d455d8e5683bcd8451d6c779c90dc2fc8362af",
+      "functions": [
+        {
+          "name": "connectAndAuth",
+          "params": [
+            "port"
+          ],
+          "returnType": "Promise<WebSocket>",
+          "exported": false,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:sqlite",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "afterAll",
+            "beforeAll",
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../../bus.ts",
+          "specifiers": [
+            "createBus"
+          ]
+        },
+        {
+          "source": "../../server.ts",
+          "specifiers": [
+            "createServer"
+          ]
+        },
+        {
+          "source": "../../store/migrate.ts",
+          "specifiers": [
+            "runMigrations"
+          ]
+        },
+        {
+          "source": "../index.ts",
+          "specifiers": [
+            "WsServer"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 135,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/src/api.ts": {
+      "filePath": "packages/shared/src/api.ts",
+      "contentHash": "eaf1a0fc1f9332e7dad085c66337ea767a0ab3f99ba80012494c9cf1c5b4dfbe",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./events.ts",
+          "specifiers": [
+            "HookEvent"
+          ]
+        },
+        {
+          "source": "./plan.ts",
+          "specifiers": [
+            "PlanTask"
+          ]
+        },
+        {
+          "source": "./story.ts",
+          "specifiers": [
+            "StorySize"
+          ]
+        }
+      ],
+      "exports": [
+        "HookEvent"
+      ],
+      "totalLines": 57,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/src/events.ts": {
+      "filePath": "packages/shared/src/events.ts",
+      "contentHash": "3adf2ca78e0e2dbf858532c7758e4f209b2bd3acd392ac040edad353ab7a13aa",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        }
+      ],
+      "exports": [
+        "HookEventSchema"
+      ],
+      "totalLines": 122,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/src/index.ts": {
+      "filePath": "packages/shared/src/index.ts",
+      "contentHash": "b1a49124c46cf76c16e7db610796a040c3f57c0c07142501f580aec987a135a7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "HookEventSchema",
+        "HookEvent",
+        "parsePlan",
+        "ParsedPlan",
+        "PlanTask",
+        "PlanStep",
+        "parseFrontmatter",
+        "StoryFrontmatter",
+        "Story",
+        "StoryDetail",
+        "StoryPatch",
+        "StorySize",
+        "Phase",
+        "Session",
+        "EventRecord",
+        "WSOut",
+        "StandupItem",
+        "StandupDigest"
+      ],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/src/plan.ts": {
+      "filePath": "packages/shared/src/plan.ts",
+      "contentHash": "52bbe30774add9ed0b9f0a252132b77fc7147c0ea50ecbad2980b30c0d028235",
+      "functions": [
+        {
+          "name": "parsePlan",
+          "params": [
+            "content",
+            "path"
+          ],
+          "returnType": "ParsedPlan",
+          "exported": true,
+          "lineCount": 66
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "parsePlan"
+      ],
+      "totalLines": 86,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/src/story.ts": {
+      "filePath": "packages/shared/src/story.ts",
+      "contentHash": "fb0d91fa9f01723297dd269d37f812fad28f2ff51be0e6e02e29fd49db591481",
+      "functions": [
+        {
+          "name": "parseFrontmatter",
+          "params": [
+            "content"
+          ],
+          "returnType": "StoryFrontmatter | null",
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zod",
+          "specifiers": [
+            "z"
+          ]
+        }
+      ],
+      "exports": [
+        "parseFrontmatter"
+      ],
+      "totalLines": 59,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/src/__tests__/events.test.ts": {
+      "filePath": "packages/shared/src/__tests__/events.test.ts",
+      "contentHash": "a84512fb0f78478b09d46d4967379e082e94431cb161e84d01c05ba034a259b7",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "../events.ts",
+          "specifiers": [
+            "HookEventSchema"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 119,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/src/__tests__/plan.test.ts": {
+      "filePath": "packages/shared/src/__tests__/plan.test.ts",
+      "contentHash": "e04a92ce17c19ef47a0b6d7d822ae25b5c449b6febcfccfb14be9cecf26d49a0",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "../plan.ts",
+          "specifiers": [
+            "parsePlan"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    },
+    "packages/shared/src/__tests__/story.test.ts": {
+      "filePath": "packages/shared/src/__tests__/story.test.ts",
+      "contentHash": "c54e2d0359538614dfc122d5f993b57718bf280cc2c40c02a74e5d0e475faf83",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "bun:test",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test"
+          ]
+        },
+        {
+          "source": "../story.ts",
+          "specifiers": [
+            "parseFrontmatter"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 84,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/main.tsx": {
+      "filePath": "packages/web/src/main.tsx",
+      "contentHash": "239d87cfc9c3458c67156b27bbe445b9e2fe9ba5f4c463825862c7c5f6cf63a3",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "QueryClient",
+            "QueryClientProvider"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "StrictMode"
+          ]
+        },
+        {
+          "source": "react-dom/client",
+          "specifiers": [
+            "createRoot"
+          ]
+        },
+        {
+          "source": "./App.tsx",
+          "specifiers": [
+            "App"
+          ]
+        },
+        {
+          "source": "./index.css",
+          "specifiers": []
+        },
+        {
+          "source": "./store/ws.ts",
+          "specifiers": [
+            "useWsStore"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/App.tsx": {
+      "filePath": "packages/web/src/App.tsx",
+      "contentHash": "0e4da388712f3e47de91409f3e62ed15dc138b5f948c54aa20597eb0b6f61ed3",
+      "functions": [
+        {
+          "name": "Shell",
+          "params": [],
+          "exported": false,
+          "lineCount": 21
+        },
+        {
+          "name": "App",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "HashRouter",
+            "Route",
+            "Routes"
+          ]
+        },
+        {
+          "source": "./components/layout/Sidebar.tsx",
+          "specifiers": [
+            "Sidebar"
+          ]
+        },
+        {
+          "source": "./components/layout/Topbar.tsx",
+          "specifiers": [
+            "Topbar"
+          ]
+        },
+        {
+          "source": "./hooks/useWebSocket.ts",
+          "specifiers": [
+            "useWebSocket"
+          ]
+        },
+        {
+          "source": "./pages/PlanPage.tsx",
+          "specifiers": [
+            "PlanPage"
+          ]
+        },
+        {
+          "source": "./pages/SpecPage.tsx",
+          "specifiers": [
+            "SpecPage"
+          ]
+        },
+        {
+          "source": "./pages/StandupPage.tsx",
+          "specifiers": [
+            "StandupPage"
+          ]
+        },
+        {
+          "source": "./pages/StoriesPage.tsx",
+          "specifiers": [
+            "StoriesPage"
+          ]
+        },
+        {
+          "source": "./pages/StoryPage.tsx",
+          "specifiers": [
+            "StoryPage"
+          ]
+        }
+      ],
+      "exports": [
+        "App"
+      ],
+      "totalLines": 40,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/index.css": {
+      "filePath": "packages/web/src/index.css",
+      "contentHash": "a9a45e24a2da7e824a045687ec3135731e4891000e5e6ed6d18f5913da03c95e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 288,
+      "hasStructuralAnalysis": false
+    },
+    "packages/web/index.html": {
+      "filePath": "packages/web/index.html",
+      "contentHash": "92e4b8cd0a69d858e2247e90fad3e896c49850f685a1f831f585fdfdd72995ca",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 19,
+      "hasStructuralAnalysis": false
+    },
+    "packages/web/src/hooks/useWebSocket.ts": {
+      "filePath": "packages/web/src/hooks/useWebSocket.ts",
+      "contentHash": "a1f20c462421947dcac396dbd79b5f4eb1e00664e6dfab13abd33ce35e57650f",
+      "functions": [
+        {
+          "name": "useWebSocket",
+          "params": [],
+          "exported": true,
+          "lineCount": 59
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useRef"
+          ]
+        },
+        {
+          "source": "../store/ws.ts",
+          "specifiers": [
+            "useWsStore"
+          ]
+        }
+      ],
+      "exports": [
+        "useWebSocket"
+      ],
+      "totalLines": 64,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/lib/api.ts": {
+      "filePath": "packages/web/src/lib/api.ts",
+      "contentHash": "eea399f489dd8e763cfdd15248f11f4ca3cd66a03d7b0b68502902164a5d87e8",
+      "functions": [
+        {
+          "name": "base",
+          "params": [],
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "apiFetch",
+          "params": [
+            "path",
+            "init"
+          ],
+          "returnType": "Promise<T>",
+          "exported": false,
+          "lineCount": 13
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "StandupDigest",
+            "StoryDetail",
+            "StoryPatch",
+            "Story"
+          ]
+        },
+        {
+          "source": "../store/ws.ts",
+          "specifiers": [
+            "useWsStore"
+          ]
+        }
+      ],
+      "exports": [
+        "api"
+      ],
+      "totalLines": 37,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/store/ui.ts": {
+      "filePath": "packages/web/src/store/ui.ts",
+      "contentHash": "d99ee7feaafa264035279075446f210b7824cde1d74206db1bc436b2b7c39c62",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zustand",
+          "specifiers": [
+            "create"
+          ]
+        }
+      ],
+      "exports": [
+        "useUiStore"
+      ],
+      "totalLines": 14,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/store/ws.ts": {
+      "filePath": "packages/web/src/store/ws.ts",
+      "contentHash": "9c5880ef535fbb5734174fbfcef3f7b0343d2e98a9a840f37ce0659804e35fae",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "zustand",
+          "specifiers": [
+            "create"
+          ]
+        }
+      ],
+      "exports": [
+        "useWsStore"
+      ],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/vite.config.ts": {
+      "filePath": "packages/web/vite.config.ts",
+      "contentHash": "ac4f64711c412e3a6602e8cd48134fd83ad90f949a984066c701661db21d0055",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@vitejs/plugin-react",
+          "specifiers": [
+            "react"
+          ]
+        },
+        {
+          "source": "vite",
+          "specifiers": [
+            "defineConfig"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/postcss.config.js": {
+      "filePath": "packages/web/postcss.config.js",
+      "contentHash": "08910ce1d5cd87d2167e9c78b77262bf985b3f07dc5037ff745ecd6a759fd0c0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/tailwind.config.js": {
+      "filePath": "packages/web/tailwind.config.js",
+      "contentHash": "69d34ee32d626b9a429978b58013ab385c394daae9bf106d72449eb1f55939e6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/tsconfig.tsbuildinfo": {
+      "filePath": "packages/web/tsconfig.tsbuildinfo",
+      "contentHash": "1f756b42a70deff90a98ede608c96e959e9ddae1868cccc322f5647ba97ae3d8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "packages/web/src/components/layout/Sidebar.tsx": {
+      "filePath": "packages/web/src/components/layout/Sidebar.tsx",
+      "contentHash": "acc3d52664aac2b53a1b94ad9e56c25c4d201d5b3161a9b9dced83d216f6da7a",
+      "functions": [
+        {
+          "name": "Sidebar",
+          "params": [],
+          "exported": true,
+          "lineCount": 95
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "useLocation",
+            "useNavigate"
+          ]
+        },
+        {
+          "source": "../../lib/api.ts",
+          "specifiers": [
+            "api"
+          ]
+        },
+        {
+          "source": "../../store/ws.ts",
+          "specifiers": [
+            "useWsStore"
+          ]
+        }
+      ],
+      "exports": [
+        "Sidebar"
+      ],
+      "totalLines": 101,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/layout/Topbar.tsx": {
+      "filePath": "packages/web/src/components/layout/Topbar.tsx",
+      "contentHash": "e4619d5d5b8faae82603de352732d8be610c03103147b398d4040c2cccf77847",
+      "functions": [
+        {
+          "name": "Topbar",
+          "params": [],
+          "exported": true,
+          "lineCount": 48
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../../store/ws.ts",
+          "specifiers": [
+            "useWsStore"
+          ]
+        }
+      ],
+      "exports": [
+        "Topbar"
+      ],
+      "totalLines": 53,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/shared/HierarchyStrip.tsx": {
+      "filePath": "packages/web/src/components/shared/HierarchyStrip.tsx",
+      "contentHash": "81f561586e29e51c54cbd0a1fadf28d97d2c092b47ff3decea5ee5b2de773d2f",
+      "functions": [
+        {
+          "name": "HierarchyStrip",
+          "params": [
+            "{ nodes }"
+          ],
+          "exported": true,
+          "lineCount": 20
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "useNavigate"
+          ]
+        }
+      ],
+      "exports": [
+        "HierarchyStrip"
+      ],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/shared/LinkedCard.tsx": {
+      "filePath": "packages/web/src/components/shared/LinkedCard.tsx",
+      "contentHash": "f2ea076f1dffce383e9339a9fcc95e956da4ff90668f7a41f3a62d82d6a6cf61",
+      "functions": [
+        {
+          "name": "LinkedCard",
+          "params": [
+            "{ icon, filename, sub, progress, to }"
+          ],
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "useNavigate"
+          ]
+        }
+      ],
+      "exports": [
+        "LinkedCard"
+      ],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/shared/SizePill.tsx": {
+      "filePath": "packages/web/src/components/shared/SizePill.tsx",
+      "contentHash": "2a06299f8c5020357b7452a8d20b12e7064ac8933f92ef6ea66fef2faef6a141",
+      "functions": [
+        {
+          "name": "SizePill",
+          "params": [
+            "{ size, onClick }"
+          ],
+          "exported": true,
+          "lineCount": 16
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "StorySize"
+          ]
+        }
+      ],
+      "exports": [
+        "SizePill"
+      ],
+      "totalLines": 20,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/shared/StatusPill.tsx": {
+      "filePath": "packages/web/src/components/shared/StatusPill.tsx",
+      "contentHash": "b6a830647025cff8cfb7f8a6158e45172987273e5d59569d51fe0efa7a83929c",
+      "functions": [
+        {
+          "name": "StatusPill",
+          "params": [
+            "{ status, onClick }"
+          ],
+          "exported": true,
+          "lineCount": 15
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "StatusPill"
+      ],
+      "totalLines": 19,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/shared/StepRow.tsx": {
+      "filePath": "packages/web/src/components/shared/StepRow.tsx",
+      "contentHash": "ea79e784f030263fc67fae59458e1e4e6c7495f69da8d2913dcfa3be15f60c73",
+      "functions": [
+        {
+          "name": "StepRow",
+          "params": [
+            "{ label, state, time }"
+          ],
+          "exported": true,
+          "lineCount": 15
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "StepRow"
+      ],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/shared/TaskCard.tsx": {
+      "filePath": "packages/web/src/components/shared/TaskCard.tsx",
+      "contentHash": "add80f7eaf0aa748d63d3e00f1a1f5af12e07b3da20684bbd1fa9f6bdeb2d3c6",
+      "functions": [
+        {
+          "name": "getTaskState",
+          "params": [
+            "task"
+          ],
+          "returnType": "\"done\" | \"active\" | \"todo\"",
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "TaskCard",
+          "params": [
+            "{ task, taskIndex }"
+          ],
+          "exported": true,
+          "lineCount": 40
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "PlanTask"
+          ]
+        },
+        {
+          "source": "./StepRow.tsx",
+          "specifiers": [
+            "StepRow"
+          ]
+        }
+      ],
+      "exports": [
+        "TaskCard"
+      ],
+      "totalLines": 53,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/shared/TypeIcon.tsx": {
+      "filePath": "packages/web/src/components/shared/TypeIcon.tsx",
+      "contentHash": "dd760a080e197e222ba07012ea04792d0c942a43ea70f3fb2610ab936f337f9c",
+      "functions": [
+        {
+          "name": "TypeIcon",
+          "params": [
+            "{ type }"
+          ],
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "TypeIcon"
+      ],
+      "totalLines": 14,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/standup/StandupSection.tsx": {
+      "filePath": "packages/web/src/components/standup/StandupSection.tsx",
+      "contentHash": "696f020c5f651cb6806cfb933501b23ae6e7513512ede08f7ac58bd42a45f8a9",
+      "functions": [
+        {
+          "name": "StandupSection",
+          "params": [
+            "{ variant, items }"
+          ],
+          "exported": true,
+          "lineCount": 26
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "StandupItem"
+          ]
+        }
+      ],
+      "exports": [
+        "StandupSection"
+      ],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/standup/StatsGrid.tsx": {
+      "filePath": "packages/web/src/components/standup/StatsGrid.tsx",
+      "contentHash": "0fe8aebbdea200706809424f8ebdaa975c00c8a0c5a1475add8da1b879655248",
+      "functions": [
+        {
+          "name": "StatsGrid",
+          "params": [
+            "{ stats }"
+          ],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "StatsGrid"
+      ],
+      "totalLines": 17,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/stories/FilterBar.tsx": {
+      "filePath": "packages/web/src/components/stories/FilterBar.tsx",
+      "contentHash": "19d3a54a79370c9f15c630dd222f953b2b56d371fbffe56adc13458ab3f5fc1b",
+      "functions": [
+        {
+          "name": "FilterBar",
+          "params": [
+            "{ counts }"
+          ],
+          "exported": true,
+          "lineCount": 24
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../../store/ui.ts",
+          "specifiers": [
+            "useUiStore",
+            "StoryFilter"
+          ]
+        }
+      ],
+      "exports": [
+        "FilterBar"
+      ],
+      "totalLines": 38,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/stories/KanbanColumn.tsx": {
+      "filePath": "packages/web/src/components/stories/KanbanColumn.tsx",
+      "contentHash": "f83be914a1f7ce685d177c010d6985f8e4cc35775b5a1b52ab926adcada80010",
+      "functions": [
+        {
+          "name": "KanbanColumn",
+          "params": [
+            "{ status, stories, isFiltered }"
+          ],
+          "exported": true,
+          "lineCount": 31
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "Story"
+          ]
+        },
+        {
+          "source": "../../store/ui.ts",
+          "specifiers": [
+            "useUiStore"
+          ]
+        },
+        {
+          "source": "./StoryCard.tsx",
+          "specifiers": [
+            "StoryCard"
+          ]
+        }
+      ],
+      "exports": [
+        "KanbanColumn"
+      ],
+      "totalLines": 41,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/components/stories/StoryCard.tsx": {
+      "filePath": "packages/web/src/components/stories/StoryCard.tsx",
+      "contentHash": "9d397a8b2a3ad0a95061f5847b582c6210642da74642e0f7e6a9911cecc9c3e6",
+      "functions": [
+        {
+          "name": "StoryCard",
+          "params": [
+            "{ story }"
+          ],
+          "exported": true,
+          "lineCount": 41
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "useNavigate"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "Story"
+          ]
+        },
+        {
+          "source": "../../store/ws.ts",
+          "specifiers": [
+            "useWsStore"
+          ]
+        }
+      ],
+      "exports": [
+        "StoryCard"
+      ],
+      "totalLines": 48,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/pages/PlanPage.tsx": {
+      "filePath": "packages/web/src/pages/PlanPage.tsx",
+      "contentHash": "bcd2247730ebfeb9b08d6f94c8f4c67c7091241633dfb4effa1828fd1578db0f",
+      "functions": [
+        {
+          "name": "PlanPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 88
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "ParsedPlan"
+          ]
+        },
+        {
+          "source": "../components/shared/HierarchyStrip.tsx",
+          "specifiers": [
+            "HierarchyStrip"
+          ]
+        },
+        {
+          "source": "../components/shared/LinkedCard.tsx",
+          "specifiers": [
+            "LinkedCard"
+          ]
+        },
+        {
+          "source": "../components/shared/SizePill.tsx",
+          "specifiers": [
+            "SizePill"
+          ]
+        },
+        {
+          "source": "../components/shared/StatusPill.tsx",
+          "specifiers": [
+            "StatusPill"
+          ]
+        },
+        {
+          "source": "../components/shared/TaskCard.tsx",
+          "specifiers": [
+            "TaskCard"
+          ]
+        },
+        {
+          "source": "../components/shared/TypeIcon.tsx",
+          "specifiers": [
+            "TypeIcon"
+          ]
+        },
+        {
+          "source": "../lib/api.ts",
+          "specifiers": [
+            "api"
+          ]
+        },
+        {
+          "source": "../store/ws.ts",
+          "specifiers": [
+            "useWsStore"
+          ]
+        }
+      ],
+      "exports": [
+        "PlanPage"
+      ],
+      "totalLines": 100,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/pages/SpecPage.tsx": {
+      "filePath": "packages/web/src/pages/SpecPage.tsx",
+      "contentHash": "75fec14ef33a1e44a52356e35439a5508cfc300da51d2ffeaa4997d3908a165d",
+      "functions": [
+        {
+          "name": "SpecPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 74
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery"
+          ]
+        },
+        {
+          "source": "react-markdown",
+          "specifiers": [
+            "ReactMarkdown"
+          ]
+        },
+        {
+          "source": "rehype-highlight",
+          "specifiers": [
+            "rehypeHighlight"
+          ]
+        },
+        {
+          "source": "../components/shared/HierarchyStrip.tsx",
+          "specifiers": [
+            "HierarchyStrip"
+          ]
+        },
+        {
+          "source": "../components/shared/LinkedCard.tsx",
+          "specifiers": [
+            "LinkedCard"
+          ]
+        },
+        {
+          "source": "../lib/api.ts",
+          "specifiers": [
+            "api"
+          ]
+        },
+        {
+          "source": "../store/ws.ts",
+          "specifiers": [
+            "useWsStore"
+          ]
+        }
+      ],
+      "exports": [
+        "SpecPage"
+      ],
+      "totalLines": 83,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/pages/StandupPage.tsx": {
+      "filePath": "packages/web/src/pages/StandupPage.tsx",
+      "contentHash": "9f8fbbf2446aedc2fd8794fcdd6b768cd0e4284f54c7155d5b567a37a21e2a00",
+      "functions": [
+        {
+          "name": "formatDigest",
+          "params": [
+            "digest"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 19
+        },
+        {
+          "name": "StandupPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 51
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "StandupDigest"
+          ]
+        },
+        {
+          "source": "../components/standup/StandupSection.tsx",
+          "specifiers": [
+            "StandupSection"
+          ]
+        },
+        {
+          "source": "../components/standup/StatsGrid.tsx",
+          "specifiers": [
+            "StatsGrid"
+          ]
+        },
+        {
+          "source": "../lib/api.ts",
+          "specifiers": [
+            "api"
+          ]
+        }
+      ],
+      "exports": [
+        "StandupPage"
+      ],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/pages/StoriesPage.tsx": {
+      "filePath": "packages/web/src/pages/StoriesPage.tsx",
+      "contentHash": "ac7750a958177f045126eccb3d9e38087b8b24caa038bb7aeeb9622458952d33",
+      "functions": [
+        {
+          "name": "StoriesPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 28
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useQuery"
+          ]
+        },
+        {
+          "source": "../components/stories/FilterBar.tsx",
+          "specifiers": [
+            "FilterBar"
+          ]
+        },
+        {
+          "source": "../components/stories/KanbanColumn.tsx",
+          "specifiers": [
+            "KanbanColumn"
+          ]
+        },
+        {
+          "source": "../lib/api.ts",
+          "specifiers": [
+            "api"
+          ]
+        },
+        {
+          "source": "../store/ui.ts",
+          "specifiers": [
+            "useUiStore"
+          ]
+        }
+      ],
+      "exports": [
+        "StoriesPage"
+      ],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/pages/StoryPage.tsx": {
+      "filePath": "packages/web/src/pages/StoryPage.tsx",
+      "contentHash": "5a0e0a483829802de931c65b02746f7c797f4b10805af236b78f4a39c7bf2aa6",
+      "functions": [
+        {
+          "name": "parseUserStory",
+          "params": [
+            "body"
+          ],
+          "returnType": "{ narrative: string; acceptanceCriteria: { text: string; done: boolean }[] }",
+          "exported": false,
+          "lineCount": 22
+        },
+        {
+          "name": "StoryPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 127
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "useMutation",
+            "useQuery",
+            "useQueryClient"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "useParams"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "StorySize"
+          ]
+        },
+        {
+          "source": "../components/shared/HierarchyStrip.tsx",
+          "specifiers": [
+            "HierarchyStrip"
+          ]
+        },
+        {
+          "source": "../components/shared/LinkedCard.tsx",
+          "specifiers": [
+            "LinkedCard"
+          ]
+        },
+        {
+          "source": "../components/shared/SizePill.tsx",
+          "specifiers": [
+            "SizePill"
+          ]
+        },
+        {
+          "source": "../components/shared/StatusPill.tsx",
+          "specifiers": [
+            "StatusPill"
+          ]
+        },
+        {
+          "source": "../components/shared/TypeIcon.tsx",
+          "specifiers": [
+            "TypeIcon"
+          ]
+        },
+        {
+          "source": "../lib/api.ts",
+          "specifiers": [
+            "api"
+          ]
+        }
+      ],
+      "exports": [
+        "StoryPage"
+      ],
+      "totalLines": 164,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/__tests__/FilterBar.test.tsx": {
+      "filePath": "packages/web/src/__tests__/FilterBar.test.tsx",
+      "contentHash": "8b941b3812ece5425841dd5bbbc7c96cd9780af9f569c8de2353830dc124389f",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@testing-library/react",
+          "specifiers": [
+            "render",
+            "screen",
+            "fireEvent"
+          ]
+        },
+        {
+          "source": "vitest",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test",
+            "beforeEach"
+          ]
+        },
+        {
+          "source": "../components/stories/FilterBar.tsx",
+          "specifiers": [
+            "FilterBar"
+          ]
+        },
+        {
+          "source": "../store/ui.ts",
+          "specifiers": [
+            "useUiStore"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 58,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/__tests__/KanbanColumn.test.tsx": {
+      "filePath": "packages/web/src/__tests__/KanbanColumn.test.tsx",
+      "contentHash": "99b22f8fda7ca6cb320e1bac466453947834060df1dea5b214926b1b1643b747",
+      "functions": [
+        {
+          "name": "wrapper",
+          "params": [
+            "{ children }"
+          ],
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@testing-library/react",
+          "specifiers": [
+            "render",
+            "screen",
+            "fireEvent"
+          ]
+        },
+        {
+          "source": "vitest",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test",
+            "beforeEach"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "MemoryRouter"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "createElement",
+            "ReactNode"
+          ]
+        },
+        {
+          "source": "../components/stories/KanbanColumn.tsx",
+          "specifiers": [
+            "KanbanColumn"
+          ]
+        },
+        {
+          "source": "../store/ui.ts",
+          "specifiers": [
+            "useUiStore"
+          ]
+        },
+        {
+          "source": "@cc/shared",
+          "specifiers": [
+            "Story"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 62,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/__tests__/StoriesPage.test.tsx": {
+      "filePath": "packages/web/src/__tests__/StoriesPage.test.tsx",
+      "contentHash": "6be22f4f7cc1cedf376adf9d0bcc8b66b30b192ac55639a0b04d37e149cad916",
+      "functions": [
+        {
+          "name": "Wrapper",
+          "params": [
+            "{ children }"
+          ],
+          "exported": false,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@testing-library/react",
+          "specifiers": [
+            "render",
+            "screen",
+            "fireEvent",
+            "waitFor"
+          ]
+        },
+        {
+          "source": "vitest",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test",
+            "beforeEach",
+            "vi"
+          ]
+        },
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "QueryClient",
+            "QueryClientProvider"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "createElement",
+            "ReactNode"
+          ]
+        },
+        {
+          "source": "react-router-dom",
+          "specifiers": [
+            "MemoryRouter"
+          ]
+        },
+        {
+          "source": "../pages/StoriesPage.tsx",
+          "specifiers": [
+            "StoriesPage"
+          ]
+        },
+        {
+          "source": "../store/ui.ts",
+          "specifiers": [
+            "useUiStore"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 72,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/__tests__/ui-store.test.ts": {
+      "filePath": "packages/web/src/__tests__/ui-store.test.ts",
+      "contentHash": "714a32e7c15b9619e1b13060a8108cfeb603f17272e0b24c3e96346ba7492e6a",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "vitest",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test",
+            "beforeEach"
+          ]
+        },
+        {
+          "source": "../store/ui.ts",
+          "specifiers": [
+            "useUiStore"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 24,
+      "hasStructuralAnalysis": true
+    },
+    "packages/web/src/__tests__/useWebSocket.test.ts": {
+      "filePath": "packages/web/src/__tests__/useWebSocket.test.ts",
+      "contentHash": "5bf205b59d1d80d68a90b5511dcce4a1510371eb4c0513dd2a2c0c8f0a3a2c9f",
+      "functions": [
+        {
+          "name": "wrapper",
+          "params": [
+            "{ children }"
+          ],
+          "exported": false,
+          "lineCount": 4
+        }
+      ],
+      "classes": [
+        {
+          "name": "MockWebSocket",
+          "methods": [
+            "constructor",
+            "send",
+            "close",
+            "open",
+            "receive"
+          ],
+          "properties": [
+            "instances",
+            "onopen",
+            "onmessage",
+            "onclose",
+            "onerror",
+            "readyState",
+            "sentMessages"
+          ],
+          "exported": false,
+          "lineCount": 14
+        }
+      ],
+      "imports": [
+        {
+          "source": "@tanstack/react-query",
+          "specifiers": [
+            "QueryClient",
+            "QueryClientProvider"
+          ]
+        },
+        {
+          "source": "@testing-library/react",
+          "specifiers": [
+            "act",
+            "renderHook"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "ReactNode",
+            "createElement"
+          ]
+        },
+        {
+          "source": "vitest",
+          "specifiers": [
+            "describe",
+            "expect",
+            "test",
+            "vi"
+          ]
+        },
+        {
+          "source": "../store/ws.ts",
+          "specifiers": [
+            "useWsStore"
+          ]
+        },
+        {
+          "source": "../hooks/useWebSocket.ts",
+          "specifiers": [
+            "useWebSocket"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    }
+  }
+}
