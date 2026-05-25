@@ -180,7 +180,7 @@ export class StoryService {
     if (!filename?.endsWith(".md")) return;
     const filePath = join(this.storiesDir, filename);
     const content = await readFile(filePath, "utf-8").catch(() => null);
-    if (!content) {
+    if (content === null) {
       const row = this.db
         .query<{ id: string }, [string]>(
           "SELECT id FROM stories WHERE file_path = ?",
@@ -217,7 +217,7 @@ export class StoryService {
       if (!name.endsWith(".md")) continue;
       const filePath = join(this.storiesDir, name);
       const content = await readFile(filePath, "utf-8").catch(() => null);
-      if (!content) continue;
+      if (content === null) continue;
       const fm = parseFrontmatter(content);
       if (!fm) continue;
       this.upsertRow(
