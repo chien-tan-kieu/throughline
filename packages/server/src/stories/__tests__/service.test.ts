@@ -216,20 +216,32 @@ describe("StoryService", () => {
 
     await (isolatedService as any).reconcile();
 
-    const row = isolatedDb
-      .query<{ id: string; title: string }, [string]>(
-        "SELECT id, title FROM stories WHERE id = ?",
-      )
-      .get(id);
-    expect(row?.id).toBe(id);
-    expect(row?.title).toBe("New On-Disk Story");
-    expect(isolatedEvents).toHaveLength(1);
-    expect(isolatedEvents[0]).toEqual({
-      type: "story.changed",
-      data: { id, op: "create" },
-    });
+    try {
+      const row = isolatedDb
+        .query<{ id: string; title: string }, [string]>(
+          "SELECT id, title FROM stories WHERE id = ?",
+        )
+        .get(id);
+      expect(row?.id).toBe(id);
+      expect(row?.title).toBe("New On-Disk Story");
+      expect(isolatedEvents).toHaveLength(1);
+      expect(isolatedEvents[0]).toEqual({
+        type: "story.changed",
+        data: { id, op: "create" },
+      });
+    } finally {
+      isolatedDb.close();
+      await rm(isolatedCwd, { recursive: true, force: true });
+    }
+  });
 
-    isolatedDb.close();
-    await rm(isolatedCwd, { recursive: true, force: true });
+  test("start() sets reconcileTimer", () => {
+    expect((service as any).reconcileTimer).not.toBeNull();
+  });
+
+  test("stop() clears reconcileTimer and is safe to call twice", () => {
+    service.stop();
+    expect((service as any).reconcileTimer).toBeNull();
+    expect(() => service.stop()).not.toThrow();
   });
 });

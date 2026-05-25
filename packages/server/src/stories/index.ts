@@ -52,6 +52,7 @@ function applyPatch(content: string, patch: StoryPatch): string {
 export class StoryService {
   private storiesDir: string;
   private watcher: ReturnType<typeof watch> | null = null;
+  private reconcileTimer: ReturnType<typeof setInterval> | null = null;
 
   constructor(
     private cwd: string,
@@ -71,11 +72,18 @@ export class StoryService {
         this.handleFileEvent(filename);
       },
     );
+    this.reconcileTimer = setInterval(() => {
+      this.reconcile();
+    }, 30_000);
   }
 
   stop(): void {
     this.watcher?.close();
     this.watcher = null;
+    if (this.reconcileTimer !== null) {
+      clearInterval(this.reconcileTimer);
+      this.reconcileTimer = null;
+    }
   }
 
   list(): Story[] {
