@@ -67,25 +67,8 @@ export class StoryService {
     this.watcher = watch(
       this.storiesDir,
       { persistent: false },
-      async (_event, filename) => {
-        if (!filename?.endsWith(".md")) return;
-        const filePath = join(this.storiesDir, filename);
-        const content = await readFile(filePath, "utf-8").catch(() => null);
-        if (!content) return;
-        const fm = parseFrontmatter(content);
-        if (!fm) return;
-        await this.upsertRow(
-          fm.id,
-          filePath,
-          fm.status,
-          fm.size ?? null,
-          fm.linked_spec ?? null,
-          fm.linked_plan ?? null,
-        );
-        this.bus.publish({
-          type: "story.changed",
-          data: { id: fm.id, op: "update" },
-        });
+      (_event, filename) => {
+        this.handleFileEvent(filename);
       },
     );
   }
@@ -193,6 +176,28 @@ export class StoryService {
     this.bus.publish({ type: "story.changed", data: { id, op: "delete" } });
   }
 
+  private async handleFileEvent(filename: string | null): Promise<void> {
+    if (!filename?.endsWith(".md")) return;
+    const filePath = join(this.storiesDir, filename);
+    const content = await readFile(filePath, "utf-8").catch(() => null);
+    if (!content) return;
+    const fm = parseFrontmatter(content);
+    if (!fm) return;
+    this.upsertRow(
+      fm.id,
+      filePath,
+      fm.title,
+      fm.status,
+      fm.size ?? null,
+      fm.linked_spec ?? null,
+      fm.linked_plan ?? null,
+    );
+    this.bus.publish({
+      type: "story.changed",
+      data: { id: fm.id, op: "update" },
+    });
+  }
+
   private async loadAll(): Promise<void> {
     const entries = await readdir(this.storiesDir).catch(() => [] as string[]);
     for (const name of entries) {
@@ -205,6 +210,7 @@ export class StoryService {
       await this.upsertRow(
         fm.id,
         filePath,
+        fm.title,
         fm.status,
         fm.size ?? null,
         fm.linked_spec ?? null,
@@ -216,29 +222,17 @@ export class StoryService {
   private upsertRow(
     id: string,
     filePath: string,
+    title: string,
     status: string,
     size: string | null,
     linkedSpec: string | null,
     linkedPlan: string | null,
   ): void {
     const ts = Date.now();
-    const title = id;
     this.db.run(
       `INSERT OR REPLACE INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at)
-       VALUES (?, ?, COALESCE((SELECT title FROM stories WHERE id = ?), ?), ?, ?, ?, ?, COALESCE((SELECT created_at FROM stories WHERE id = ?), ?), ?)`,
-      [
-        id,
-        filePath,
-        id,
-        title,
-        size,
-        status,
-        linkedSpec,
-        linkedPlan,
-        id,
-        ts,
-        ts,
-      ],
+       VALUES (?, ?, ?, ?, ?, ?, ?, COALESCE((SELECT created_at FROM stories WHERE id = ?), ?), ?)`,
+      [id, filePath, title, size, status, linkedSpec, linkedPlan, id, ts, ts],
     );
   }
 }

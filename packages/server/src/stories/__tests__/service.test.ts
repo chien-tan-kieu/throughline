@@ -1,10 +1,10 @@
 // packages/server/src/stories/__tests__/service.test.ts
 import { Database } from "bun:sqlite";
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { rm } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { stubBus } from "../../bus.ts";
+import type { Bus, BusEvent } from "../../bus.ts";
 import { runMigrations } from "../../store/migrate.ts";
 import { StoryService } from "../index.ts";
 
@@ -14,12 +14,21 @@ describe("StoryService", () => {
   let db: Database;
   let cwd: string;
   let service: StoryService;
+  let publishedEvents: BusEvent[];
+  let bus: Bus;
 
   beforeEach(async () => {
     cwd = join(tmpdir(), `cc-stories-${Date.now()}`);
     db = new Database(":memory:");
     await runMigrations(db, MIGRATIONS_DIR);
-    service = new StoryService(cwd, db, stubBus);
+    publishedEvents = [];
+    bus = {
+      publish(event: BusEvent) {
+        publishedEvents.push(event);
+      },
+      subscribe: () => () => {},
+    };
+    service = new StoryService(cwd, db, bus);
     await service.start();
   });
 
@@ -87,5 +96,18 @@ describe("StoryService", () => {
   test("get() returns null for invalid id format", () => {
     expect(service.get("../etc/passwd")).toBeNull();
     expect(service.get("not-a-valid-id")).toBeNull();
+  });
+
+  test("upsertRow updates title on subsequent call", () => {
+    const id = "US-2026-01-01-title-test";
+    const filePath = join(cwd, "docs/superpowers/stories", `${id}.md`);
+    (service as any).upsertRow(id, filePath, "Title A", "backlog", null, null, null);
+    (service as any).upsertRow(id, filePath, "Title B", "backlog", null, null, null);
+    const row = db
+      .query<{ title: string }, [string]>(
+        "SELECT title FROM stories WHERE id = ?",
+      )
+      .get(id);
+    expect(row?.title).toBe("Title B");
   });
 });
