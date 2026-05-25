@@ -180,7 +180,20 @@ export class StoryService {
     if (!filename?.endsWith(".md")) return;
     const filePath = join(this.storiesDir, filename);
     const content = await readFile(filePath, "utf-8").catch(() => null);
-    if (!content) return;
+    if (!content) {
+      const row = this.db
+        .query<{ id: string }, [string]>(
+          "SELECT id FROM stories WHERE file_path = ?",
+        )
+        .get(filePath);
+      if (!row) return;
+      this.db.run("DELETE FROM stories WHERE file_path = ?", [filePath]);
+      this.bus.publish({
+        type: "story.changed",
+        data: { id: row.id, op: "delete" },
+      });
+      return;
+    }
     const fm = parseFrontmatter(content);
     if (!fm) return;
     this.upsertRow(

@@ -110,4 +110,25 @@ describe("StoryService", () => {
       .get(id);
     expect(row?.title).toBe("Title B");
   });
+
+  test("handleFileEvent() deletes row and emits bus event when file is missing", async () => {
+    const story = await service.create("To Be Deleted");
+    publishedEvents = []; // reset events accumulated during create()
+
+    await rm(story.file_path); // file gone — readFile will return null
+
+    await (service as any).handleFileEvent(`${story.id}.md`);
+
+    const row = db
+      .query<{ id: string }, [string]>(
+        "SELECT id FROM stories WHERE id = ?",
+      )
+      .get(story.id);
+    expect(row).toBeNull();
+    expect(publishedEvents).toHaveLength(1);
+    expect(publishedEvents[0]).toEqual({
+      type: "story.changed",
+      data: { id: story.id, op: "delete" },
+    });
+  });
 });
