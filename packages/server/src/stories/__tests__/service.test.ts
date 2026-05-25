@@ -111,6 +111,30 @@ describe("StoryService", () => {
     expect(row?.title).toBe("Title B");
   });
 
+  test("loadAll() prunes rows for files that no longer exist on disk", async () => {
+    // Seed a stale row directly — simulates a file deleted while the server was down
+    const staleId = "US-2026-01-01-stale-story";
+    const stalePath = join(cwd, "docs/superpowers/stories", `${staleId}.md`);
+    const ts = Date.now();
+    db.run(
+      `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at)
+       VALUES (?, ?, ?, NULL, 'backlog', NULL, NULL, ?, ?)`,
+      [staleId, stalePath, "Stale Story", ts, ts],
+    );
+
+    // Restart service — loadAll() runs and should prune the stale row
+    service.stop();
+    service = new StoryService(cwd, db, bus);
+    await service.start();
+
+    const row = db
+      .query<{ id: string }, [string]>(
+        "SELECT id FROM stories WHERE id = ?",
+      )
+      .get(staleId);
+    expect(row).toBeNull();
+  });
+
   test("handleFileEvent() deletes row and emits bus event when file is missing", async () => {
     const story = await service.create("To Be Deleted");
     publishedEvents = []; // reset events accumulated during create()

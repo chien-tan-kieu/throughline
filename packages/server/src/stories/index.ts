@@ -213,9 +213,11 @@ export class StoryService {
 
   private async loadAll(): Promise<void> {
     const entries = await readdir(this.storiesDir).catch(() => [] as string[]);
+    const onDiskPaths = new Set<string>();
     for (const name of entries) {
       if (!name.endsWith(".md")) continue;
       const filePath = join(this.storiesDir, name);
+      onDiskPaths.add(filePath);
       const content = await readFile(filePath, "utf-8").catch(() => null);
       if (content === null) continue;
       const fm = parseFrontmatter(content);
@@ -229,6 +231,16 @@ export class StoryService {
         fm.linked_spec ?? null,
         fm.linked_plan ?? null,
       );
+    }
+    const rows = this.db
+      .query<{ id: string; file_path: string }, []>(
+        "SELECT id, file_path FROM stories WHERE status != 'archived'",
+      )
+      .all();
+    for (const row of rows) {
+      if (!onDiskPaths.has(row.file_path)) {
+        this.db.run("DELETE FROM stories WHERE id = ?", [row.id]);
+      }
     }
   }
 
