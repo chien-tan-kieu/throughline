@@ -73,7 +73,9 @@ export class StoryService {
       },
     );
     this.reconcileTimer = setInterval(() => {
-      this.reconcile();
+      this.reconcile().catch((err) =>
+        console.error("[StoryService] reconcile error:", err),
+      );
     }, 30_000);
   }
 
