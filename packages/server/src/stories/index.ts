@@ -211,6 +211,53 @@ export class StoryService {
     });
   }
 
+  private async reconcile(): Promise<void> {
+    const entries = await readdir(this.storiesDir).catch(() => [] as string[]);
+    const onDiskPaths = new Set(
+      entries
+        .filter((n) => n.endsWith(".md"))
+        .map((n) => join(this.storiesDir, n)),
+    );
+
+    const rows = this.db
+      .query<{ id: string; file_path: string }, []>(
+        "SELECT id, file_path FROM stories WHERE status != 'archived'",
+      )
+      .all();
+
+    for (const row of rows) {
+      if (!onDiskPaths.has(row.file_path)) {
+        this.db.run("DELETE FROM stories WHERE id = ?", [row.id]);
+        this.bus.publish({
+          type: "story.changed",
+          data: { id: row.id, op: "delete" },
+        });
+      }
+    }
+
+    const knownPaths = new Set(rows.map((r) => r.file_path));
+    for (const filePath of onDiskPaths) {
+      if (knownPaths.has(filePath)) continue;
+      const content = await readFile(filePath, "utf-8").catch(() => null);
+      if (content === null) continue;
+      const fm = parseFrontmatter(content);
+      if (!fm) continue;
+      this.upsertRow(
+        fm.id,
+        filePath,
+        fm.title,
+        fm.status,
+        fm.size ?? null,
+        fm.linked_spec ?? null,
+        fm.linked_plan ?? null,
+      );
+      this.bus.publish({
+        type: "story.changed",
+        data: { id: fm.id, op: "create" },
+      });
+    }
+  }
+
   private async loadAll(): Promise<void> {
     const entries = await readdir(this.storiesDir).catch(() => [] as string[]);
     const onDiskPaths = new Set<string>();

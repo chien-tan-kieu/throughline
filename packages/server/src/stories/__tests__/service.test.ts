@@ -155,4 +155,81 @@ describe("StoryService", () => {
       data: { id: story.id, op: "delete" },
     });
   });
+
+  test("reconcile() deletes stale row and emits delete event", async () => {
+    const staleId = "US-2026-01-01-stale-reconcile";
+    const stalePath = join(cwd, "docs/superpowers/stories", `${staleId}.md`);
+    const ts = Date.now();
+    db.run(
+      `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at)
+       VALUES (?, ?, ?, NULL, 'backlog', NULL, NULL, ?, ?)`,
+      [staleId, stalePath, "Stale Reconcile", ts, ts],
+    );
+    publishedEvents = [];
+
+    await (service as any).reconcile();
+
+    const row = db
+      .query<{ id: string }, [string]>(
+        "SELECT id FROM stories WHERE id = ?",
+      )
+      .get(staleId);
+    expect(row).toBeNull();
+    expect(publishedEvents).toHaveLength(1);
+    expect(publishedEvents[0]).toEqual({
+      type: "story.changed",
+      data: { id: staleId, op: "delete" },
+    });
+  });
+
+  test("reconcile() upserts on-disk file absent from SQLite and emits create event", async () => {
+    // Fresh service without start() — no watcher, no loadAll, avoids race with active watcher
+    const isolatedCwd = join(tmpdir(), `cc-reconcile-${Date.now()}`);
+    const storiesDir = join(isolatedCwd, "docs/superpowers/stories");
+    await mkdir(storiesDir, { recursive: true });
+
+    const isolatedDb = new Database(":memory:");
+    await runMigrations(isolatedDb, MIGRATIONS_DIR);
+    const isolatedEvents: BusEvent[] = [];
+    const isolatedBus: Bus = {
+      publish(event: BusEvent) { isolatedEvents.push(event); },
+      subscribe: () => () => {},
+    };
+    const isolatedService = new StoryService(isolatedCwd, isolatedDb, isolatedBus);
+
+    const id = "US-2026-01-01-new-file";
+    const filePath = join(storiesDir, `${id}.md`);
+    await writeFile(
+      filePath,
+      [
+        "---",
+        `id: ${id}`,
+        "title: New On-Disk Story",
+        "status: backlog",
+        "created: 2026-01-01",
+        "---",
+        "",
+        "Body",
+      ].join("\n"),
+      "utf-8",
+    );
+
+    await (isolatedService as any).reconcile();
+
+    const row = isolatedDb
+      .query<{ id: string; title: string }, [string]>(
+        "SELECT id, title FROM stories WHERE id = ?",
+      )
+      .get(id);
+    expect(row?.id).toBe(id);
+    expect(row?.title).toBe("New On-Disk Story");
+    expect(isolatedEvents).toHaveLength(1);
+    expect(isolatedEvents[0]).toEqual({
+      type: "story.changed",
+      data: { id, op: "create" },
+    });
+
+    isolatedDb.close();
+    await rm(isolatedCwd, { recursive: true, force: true });
+  });
 });
