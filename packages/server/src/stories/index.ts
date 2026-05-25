@@ -207,7 +207,7 @@ export class StoryService {
       if (!content) continue;
       const fm = parseFrontmatter(content);
       if (!fm) continue;
-      await this.upsertRow(
+      this.upsertRow(
         fm.id,
         filePath,
         fm.title,
