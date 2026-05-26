@@ -93,6 +93,22 @@ describe("StoryService", () => {
     expect(row?.status).toBe("archived");
   });
 
+  test("handleFileEvent() does not delete archived row when archive renames file", async () => {
+    const story = await service.create("Archive Regression");
+    await service.archive(story.id);
+
+    // Watcher fires for the original path after archive() renames the file
+    await (service as any).handleFileEvent(`${story.id}.md`);
+
+    const row = db
+      .query<{ id: string; status: string }, [string]>(
+        "SELECT id, status FROM stories WHERE id = ?",
+      )
+      .get(story.id);
+    expect(row).not.toBeNull();
+    expect(row?.status).toBe("archived");
+  });
+
   test("get() returns null for invalid id format", () => {
     expect(service.get("../etc/passwd")).toBeNull();
     expect(service.get("not-a-valid-id")).toBeNull();

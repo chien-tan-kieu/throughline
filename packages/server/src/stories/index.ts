@@ -69,7 +69,9 @@ export class StoryService {
       this.storiesDir,
       { persistent: false },
       (_event, filename) => {
-        this.handleFileEvent(filename);
+        this.handleFileEvent(filename).catch((err) =>
+          console.error("[StoryService] handleFileEvent error:", err),
+        );
       },
     );
     this.reconcileTimer = setInterval(() => {
@@ -193,7 +195,7 @@ export class StoryService {
     if (content === null) {
       const row = this.db
         .query<{ id: string }, [string]>(
-          "SELECT id FROM stories WHERE file_path = ?",
+          "SELECT id FROM stories WHERE file_path = ? AND status != 'archived'",
         )
         .get(filePath);
       if (!row) return;
