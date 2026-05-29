@@ -213,12 +213,18 @@
   .card-size.xl { color: var(--size-xl); background: rgba(180,60,60,0.08); border: 1px solid rgba(180,60,60,0.3); }
 
   /* Filter bar */
-  .filter-pills { display: flex; gap: 6px; margin-top: 10px; }
+  .filter-pills { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
   .filter-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 9999px; border: 1px solid var(--border); color: var(--text-muted); font-family: 'Source Code Pro', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; background: transparent; transition: all 120ms ease; cursor: pointer; }
   .filter-pill:hover { border-color: var(--border-strong); color: var(--text-secondary); }
   .filter-pill.active { background: var(--green-glow); border-color: var(--green-border); color: var(--green); }
   .filter-pill .pill-badge { opacity: 0.75; }
   .filter-pill.active .pill-badge { opacity: 1; }
+  .updated-label { font-family: 'Source Code Pro', monospace; font-size: 10px; color: var(--text-disabled); white-space: nowrap; }
+  .refresh-btn { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; background: none; border: none; color: var(--text-muted); border-radius: 3px; transition: color 120ms ease; cursor: pointer; }
+  .refresh-btn:hover:not(:disabled) { color: var(--text-primary); }
+  .refresh-btn:disabled { opacity: 0.4; cursor: default; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinning { animation: spin 600ms linear infinite; }
 
   /* Filtered (faded) column */
   .column.filtered { opacity: 0.28; }

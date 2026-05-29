@@ -68,4 +68,10 @@ describe("StoriesPage", () => {
     fireEvent.click(backlogPill);
     expect(useUiStore.getState().storyFilter).toBe("backlog");
   });
+
+  test("renders refresh button after stories load", async () => {
+    render(<StoriesPage />, { wrapper: Wrapper });
+    await screen.findByText("Backlog Story");
+    expect(screen.getByRole("button", { name: /refresh stories/i })).toBeTruthy();
+  });
 });

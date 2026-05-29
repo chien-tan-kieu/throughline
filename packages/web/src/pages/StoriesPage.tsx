@@ -5,7 +5,7 @@ import { api } from "../lib/api.ts";
 import { useUiStore } from "../store/ui.ts";
 
 export function StoriesPage() {
-  const { data: stories = [] } = useQuery({
+  const { data: stories = [], refetch, isFetching, dataUpdatedAt } = useQuery({
     queryKey: ["stories"],
     queryFn: api.fetchStories,
   });
@@ -22,7 +22,12 @@ export function StoriesPage() {
           Workspace
         </div>
         <div className="issue-title">All Stories</div>
-        <FilterBar counts={{ backlog: backlog.length, "in-progress": inProgress.length, done: done.length }} />
+        <FilterBar
+          counts={{ backlog: backlog.length, "in-progress": inProgress.length, done: done.length }}
+          onRefresh={refetch}
+          isFetching={isFetching}
+          lastUpdatedAt={dataUpdatedAt}
+        />
       </div>
       <div className="board">
         <KanbanColumn status="backlog" stories={backlog} isFiltered={storyFilter !== "all" && storyFilter !== "backlog"} />
