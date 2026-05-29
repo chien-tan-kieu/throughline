@@ -8,3 +8,4 @@ dist/
 
 graphify-out/cache/
 .superpowers/
+.claude-control/

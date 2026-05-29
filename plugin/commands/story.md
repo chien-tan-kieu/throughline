@@ -13,10 +13,11 @@ Manage stories. Usage: `/claude-control:story <subcommand> [args]`
 Run this to check and auto-start if needed:
 ```bash
 bash -c '
-  RUNTIME=~/.claude-control/runtime.json
+  PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+  RUNTIME="$PROJECT_ROOT/.claude-control/runtime.json"
   probe() { PORT=$(jq -r .port "$RUNTIME" 2>/dev/null); curl -sf --max-time 2 "http://127.0.0.1:$PORT/api/healthz" >/dev/null 2>&1; }
   if [ -f "$RUNTIME" ] && probe; then exit 0; fi
-  LOG=~/.claude-control/daemon.log
+  LOG="$PROJECT_ROOT/.claude-control/daemon.log"
   ROOT=$(cat ~/.claude/plugins/known_marketplaces.json 2>/dev/null | jq -r '"'"'."claude-control-local".installLocation'"'"' 2>/dev/null)
   [ -z "$ROOT" ] && echo "Cannot locate claude-control install." && exit 1
   bun run "$ROOT/packages/server/src/index.ts" >> "$LOG" 2>&1 &
@@ -26,7 +27,7 @@ bash -c '
 ```
 If the script prints an error, stop and show it to the user. Otherwise continue.
 
-Read `~/.claude-control/runtime.json` to get `port` and `token`. All curl commands use:
+Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.claude-control/runtime.json"` and parse `port` and `token` from the JSON output. All curl commands use:
 - Header: `Authorization: Bearer <token>`
 - Header: `Host: 127.0.0.1:<port>`
 - Base URL: `http://127.0.0.1:<port>`

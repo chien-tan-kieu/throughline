@@ -7,8 +7,10 @@ import { useWsStore } from "./store/ws.ts";
 
 const hash = new URLSearchParams(window.location.hash.slice(1));
 const port = window.location.port ? Number(window.location.port) : 47821;
-const token = hash.get("token") ?? "";
-if (token) history.replaceState(null, "", window.location.pathname);
+const tokenFromHash = hash.get("token");
+if (tokenFromHash) sessionStorage.setItem("cc-token", tokenFromHash);
+const token = tokenFromHash ?? sessionStorage.getItem("cc-token") ?? "";
+if (tokenFromHash) history.replaceState(null, "", window.location.pathname);
 useWsStore.getState().setPort(port);
 useWsStore.getState().setToken(token);
 

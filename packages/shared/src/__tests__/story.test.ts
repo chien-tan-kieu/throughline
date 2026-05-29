@@ -66,6 +66,20 @@ unknown_field: ignored
     expect(result?.id).toBe("US-2026-05-13-test");
   });
 
+  test("parses story with empty optional fields (size: '')", () => {
+    const content = `---
+id: US-2026-05-26-verify-sync
+title: Verify sync
+status: backlog
+created: 2026-05-26
+size:
+---
+`;
+    const result = parseFrontmatter(content);
+    expect(result).not.toBeNull();
+    expect(result?.size).toBeUndefined();
+  });
+
   test("preserves body after second --- delimiter", () => {
     const content = `---
 id: US-2026-05-13-test

@@ -50,7 +50,7 @@ export function parseFrontmatter(content: string): StoryFrontmatter | null {
     if (colonIdx === -1) continue;
     const key = line.slice(0, colonIdx).trim();
     const value = line.slice(colonIdx + 1).trim();
-    if (key) record[key] = value;
+    if (key && value) record[key] = value;
   }
 
   const result = StoryFrontmatterSchema.safeParse(record);

@@ -37,13 +37,12 @@ export interface DaemonHandle {
 export async function startDaemon(
   options: DaemonOptions = {},
 ): Promise<DaemonHandle> {
+  const cwd = options.cwd ?? process.cwd();
+
   const dataDir =
     options.dataDir ??
-    process.env.CLAUDE_PLUGIN_DATA ??
-    join(process.env.HOME ?? "/tmp", ".claude-control");
+    join(cwd, ".claude-control");
   await mkdir(dataDir, { recursive: true });
-
-  const cwd = options.cwd ?? process.cwd();
 
   const db = new Database(join(dataDir, "claude-control.db"));
   await runMigrations(db, MIGRATIONS_DIR);
