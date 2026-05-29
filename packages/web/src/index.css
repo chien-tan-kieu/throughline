@@ -220,7 +220,7 @@
   .filter-pill .pill-badge { opacity: 0.75; }
   .filter-pill.active .pill-badge { opacity: 1; }
   .updated-label { font-family: 'Source Code Pro', monospace; font-size: 10px; color: var(--text-disabled); white-space: nowrap; }
-  .refresh-btn { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; color: var(--text-muted); border-radius: 3px; transition: color 120ms ease; }
+  .refresh-btn { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; background: none; border: none; color: var(--text-muted); border-radius: 3px; transition: color 120ms ease; cursor: pointer; }
   .refresh-btn:hover:not(:disabled) { color: var(--text-primary); }
   .refresh-btn:disabled { opacity: 0.4; cursor: default; }
   @keyframes spin { to { transform: rotate(360deg); } }
