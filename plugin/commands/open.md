@@ -12,7 +12,7 @@ Open the Claude Control dashboard.
    bash -c '
      PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
      RUNTIME="$PROJECT_ROOT/.claude-control/runtime.json"
-     probe() { PORT=$(jq -r .port "$RUNTIME" 2>/dev/null); curl -sf --max-time 2 "http://127.0.0.1:$PORT/api/healthz" >/dev/null 2>&1; }
+     probe() { PORT=$(jq -r .port "$RUNTIME" 2>/dev/null); PID=$(jq -r .pid "$RUNTIME" 2>/dev/null); [ -n "$PID" ] && kill -0 "$PID" 2>/dev/null || return 1; curl -sf --max-time 2 "http://127.0.0.1:$PORT/api/healthz" >/dev/null 2>&1; }
      if [ -f "$RUNTIME" ] && probe; then exit 0; fi
      LOG="$PROJECT_ROOT/.claude-control/daemon.log"
      ROOT=$(cat ~/.claude/plugins/known_marketplaces.json 2>/dev/null | jq -r '"'"'."claude-control-local".installLocation'"'"' 2>/dev/null)
