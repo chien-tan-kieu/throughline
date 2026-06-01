@@ -33,4 +33,5 @@ export const api = {
     }),
   postHandoff: (storyId: string) =>
     apiFetch<{ filePath: string; content: string }>(`/api/handoff/${encodeURIComponent(storyId)}`, { method: "POST" }),
+  fetchStatus: () => apiFetch<{ status: string; version: string }>("/api/status"),
 };

@@ -1,10 +1,17 @@
 import { useWsStore } from "../../store/ws.ts";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "../../lib/api.ts";
 
 const PHASES = ["brainstorm", "spec", "plan", "implement"] as const;
 
 export function Topbar() {
   const { connectionStatus, phase, sessionId } = useWsStore();
   const phaseIdx = phase ? PHASES.indexOf(phase) : -1;
+  const { data: status } = useQuery({
+    queryKey: ["status"],
+    queryFn: api.fetchStatus,
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 
   return (
     <header className="topbar">
@@ -41,6 +48,9 @@ export function Topbar() {
             <span style={{ color: "var(--text-disabled)", textTransform: "uppercase", fontSize: 9, marginRight: 4 }}>SESSION</span>
             {sessionId.slice(0, 10)}
           </span>
+        )}
+        {status?.version && (
+          <span className="version-badge">v{status.version}</span>
         )}
         <span className={`connection-pill${connectionStatus === "disconnected" ? " disconnected" : ""}`}>
           {connectionStatus === "live" && <span className="pulse-dot" />}
