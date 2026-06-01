@@ -1,7 +1,7 @@
 ---
 id: US-2026-05-23-fix-auth-stop-exposing-token-via-url-in-
 title: Fix auth: stop exposing token via URL in claude-control plugin
-status: in-progress
+status: done
 size: 
 created: 2026-05-23
 ---
