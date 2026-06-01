@@ -12,8 +12,28 @@ probe() {
   kill -0 "$pid" 2>/dev/null && curl -sf --max-time 2 "http://127.0.0.1:$port/api/healthz" > /dev/null 2>&1
 }
 
+emit_context() {
+  local plugin_constitution="$CLAUDE_PLUGIN_ROOT/plugin/constitution.md"
+  local project_constitution="$PROJECT_ROOT/.claude/constitution.md"
+  local status="Claude Control is observing this session. This plugin only observes — it never blocks tool calls."
+
+  if [ -f "$project_constitution" ]; then
+    {
+      printf '## Karpathy Guidelines (from plugin)\n\n'
+      cat "$plugin_constitution"
+      printf '\n---\n\n## Project-Specific Guidelines (from .claude/constitution.md)\n\n'
+      cat "$project_constitution"
+      printf '\n---\n%s' "$status"
+    } | jq -Rs '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":.}}'
+  else
+    jq -Rs --arg s "$status" \
+      '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":("## Karpathy Guidelines (from plugin)\n\n" + . + "\n---\n" + $s)}}' \
+      "$plugin_constitution"
+  fi
+}
+
 if [ -f "$RUNTIME" ] && probe; then
-  echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Claude Control is observing this session. This plugin only observes — it never blocks tool calls."}}'
+  emit_context
   exit 0
 fi
 
@@ -26,7 +46,7 @@ fi
 for i in $(seq 1 30); do
   sleep 0.1
   if [ -f "$RUNTIME" ] && probe; then
-    echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Claude Control started."}}'
+    emit_context
     exit 0
   fi
 done

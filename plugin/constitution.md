@@ -125,26 +125,31 @@ crystallizes around an unstated assumption.
 
 Don't claim a task complete without running the relevant checks:
 
-- **Backend changes** (anything under `backend/kb/` or `backend/tests/`):
-  run `.venv/bin/pytest` from `backend/` and confirm green.
-- **Frontend changes** (anything under `frontend/src/`):
-  run `pnpm lint` and `pnpm test` from `frontend/` and confirm both green.
-- If a run fails, fix it or explicitly surface the failure — do not report
-  success with failing checks.
+- Run the check commands appropriate to what changed (tests, lint, type-check, build, etc.).
+- If the project's `CLAUDE.md` specifies which commands to run for which areas, follow those exactly.
+- If a run fails, fix it or explicitly surface the failure — do not report success with failing checks.
 
 **Why:** "Looks right" is not evidence. Type checks and tests are.
 
-### Consult the source of truth before visual or schema changes
+### Escalate to advisor after 2 failed iterations
 
-- Before any visual change (Tailwind classes, palette, typography, motion):
-  read `DESIGN.md` at repo root. Don't infer the design language from
-  existing components.
-- Before any change to wiki page structure, frontmatter, or section
-  conventions: read `backend/knowledge/schema/SCHEMA.md`. The compile
-  agent's output contract depends on it.
+If you have attempted to resolve an issue (bug fix, test failure, unexpected behavior, or recurring error) **2 times without success**, stop and call the `advisor` tool before trying again.
 
-**Why:** Both docs encode non-obvious conventions. Inferring from existing
-pages causes drift.
+- Count each distinct implementation attempt as one iteration.
+- Do not keep looping with minor variations of the same approach — that wastes tokens without converging.
+- When calling advisor in this context, briefly state: what you tried, what failed, and what you're uncertain about.
+
+**Why:** Two failed iterations signal either a wrong assumption or a missing constraint. Advisor sees the full conversation history and can break the deadlock faster than a third blind attempt.
+
+### Consult the source of truth before changes with a design or schema contract
+
+Before making changes in any domain that has a dedicated spec or contract document (visual design, data schema, API contracts, content structure, etc.), **read that document first**. Do not infer conventions from existing code or components.
+
+- Look for a canonical spec file in the repo root or a well-known location (e.g. `DESIGN.md`, `SCHEMA.md`, `API.md`, or equivalent).
+- If no spec file exists, ask the user which source of truth to consult before proceeding.
+- Never derive conventions solely from existing examples — examples may already contain drift.
+
+**Why:** Spec documents encode non-obvious decisions and constraints that examples alone cannot reliably convey. Inferring from examples propagates and amplifies any drift already present.
 
 ### `docs/superpowers/` is historical, not a backlog
 
