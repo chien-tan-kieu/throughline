@@ -6,10 +6,13 @@
     "dev": "cd packages/server && bun run --watch src/index.ts",
     "build": "pnpm --filter @cc/web build",
     "test": "pnpm -r test",
-    "lint": "bunx biome check ."
+    "lint": "bunx biome check .",
+    "release": "release-it"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@release-it/conventional-changelog": "^11.0.1",
+    "release-it": "^20.2.0",
     "typescript": "^5.7.0"
   },
   "workspaces": [
