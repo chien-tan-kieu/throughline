@@ -28,7 +28,7 @@ Show the Claude Control daemon status.
 
 5. Print a summary:
    ```
-   Daemon:  running  (port <port>, pid <pid>)
+   Daemon:  running  (port <port>, pid <pid>, v<version>)
    Session: <id of most recent session, or "none">
    Phase:   <inferred_phase of most recent session, or "unknown">
    Story:   <active_story_id of most recent session, or "none">
