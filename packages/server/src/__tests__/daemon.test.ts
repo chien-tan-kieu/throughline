@@ -40,6 +40,14 @@ describe("startDaemon", () => {
     const runtime = JSON.parse(readFileSync(runtimePath, "utf-8"));
     expect(runtime.token).toBe(handle.token);
   });
+
+  test("GET /api/status returns version and status", async () => {
+    const res = await fetch(`http://127.0.0.1:${handle.port}/api/status`);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.status).toBe("ok");
+    expect(body.version).toBe("1.0.0");
+  });
 });
 
 describe("port range fallback", () => {

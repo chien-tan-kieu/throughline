@@ -14,6 +14,7 @@ export interface ServerConfig {
   token: string;
   db: Database;
   bus: Bus;
+  version?: string;
   onActivity?: () => void;
   rateLimit?: { limit: number; windowMs: number };
   wsServer?: WsServer;
@@ -34,6 +35,10 @@ export function createServer(config: ServerConfig): Server {
 
       if (req.method === "GET" && url.pathname === "/api/healthz") {
         return Response.json({ status: "ok" });
+      }
+
+      if (req.method === "GET" && url.pathname === "/api/status") {
+        return Response.json({ status: "ok", version: config.version ?? "unknown" });
       }
 
       if (req.method === "GET" && url.pathname === "/ws") {

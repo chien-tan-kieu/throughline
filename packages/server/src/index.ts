@@ -85,6 +85,7 @@ export async function startDaemon(
         bus,
         wsServer,
         apiCtx,
+        version: VERSION,
         onActivity: () => activityRef.fn(),
         rateLimit: options.rateLimit,
       });
