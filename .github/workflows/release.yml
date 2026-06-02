@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v1.0.0) — must already exist'
+        required: true
 
 jobs:
   release:
@@ -32,7 +37,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION=${GITHUB_REF_NAME}
+          VERSION=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name }}
           NOTES=$(node scripts/extract-changelog.mjs "$VERSION")
           gh release create "$VERSION" \
             --title "$VERSION" \
