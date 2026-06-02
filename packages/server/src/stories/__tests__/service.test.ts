@@ -152,10 +152,10 @@ describe("StoryService", () => {
   });
 
   test("handleFileEvent() deletes row and emits bus event when file is missing", async () => {
+    service.stop(); // stop watcher before creating the file so no watcher callbacks are queued
     const story = await service.create("To Be Deleted");
-    publishedEvents = []; // reset events accumulated during create()
+    publishedEvents = [];
 
-    service.stop(); // stop watcher to avoid race between it and the manual call below
     await rm(story.file_path); // file gone — readFile will return null
 
     await (service as any).handleFileEvent(`${story.id}.md`);
