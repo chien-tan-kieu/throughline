@@ -14,6 +14,7 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun test --passWithNoTests
         working-directory: packages/server
-      - run: pnpm --filter @cc/web test run
+      - run: bun run test
+        working-directory: packages/web
         env:
           CI: true
