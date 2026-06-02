@@ -52,19 +52,25 @@ describe("startDaemon", () => {
 
 describe("port range fallback", () => {
   test("binds to next port when preferred port is in use", async () => {
-    // Occupy 47821 so the daemon must fall back to 47822+
+    // Find a free port dynamically so we never conflict with a running daemon
+    const probe = Bun.serve({ hostname: "127.0.0.1", port: 0, fetch: () => new Response("ok") });
+    const basePort = probe.port;
+    probe.stop(true);
+
+    // Occupy basePort so the daemon must fall back to basePort+1
     const occupied = Bun.serve({
       hostname: "127.0.0.1",
-      port: 47821,
+      port: basePort,
       fetch: () => new Response("busy"),
     });
     const occupiedPort = occupied.port;
 
     try {
       const dataDir2 = join(tmpdir(), `cc-fallback-${Date.now()}`);
-      const handle2 = await startDaemon({ dataDir: dataDir2 }); // no port → tries range
+      // Use portRangeStart to make startDaemon try basePort first (range mode)
+      const handle2 = await startDaemon({ portRangeStart: basePort, dataDir: dataDir2 });
       expect(handle2.port).toBeGreaterThan(occupiedPort);
-      expect(handle2.port).toBeLessThanOrEqual(47830);
+      expect(handle2.port).toBeLessThanOrEqual(basePort + 9);
       await handle2.stop();
     } finally {
       occupied.stop(true);

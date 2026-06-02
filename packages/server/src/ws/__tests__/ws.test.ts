@@ -131,4 +131,24 @@ describe("WsServer", () => {
     expect(received).toBe(false);
     ws.close();
   });
+
+  test("session.updated reaches client subscribed to 'session'", async () => {
+    const ws = await connectAndAuth(server.port);
+
+    ws.send(JSON.stringify({ type: "subscribe", topics: ["session"] }));
+    await new Promise((r) => setTimeout(r, 50));
+
+    const received = await new Promise<string>((resolve) => {
+      ws.addEventListener("message", (e) => resolve(e.data as string));
+      bus.publish({
+        type: "session.updated",
+        data: { activeStoryId: "US-2026-06-01-my-story" },
+      });
+    });
+
+    const msg = JSON.parse(received) as { type: string; data: { activeStoryId: string } };
+    expect(msg.type).toBe("session.updated");
+    expect(msg.data.activeStoryId).toBe("US-2026-06-01-my-story");
+    ws.close();
+  });
 });

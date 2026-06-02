@@ -21,6 +21,7 @@ export function useWebSocket() {
 
       ws.onopen = () => {
         ws.send(JSON.stringify({ type: "auth", token }));
+        ws.send(JSON.stringify({ type: "subscribe", topics: ["stories", "session"] }));
         setConnectionStatus("live");
         retryDelayRef.current = 1000;
       };

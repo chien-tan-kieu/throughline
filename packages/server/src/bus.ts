@@ -8,7 +8,8 @@ export type BusEvent =
       type: "story.changed";
       data: { id: string; op: "create" | "update" | "delete" };
     }
-  | { type: "phase.inferred"; data: { sessionId: string; phase: Phase } };
+  | { type: "phase.inferred"; data: { sessionId: string; phase: Phase } }
+  | { type: "session.updated"; data: { activeStoryId: string | null } };
 
 type Handler = (event: BusEvent) => void;
 

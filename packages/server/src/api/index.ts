@@ -1,5 +1,6 @@
 // packages/server/src/api/index.ts
 import type { Database } from "bun:sqlite";
+import type { Bus } from "../bus.ts";
 import type { HandoffService } from "../handoff/index.ts";
 import type { StandupService } from "../standup/index.ts";
 import type { StoryService } from "../stories/index.ts";
@@ -12,6 +13,7 @@ import { mountSuperpowersRoutes } from "./superpowers.ts";
 
 export interface ApiCtx {
   db: Database;
+  bus: Bus;
   watcher: SuperpowersWatcher;
   stories: StoryService;
   standup: StandupService;
@@ -27,7 +29,7 @@ export function mountApiRoutes(
     url.pathname.startsWith("/api/sessions") ||
     url.pathname === "/api/events"
   ) {
-    return mountSessionRoutes(req, url, ctx.db);
+    return mountSessionRoutes(req, url, ctx.db, ctx.bus);
   }
   if (url.pathname.startsWith("/api/stories")) {
     return mountStoryRoutes(req, url, ctx.stories);

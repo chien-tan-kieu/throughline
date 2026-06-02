@@ -22,6 +22,7 @@ const VERSION = "1.0.0";
 
 export interface DaemonOptions {
   port?: number;
+  portRangeStart?: number;
   dataDir?: string;
   cwd?: string;
   rateLimit?: { limit: number; windowMs: number };
@@ -67,13 +68,14 @@ export async function startDaemon(
   await watcher.start();
   await stories.start();
 
-  const apiCtx: ApiCtx = { db, watcher, stories, standup: standupService, handoff: handoffService };
+  const apiCtx: ApiCtx = { db, bus, watcher, stories, standup: standupService, handoff: handoffService };
 
   const activityRef = { fn: () => {} };
 
   const useRange = options.port === undefined;
-  const startPort = options.port ?? 47821;
-  const endPort = useRange ? 47830 : startPort;
+  const defaultBase = options.portRangeStart ?? 47821;
+  const startPort = options.port ?? defaultBase;
+  const endPort = useRange ? defaultBase + 9 : startPort;
 
   let server: import("bun").Server | undefined;
   for (let port = startPort; port <= endPort; port++) {

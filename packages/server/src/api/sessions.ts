@@ -1,12 +1,14 @@
 // packages/server/src/api/sessions.ts
 import type { Database } from "bun:sqlite";
+import type { Bus } from "../bus.ts";
 import type { EventRecord, Session } from "@cc/shared";
 
-export function mountSessionRoutes(
+export async function mountSessionRoutes(
   req: Request,
   url: URL,
   db: Database,
-): Response {
+  bus: Bus,
+): Promise<Response> {
   if (req.method === "GET" && url.pathname === "/api/sessions") {
     const sessions = db
       .query<Session, []>("SELECT * FROM sessions ORDER BY started_at DESC")
@@ -46,6 +48,30 @@ export function mountSessionRoutes(
           .all(since, limit);
     const cursor = events.length > 0 ? events[events.length - 1].ts : since;
     return Response.json({ events, cursor });
+  }
+
+  if (req.method === "PATCH" && url.pathname === "/api/sessions/current") {
+    let body: { active_story_id?: string | null };
+    try {
+      body = await req.json();
+    } catch {
+      return Response.json({ error: "invalid JSON" }, { status: 400 });
+    }
+    const session = db
+      .query<{ id: string }, []>(
+        "SELECT id FROM sessions ORDER BY started_at DESC LIMIT 1",
+      )
+      .get();
+    if (!session) return Response.json({ error: "no session" }, { status: 404 });
+    db.run("UPDATE sessions SET active_story_id = ? WHERE id = ?", [
+      body.active_story_id ?? null,
+      session.id,
+    ]);
+    bus.publish({
+      type: "session.updated",
+      data: { activeStoryId: body.active_story_id ?? null },
+    });
+    return Response.json({ ok: true });
   }
 
   return Response.json({ error: "not found" }, { status: 404 });

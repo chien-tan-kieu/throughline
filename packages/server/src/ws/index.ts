@@ -103,12 +103,9 @@ export class WsServer {
       case "story.changed":
         return [[{ type: "story.changed", data: event.data }, "stories"]];
       case "phase.inferred":
-        return [
-          [
-            { type: "phase.inferred", data: event.data },
-            `events:${event.data.sessionId}`,
-          ],
-        ];
+        return [[{ type: "phase.inferred", data: event.data }, "session"]];
+      case "session.updated":
+        return [[{ type: "session.updated", data: event.data }, "session"]];
     }
   }
 }

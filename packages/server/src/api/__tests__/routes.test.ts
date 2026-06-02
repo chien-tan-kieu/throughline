@@ -35,7 +35,7 @@ describe("REST API routes", () => {
     const stories = new StoryService(cwd, db, bus);
     await stories.start();
 
-    const apiCtx: ApiCtx = { db, watcher, stories };
+    const apiCtx: ApiCtx = { db, bus, watcher, stories } as unknown as ApiCtx;
     server = createServer({ port: 0, token: TOKEN, db, bus, apiCtx });
     base = `http://127.0.0.1:${server.port}`;
   });
@@ -67,6 +67,26 @@ describe("REST API routes", () => {
       headers: headers(),
     });
     expect(res.status).toBe(404);
+  });
+
+  test("PATCH /api/sessions/current updates active_story_id", async () => {
+    db.run(
+      `INSERT INTO sessions (id, cwd, started_at, status) VALUES ('sess-patch-test', '/tmp', 1748000000000, 'running')`
+    );
+
+    const res = await fetch(`${base}/api/sessions/current`, {
+      method: "PATCH",
+      headers: headers({ "Content-Type": "application/json" }),
+      body: JSON.stringify({ active_story_id: "US-2026-06-01-story" }),
+    });
+    expect(res.status).toBe(200);
+
+    const row = db
+      .query(
+        `SELECT active_story_id FROM sessions WHERE id = 'sess-patch-test'`
+      )
+      .get() as { active_story_id: string } | null;
+    expect(row?.active_story_id).toBe("US-2026-06-01-story");
   });
 
   test("GET /api/events returns 200 with events + cursor", async () => {

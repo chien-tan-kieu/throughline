@@ -1,7 +1,25 @@
+// Bootstrap DOM globals for bun test (jsdom is used by vitest via vite.config.ts but not by bun test)
+import { JSDOM } from "jsdom";
+const dom = new JSDOM("<!DOCTYPE html><body></body>", { url: "http://localhost" });
+const g = globalThis as unknown as Record<string, unknown>;
+g["document"] = dom.window.document;
+g["window"] = dom.window;
+g["navigator"] = dom.window.navigator;
+g["HTMLElement"] = dom.window.HTMLElement;
+g["Element"] = dom.window.Element;
+g["Node"] = dom.window.Node;
+g["Text"] = dom.window.Text;
+g["Comment"] = dom.window.Comment;
+g["DocumentFragment"] = dom.window.DocumentFragment;
+g["MutationObserver"] = dom.window.MutationObserver;
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook } from "@testing-library/react";
 import { type ReactNode, createElement } from "react";
-import { describe, expect, test, vi } from "vitest";
+import { afterAll, describe, expect, test } from "vitest";
+
+// Save original WebSocket before mocking so we can restore it after all tests
+const _originalWebSocket = (globalThis as unknown as Record<string, unknown>)["WebSocket"];
 
 // Mock WebSocket
 class MockWebSocket {
@@ -18,7 +36,7 @@ class MockWebSocket {
   open() { this.readyState = 1; this.onopen?.(); }
   receive(data: object) { this.onmessage?.({ data: JSON.stringify(data) }); }
 }
-vi.stubGlobal("WebSocket", MockWebSocket);
+(globalThis as unknown as Record<string, unknown>)["WebSocket"] = MockWebSocket;
 
 import { useWsStore } from "../store/ws.ts";
 import { useWebSocket } from "../hooks/useWebSocket.ts";
@@ -27,6 +45,11 @@ function wrapper({ children }: { children: ReactNode }) {
   const qc = new QueryClient();
   return createElement(QueryClientProvider, { client: qc }, children);
 }
+
+// Restore the original WebSocket after all tests so the mock doesn't leak into other test files
+afterAll(() => {
+  (globalThis as unknown as Record<string, unknown>)["WebSocket"] = _originalWebSocket;
+});
 
 describe("useWebSocket", () => {
   test("opens connection without token in URL", () => {
@@ -42,7 +65,7 @@ describe("useWebSocket", () => {
     useWsStore.setState({ port: 47821, token: "abc123" });
     renderHook(() => useWebSocket(), { wrapper });
     act(() => { MockWebSocket.instances[0].open(); });
-    expect(MockWebSocket.instances[0].sentMessages).toHaveLength(1);
+    expect(MockWebSocket.instances[0].sentMessages.length).toBeGreaterThanOrEqual(1);
     expect(JSON.parse(MockWebSocket.instances[0].sentMessages[0])).toEqual({
       type: "auth",
       token: "abc123",
@@ -63,6 +86,21 @@ describe("useWebSocket", () => {
     renderHook(() => useWebSocket(), { wrapper });
     act(() => { MockWebSocket.instances[0].open(); MockWebSocket.instances[0].close(); });
     expect(useWsStore.getState().connectionStatus).toBe("disconnected");
+  });
+
+  test("sends subscribe message with topics after auth succeeds", () => {
+    MockWebSocket.instances.length = 0;
+    useWsStore.setState({ port: 47821, token: "abc123" });
+    renderHook(() => useWebSocket(), { wrapper });
+    act(() => {
+      MockWebSocket.instances[0].open();
+      MockWebSocket.instances[0].receive({ type: "auth.ok" });
+    });
+    const parsedMessages = MockWebSocket.instances[0].sentMessages.map((m) => JSON.parse(m));
+    const subscribeMsg = parsedMessages.find((m) => m.type === "subscribe");
+    expect(subscribeMsg).toBeDefined();
+    expect(subscribeMsg.topics).toContain("stories");
+    expect(subscribeMsg.topics).toContain("session");
   });
 
   test("updates phase on phase.inferred message", () => {

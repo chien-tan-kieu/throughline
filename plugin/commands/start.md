@@ -26,6 +26,17 @@ Usage: `/claude-control:start <story-id>`
    ```
    If 404, print "Story <story-id> not found." and stop.
 
+3b. Record the active story for the dashboard:
+   ```bash
+   curl -s -X PATCH \
+     -H "Authorization: Bearer <token>" \
+     -H "Host: 127.0.0.1:<port>" \
+     -H "Content-Type: application/json" \
+     -d '{"active_story_id":"<story-id>"}' \
+     http://127.0.0.1:<port>/api/sessions/current || true
+   ```
+   (Best-effort — ignore any errors.)
+
 4. Invoke the `superpowers:brainstorming` skill directly via the Skill tool, passing the story as context:
 
    ```

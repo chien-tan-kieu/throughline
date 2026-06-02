@@ -36,6 +36,7 @@ export type WSOut =
       data: { id: string; op: "create" | "update" | "delete" };
     }
   | { type: "phase.inferred"; data: { sessionId: string; phase: Phase } }
+  | { type: "session.updated"; data: { activeStoryId: string | null } }
   | { type: "pong" };
 
 export type StandupItem = {
