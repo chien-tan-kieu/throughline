@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useDraggable } from "@dnd-kit/core";
 import type { Story } from "@cc/shared";
 import { useWsStore } from "../../store/ws.ts";
 
@@ -8,11 +9,18 @@ export function StoryCard({ story }: Props) {
   const navigate = useNavigate();
   const { activeStoryId } = useWsStore();
   const isActive = story.id === activeStoryId;
+  const { setNodeRef, listeners, attributes, isDragging } = useDraggable({ id: story.id });
+
+  const style = isDragging ? { opacity: 0.4 } : { cursor: "grab" };
 
   return (
     <div
+      ref={setNodeRef}
       className={`card${isActive ? " active" : ""}`}
-      onClick={() => navigate(isActive ? "/" : `/story/${encodeURIComponent(story.id)}`)}
+      style={style}
+      onClick={() => !isDragging && navigate(isActive ? "/" : `/story/${encodeURIComponent(story.id)}`)}
+      {...listeners}
+      {...attributes}
     >
       {isActive && (
         <div className="card-active-label">

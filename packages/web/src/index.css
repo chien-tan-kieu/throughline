@@ -9,6 +9,9 @@
     --green-border: rgba(62, 207, 142, 0.3);
     --green-glow: rgba(62, 207, 142, 0.08);
     --green-glow-strong: rgba(62, 207, 142, 0.14);
+    --blue: #3b82f6;
+    --blue-border: rgba(59, 130, 246, 0.3);
+    --blue-glow: rgba(59, 130, 246, 0.08);
     --bg-deepest: #0f0f0f;
     --bg: #171717;
     --bg-elevated: #1c1c1c;
@@ -115,7 +118,7 @@
   .issue-actions-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 5px; font-family: 'Source Code Pro', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; cursor: pointer; }
   .status-pill.in-progress { background: var(--green-glow); border: 1px solid var(--green-border); color: var(--green); }
-  .status-pill.done { background: var(--bg-input); border: 1px solid var(--border-strong); color: var(--text-secondary); }
+  .status-pill.done { background: var(--blue-glow); border: 1px solid var(--blue-border); color: var(--blue); }
   .status-pill.backlog { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
   .size-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 5px; font-family: 'Source Code Pro', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; cursor: pointer; }
   .size-pill .size { width: 14px; height: 14px; border-radius: 3px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; }
@@ -193,9 +196,10 @@
   .column-dot { width: 6px; height: 6px; border-radius: 50%; }
   .column-dot.backlog { background: var(--text-muted); }
   .column-dot.in-progress { background: var(--green); }
-  .column-dot.done { background: var(--text-secondary); }
+  .column-dot.done { background: var(--blue); }
   .column-count { font-family: 'Source Code Pro', monospace; font-size: 10px; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; }
   .card-list { display: flex; flex-direction: column; gap: 8px; }
+  .card-list.drop-over { background: var(--bg-hover); border-radius: 6px; transition: background 120ms ease; }
   .card { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; cursor: pointer; transition: all 120ms ease; }
   .card:hover { border-color: var(--border-strong); }
   .card.active { border-color: var(--green-border); background: linear-gradient(180deg, var(--green-glow) 0%, var(--bg) 60%); }

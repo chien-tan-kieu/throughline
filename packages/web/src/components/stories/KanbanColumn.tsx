@@ -1,3 +1,4 @@
+import { useDroppable } from "@dnd-kit/core";
 import type { Story } from "@cc/shared";
 import { useUiStore } from "../../store/ui.ts";
 import { StoryCard } from "./StoryCard.tsx";
@@ -9,6 +10,7 @@ const labels: Record<Status, string> = { backlog: "Backlog", "in-progress": "In 
 
 export function KanbanColumn({ status, stories, isFiltered }: Props) {
   const { setStoryFilter } = useUiStore();
+  const { setNodeRef, isOver } = useDroppable({ id: status });
 
   return (
     <div className={`column${isFiltered ? " filtered" : ""}`}>
@@ -19,7 +21,7 @@ export function KanbanColumn({ status, stories, isFiltered }: Props) {
         </div>
         <span className="column-count">{stories.length}</span>
       </div>
-      <div className="card-list">
+      <div ref={setNodeRef} className={`card-list${isOver ? " drop-over" : ""}`}>
         {isFiltered ? (
           <>
             <div style={{ padding: "16px 0", color: "var(--text-disabled)", fontSize: 13 }}>

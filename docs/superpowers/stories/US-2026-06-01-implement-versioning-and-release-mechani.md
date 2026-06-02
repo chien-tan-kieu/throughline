@@ -1,7 +1,7 @@
 ---
 id: US-2026-06-01-implement-versioning-and-release-mechani
 title: implement versioning and release mechanism for this plugin
-status: in-progress
+status: done
 size: S
 created: 2026-06-01
 ---
