@@ -155,6 +155,7 @@ describe("StoryService", () => {
     const story = await service.create("To Be Deleted");
     publishedEvents = []; // reset events accumulated during create()
 
+    service.stop(); // stop watcher to avoid race between it and the manual call below
     await rm(story.file_path); // file gone — readFile will return null
 
     await (service as any).handleFileEvent(`${story.id}.md`);

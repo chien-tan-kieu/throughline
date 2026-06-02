@@ -1,5 +1,7 @@
 import { Database } from "bun:sqlite";
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
+import { mkdir, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { stubBus } from "../bus.ts";
 import { createServer } from "../server.ts";
@@ -12,11 +14,16 @@ describe("HTTP server", () => {
   let db: Database;
   let server: ReturnType<typeof createServer>;
   let base: string;
+  let webDistPath: string;
 
   beforeAll(async () => {
+    webDistPath = join(tmpdir(), `cc-web-dist-${Date.now()}`);
+    await mkdir(webDistPath, { recursive: true });
+    await writeFile(join(webDistPath, "index.html"), "<!doctype html><html><body>SPA</body></html>");
+
     db = new Database(":memory:");
     await runMigrations(db, MIGRATIONS_DIR);
-    server = createServer({ port: 0, token: TOKEN, db, bus: stubBus });
+    server = createServer({ port: 0, token: TOKEN, db, bus: stubBus, webDistPath });
     base = `http://127.0.0.1:${server.port}`;
   });
 

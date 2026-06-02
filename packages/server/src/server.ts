@@ -15,6 +15,7 @@ export interface ServerConfig {
   db: Database;
   bus: Bus;
   version?: string;
+  webDistPath?: string;
   onActivity?: () => void;
   rateLimit?: { limit: number; windowMs: number };
   wsServer?: WsServer;
@@ -48,15 +49,15 @@ export function createServer(config: ServerConfig): Server {
         return new Response("WebSocket upgrade failed", { status: 400 });
       }
 
+      const webDist = config.webDistPath ?? join(import.meta.dir, "../../web/dist");
+
       if (req.method === "GET" && url.pathname.startsWith("/assets/")) {
-        const webDist = join(import.meta.dir, "../../web/dist");
         const file = Bun.file(join(webDist, url.pathname));
         if (await file.exists()) return new Response(file);
         return new Response("Not Found", { status: 404 });
       }
 
       if (req.method === "GET" && !url.pathname.startsWith("/api/") && !url.pathname.startsWith("/hooks/")) {
-        const webDist = join(import.meta.dir, "../../web/dist");
         const file = Bun.file(join(webDist, "/index.html"));
         if (await file.exists()) return new Response(file);
       }
