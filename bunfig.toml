@@ -1,0 +1,10 @@
+[test]
+# Exclude vitest-only React component tests from bun test.
+# These tests use vi.fn(), vi.mock(), toHaveBeenCalledOnce() and require vitest to run correctly.
+# Run the full suite (including web) via `bun run test` which invokes vitest per package.
+pathIgnorePatterns = [
+  "packages/web/src/__tests__/FilterBar.test.tsx",
+  "packages/web/src/__tests__/KanbanColumn.test.tsx",
+  "packages/web/src/__tests__/StoriesPage.test.tsx",
+  "packages/web/src/__tests__/Topbar.test.tsx"
+]
