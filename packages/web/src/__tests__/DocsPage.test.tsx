@@ -95,14 +95,14 @@ describe("DocsPage", () => {
     const { api } = await import("../lib/api.ts");
     vi.mocked(api.fetchStory).mockResolvedValueOnce({ ...mockStory, linked_spec_path: null });
     render(<DocsPage />, { wrapper: makeWrapper("/docs?tab=spec") });
-    await waitFor(() => expect(screen.getByText(/no spec linked/i)).toBeTruthy());
+    await waitFor(() => expect(screen.getAllByText(/no spec linked/i).length).toBeGreaterThan(0));
   });
 
   test("plan tab: shows placeholder when linked_plan_path is null", async () => {
     const { api } = await import("../lib/api.ts");
     vi.mocked(api.fetchStory).mockResolvedValueOnce({ ...mockStory, linked_plan_path: null });
     render(<DocsPage />, { wrapper: makeWrapper("/docs?tab=plan") });
-    await waitFor(() => expect(screen.getByText(/no plan linked/i)).toBeTruthy());
+    await waitFor(() => expect(screen.getAllByText(/no plan linked/i).length).toBeGreaterThan(0));
   });
 
   test("Documents sidebar shows both spec and plan linked-cards", async () => {
