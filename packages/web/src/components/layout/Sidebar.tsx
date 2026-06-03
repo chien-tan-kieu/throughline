@@ -19,7 +19,7 @@ export function Sidebar() {
     enabled: !!activeStoryId,
   });
 
-  const currentPath = location.hash.replace("#", "") || "/";
+  const currentPath = location.pathname;
   const totalStories = stories.length;
 
   return (
@@ -39,20 +39,34 @@ export function Sidebar() {
               <div className="active-story-title">{activeStory.title}</div>
             </div>
             <div className="active-story-nav">
-              {(["story", "spec", "plan"] as const).map((facet) => (
+              {(["story", "docs"] as const).map((facet) => (
                 <button
                   key={facet}
-                  className={`facet-nav${currentPath === `/${facet}` || (facet === "plan" && currentPath === "/") ? " active" : ""}`}
-                  onClick={() => navigate(facet === "plan" ? "/" : `/${facet}`)}
+                  className={`facet-nav${currentPath === `/${facet}` ? " active" : ""}`}
+                  onClick={() => navigate(`/${facet}`)}
                 >
                   <span className="facet-nav-icon">
-                    {facet === "story" && <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 2 H10 V12 L6 9.5 L2 12 Z" /></svg>}
-                    {facet === "spec" && <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 1.5h6l2.5 2.5v8a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V2A.5.5 0 0 1 3 1.5z" /><path d="M9 1.5v2.5h2.5" /></svg>}
-                    {facet === "plan" && <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2.5" width="10" height="9" rx=".5" /><path d="M4.5 5.5h5M4.5 7.5h5" /></svg>}
+                    {facet === "story" && (
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M2 2 H10 V12 L6 9.5 L2 12 Z" />
+                      </svg>
+                    )}
+                    {facet === "docs" && (
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M3 2.5h5.5l2.5 2.5v6a.5.5 0 0 1-.5.5H3.5a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5z" />
+                        <path d="M8.5 2.5V5H11" />
+                        <path d="M5 7h4M5 9h2.5" />
+                      </svg>
+                    )}
                   </span>
                   {facet.charAt(0).toUpperCase() + facet.slice(1)}
                   <svg
-                    className={`facet-check${facet === "story" || (facet === "spec" && activeStory.linked_spec_path) || (facet === "plan" && activeStory.linked_plan_path) ? " has" : ""}`}
+                    className={`facet-check${
+                      facet === "story" ||
+                      (facet === "docs" && (activeStory.linked_spec_path || activeStory.linked_plan_path))
+                        ? " has"
+                        : ""
+                    }`}
                     viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.8"
                   >
                     <path d="M2 6 L5 9 L10 3" />
