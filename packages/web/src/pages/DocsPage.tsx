@@ -40,12 +40,15 @@ export function DocsPage() {
 
   const plan = planData as ParsedPlan | undefined;
 
-  if (!activeStoryId || !story) {
+  if (!activeStoryId) {
     return (
       <div style={{ padding: "40px 32px", color: "var(--text-muted)" }}>
         No active story. Start one with <code>/claude-control:start</code>.
       </div>
     );
+  }
+  if (!story) {
+    return <div style={{ padding: "40px 32px", color: "var(--text-muted)" }}>Loading…</div>;
   }
 
   const doneTasks = plan ? plan.tasks.filter((t) => t.steps.every((s) => s.state === "done")).length : 0;
@@ -133,13 +136,13 @@ export function DocsPage() {
             <div className="field-group-title">Documents</div>
             <LinkedCard
               icon="spec"
-              filename={specPath ? (specPath.split("/").pop() ?? "spec") : "Not linked"}
+              filename={specPath ? (specPath.split("/").pop() ?? "spec") : "No spec linked"}
               to="/docs?tab=spec"
               active={activeTab === "spec"}
             />
             <LinkedCard
               icon="plan"
-              filename={planPath ? (planPath.split("/").pop() ?? "plan") : "Not linked"}
+              filename={planPath ? (planPath.split("/").pop() ?? "plan") : "No plan linked"}
               sub={plan ? `${doneTasks}/${totalTasks} tasks done` : undefined}
               progress={plan ? planProgress : undefined}
               to="/docs?tab=plan"
