@@ -76,8 +76,11 @@ export function StoryPage() {
       <HierarchyStrip
         nodes={[
           { label: "Story", to: `/story/${encodeURIComponent(story.id)}`, active: true },
-          ...(story.linked_spec_path ? [{ label: "Spec" as const, to: "/spec" }] : []),
-          ...(story.linked_plan_path ? [{ label: "Plan" as const, to: "/" }] : []),
+          ...(story.linked_spec_path
+            ? [{ label: "Docs" as const, to: "/docs?tab=spec" }]
+            : story.linked_plan_path
+            ? [{ label: "Docs" as const, to: "/docs?tab=plan" }]
+            : []),
         ]}
       />
       <div className="page-header">
@@ -149,10 +152,18 @@ export function StoryPage() {
             <div className="field-group">
               <div className="field-group-title">Linked Documents</div>
               {story.linked_spec_path && (
-                <LinkedCard icon="spec" filename={story.linked_spec_path.split("/").pop() ?? "spec"} to="/spec" />
+                <LinkedCard
+                  icon="spec"
+                  filename={story.linked_spec_path.split("/").pop() ?? "spec"}
+                  to="/docs?tab=spec"
+                />
               )}
               {story.linked_plan_path && (
-                <LinkedCard icon="plan" filename={story.linked_plan_path.split("/").pop() ?? "plan"} to="/" />
+                <LinkedCard
+                  icon="plan"
+                  filename={story.linked_plan_path.split("/").pop() ?? "plan"}
+                  to="/docs?tab=plan"
+                />
               )}
             </div>
           )}
