@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
-type Node = { label: "Story" | "Spec" | "Plan"; to: string; active?: boolean; meta?: string };
+type Node = { label: "Story" | "Spec" | "Plan" | "Docs"; to: string; active?: boolean; meta?: string };
 type Props = { nodes: Node[] };
 const nodeIcons: Record<Node["label"], React.ReactElement> = {
   Story: <svg className="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 2 H10 V12 L6 9.5 L2 12 Z" /></svg>,
   Spec: <svg className="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 1.5h6l2.5 2.5v8a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V2A.5.5 0 0 1 3 1.5z" /><path d="M9 1.5v2.5h2.5" /></svg>,
   Plan: <svg className="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2.5" width="10" height="9" rx=".5" /><path d="M4.5 5.5h5M4.5 7.5h5" /></svg>,
+  Docs: <svg className="hier-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 2.5h5.5l2.5 2.5v6a.5.5 0 0 1-.5.5H3.5a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5z" /><path d="M8.5 2.5V5H11" /><path d="M5 7h4M5 9h2.5" /></svg>,
 };
 const arrowIcon = (
   <svg className="hier-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
