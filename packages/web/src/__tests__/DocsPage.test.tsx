@@ -110,4 +110,12 @@ describe("DocsPage", () => {
     await waitFor(() => expect(screen.getByText("spec.md")).toBeTruthy());
     expect(screen.getByText("plan.md")).toBeTruthy();
   });
+
+  test("both unlinked: defaults to Spec tab", async () => {
+    const { api } = await import("../lib/api.ts");
+    vi.mocked(api.fetchStory).mockResolvedValueOnce({ ...mockStory, linked_spec_path: null, linked_plan_path: null });
+    render(<DocsPage />, { wrapper: makeWrapper() });
+    await waitFor(() => expect(screen.getAllByText(/no spec linked/i).length).toBeGreaterThan(0));
+    expect(screen.getByRole("button", { name: /spec/i }).className).toContain("active");
+  });
 });

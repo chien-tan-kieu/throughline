@@ -23,7 +23,7 @@ export function DocsPage() {
   const planPath = story?.linked_plan_path ?? null;
 
   const tabParam = searchParams.get("tab");
-  const defaultTab = specPath ? "spec" : "plan";
+  const defaultTab = specPath ? "spec" : planPath ? "plan" : "spec";
   const activeTab = tabParam === "spec" || tabParam === "plan" ? tabParam : defaultTab;
 
   const { data: specData } = useQuery({
