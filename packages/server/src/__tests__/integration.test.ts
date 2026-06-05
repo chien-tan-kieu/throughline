@@ -112,6 +112,70 @@ describe("full hook round-trip", () => {
   });
 });
 
+describe("session creation from hook + PATCH active_story_id", () => {
+  let daemon: DaemonHandle;
+
+  beforeAll(async () => {
+    const dataDir = join(tmpdir(), `cc-session-active-${Date.now()}`);
+    daemon = await startDaemon({ port: 0, dataDir });
+  });
+
+  afterAll(async () => {
+    await daemon.stop();
+  });
+
+  test("PATCH /api/sessions/current returns 404 before any hook events", async () => {
+    const res = await fetch(`http://127.0.0.1:${daemon.port}/api/sessions/current`, {
+      method: "PATCH",
+      headers: {
+        Host: `127.0.0.1:${daemon.port}`,
+        Authorization: `Bearer ${daemon.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ active_story_id: "US-2026-01-01-story" }),
+    });
+    expect(res.status).toBe(404);
+  });
+
+  test("hook event creates session, then PATCH sets active_story_id", async () => {
+    await fetch(`http://127.0.0.1:${daemon.port}/hooks/PreToolUse`, {
+      method: "POST",
+      headers: {
+        Host: `127.0.0.1:${daemon.port}`,
+        Authorization: `Bearer ${daemon.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        session_id: "active-story-sess",
+        transcript_path: "/tmp/t.json",
+        cwd: "/tmp/project",
+        hook_event_name: "PreToolUse",
+        permission_mode: "default",
+        tool_name: "Bash",
+        tool_input: { command: "ls" },
+      }),
+    });
+
+    const res = await fetch(`http://127.0.0.1:${daemon.port}/api/sessions/current`, {
+      method: "PATCH",
+      headers: {
+        Host: `127.0.0.1:${daemon.port}`,
+        Authorization: `Bearer ${daemon.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ active_story_id: "US-2026-01-01-story" }),
+    });
+    expect(res.status).toBe(200);
+
+    const row = daemon.db
+      .query<{ active_story_id: string }, []>(
+        "SELECT active_story_id FROM sessions WHERE id = 'active-story-sess'",
+      )
+      .get();
+    expect(row?.active_story_id).toBe("US-2026-01-01-story");
+  });
+});
+
 describe("rate limiting integration", () => {
   let daemon: DaemonHandle;
 
