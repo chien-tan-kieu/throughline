@@ -16,6 +16,19 @@ export async function mountSessionRoutes(
     return Response.json(sessions);
   }
 
+  if (req.method === "GET" && url.pathname === "/api/sessions/current") {
+    const session = db
+      .query<{ id: string; active_story_id: string | null; inferred_phase: string | null }, []>(
+        "SELECT id, active_story_id, inferred_phase FROM sessions ORDER BY started_at DESC LIMIT 1",
+      )
+      .get();
+    return Response.json({
+      sessionId: session?.id ?? null,
+      activeStoryId: session?.active_story_id ?? null,
+      phase: session?.inferred_phase ?? null,
+    });
+  }
+
   const sessionMatch = url.pathname.match(/^\/api\/sessions\/([^/]+)$/);
   if (req.method === "GET" && sessionMatch) {
     const id = decodeURIComponent(sessionMatch[1]);

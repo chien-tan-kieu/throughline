@@ -16,7 +16,7 @@ g["MutationObserver"] = dom.window.MutationObserver;
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook } from "@testing-library/react";
 import { type ReactNode, createElement } from "react";
-import { afterAll, describe, expect, test } from "vitest";
+import { afterAll, afterEach, describe, expect, test, vi } from "vitest";
 
 // Save original WebSocket before mocking so we can restore it after all tests
 const _originalWebSocket = (globalThis as unknown as Record<string, unknown>)["WebSocket"];
@@ -46,9 +46,15 @@ function wrapper({ children }: { children: ReactNode }) {
   return createElement(QueryClientProvider, { client: qc }, children);
 }
 
-// Restore the original WebSocket after all tests so the mock doesn't leak into other test files
+const _originalFetch = (globalThis as unknown as Record<string, unknown>)["fetch"];
+
 afterAll(() => {
   (globalThis as unknown as Record<string, unknown>)["WebSocket"] = _originalWebSocket;
+  (globalThis as unknown as Record<string, unknown>)["fetch"] = _originalFetch;
+});
+
+afterEach(() => {
+  (globalThis as unknown as Record<string, unknown>)["fetch"] = _originalFetch;
 });
 
 describe("useWebSocket", () => {
@@ -101,6 +107,29 @@ describe("useWebSocket", () => {
     expect(subscribeMsg).toBeDefined();
     expect(subscribeMsg.topics).toContain("stories");
     expect(subscribeMsg.topics).toContain("session");
+  });
+
+  test("fetches /api/sessions/current on open and hydrates activeStoryId", async () => {
+    MockWebSocket.instances.length = 0;
+    const mockFetch = vi.fn().mockResolvedValue({
+      json: () => Promise.resolve({ sessionId: "s1", activeStoryId: "US-2026-01-01-hydrate", phase: null }),
+    });
+    (globalThis as unknown as Record<string, unknown>)["fetch"] = mockFetch;
+
+    useWsStore.setState({ port: 47821, token: "abc123", activeStoryId: null });
+    renderHook(() => useWebSocket(), { wrapper });
+
+    await act(async () => {
+      MockWebSocket.instances[0].open();
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      "http://127.0.0.1:47821/api/sessions/current",
+      expect.objectContaining({ headers: expect.objectContaining({ Authorization: "Bearer abc123" }) }),
+    );
+    expect(useWsStore.getState().activeStoryId).toBe("US-2026-01-01-hydrate");
   });
 
   test("updates phase on phase.inferred message", () => {

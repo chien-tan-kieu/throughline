@@ -55,6 +55,15 @@ describe("REST API routes", () => {
   }
 
   // Sessions
+  test("GET /api/sessions/current returns null values when no sessions exist", async () => {
+    const res = await fetch(`${base}/api/sessions/current`, { headers: headers() });
+    expect(res.status).toBe(200);
+    const body = await res.json() as { sessionId: null; activeStoryId: null; phase: null };
+    expect(body.sessionId).toBeNull();
+    expect(body.activeStoryId).toBeNull();
+    expect(body.phase).toBeNull();
+  });
+
   test("GET /api/sessions returns 200 with array", async () => {
     const res = await fetch(`${base}/api/sessions`, { headers: headers() });
     expect(res.status).toBe(200);
@@ -151,6 +160,21 @@ describe("REST API routes", () => {
       headers: headers(),
     });
     expect(res.status).toBe(400);
+  });
+
+  test("GET /api/sessions/current returns activeStoryId after PATCH sets it", async () => {
+    db.run(
+      `INSERT INTO sessions (id, cwd, started_at, status) VALUES ('sess-current-test', '/tmp', 1748100000000, 'active')`
+    );
+    db.run(
+      `UPDATE sessions SET active_story_id = 'US-2026-06-01-current' WHERE id = 'sess-current-test'`
+    );
+
+    const res = await fetch(`${base}/api/sessions/current`, { headers: headers() });
+    expect(res.status).toBe(200);
+    const body = await res.json() as { sessionId: string; activeStoryId: string; phase: null };
+    expect(body.sessionId).toBe("sess-current-test");
+    expect(body.activeStoryId).toBe("US-2026-06-01-current");
   });
 
   test("any /api route returns 401 without auth", async () => {

@@ -24,6 +24,16 @@ export function useWebSocket() {
         ws.send(JSON.stringify({ type: "subscribe", topics: ["stories", "session"] }));
         setConnectionStatus("live");
         retryDelayRef.current = 1000;
+        fetch(`http://127.0.0.1:${port}/api/sessions/current`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+          .then((r) => r.json())
+          .then((data: { sessionId: string | null; activeStoryId: string | null; phase: string | null }) => {
+            setActiveStoryId(data.activeStoryId);
+            if (data.phase) setPhase(data.phase as Parameters<typeof setPhase>[0]);
+            if (data.sessionId) setSessionId(data.sessionId);
+          })
+          .catch(() => {});
       };
 
       ws.onmessage = (e) => {
