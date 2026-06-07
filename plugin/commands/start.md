@@ -3,6 +3,7 @@ description: Load a story and launch the appropriate workflow based on its statu
 allowed-tools:
   - Bash
   - Read
+  - Skill
 ---
 
 Start a story by loading it and dispatching to the appropriate workflow for its status.
@@ -50,7 +51,8 @@ Usage: `/claude-control:start <story-id>`
    Resolve the install location and construct the absolute path to the mode file:
 
    ```bash
-   INSTALL=$(jq -r '."claude-control-local".installLocation' ~/.claude/plugins/known_marketplaces.json)
+   INSTALL=$(jq -r '."claude-control-local".installLocation' ~/.claude/plugins/known_marketplaces.json 2>/dev/null)
+   if [ -z "$INSTALL" ] || [ "$INSTALL" = "null" ]; then echo "Cannot resolve claude-control install location."; exit 1; fi
    echo "$INSTALL/plugin/commands/lib/start/<mode-file>"
    ```
 
