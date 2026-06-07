@@ -21,7 +21,7 @@ The response is a JSON object. The relevant shape:
   "tasks": [
     {
       "index": 1,
-      "label": "Task label",
+      "title": "Task label",
       "steps": [
         { "label": "Step label", "state": "done" },
         { "label": "Step label", "state": "todo" }
@@ -54,8 +54,8 @@ Output the following report directly (do not summarise or paraphrase first — j
 ## Progress: <story title>
 
 ### Plan status
-Task 1 — <label>: X/Y steps done
-Task 2 — <label>: X/Y steps done
+Task 1 — <title>: X/Y steps done
+Task 2 — <title>: X/Y steps done
 ...
 Overall: N/M tasks complete (P%)
 
