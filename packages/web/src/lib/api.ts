@@ -24,7 +24,7 @@ export const api = {
   fetchStories: () => apiFetch<Story[]>("/api/stories"),
   fetchStory: (id: string) => apiFetch<StoryDetail>(`/api/stories/${encodeURIComponent(id)}`),
   fetchPlan: (path: string) => apiFetch<unknown>(`/api/plans/${encodeURIComponent(path)}`),
-  fetchSpec: (path: string) => apiFetch<{ content: string }>(`/api/specs/${encodeURIComponent(path)}`),
+  fetchSpec: (path: string) => apiFetch<{ path: string; title: string; body: string }>(`/api/specs/${encodeURIComponent(path)}`),
   fetchStandup: (date?: string) => apiFetch<StandupDigest>(`/api/standup${date ? `?date=${date}` : ""}`),
   patchStory: (id: string, patch: StoryPatch) =>
     apiFetch<StoryDetail>(`/api/stories/${encodeURIComponent(id)}`, {

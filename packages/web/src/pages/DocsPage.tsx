@@ -99,7 +99,7 @@ export function DocsPage() {
             ) : (
               <div className="markdown">
                 <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-                  {specData.content}
+                  {specData.body}
                 </ReactMarkdown>
               </div>
             )

@@ -27,7 +27,7 @@ vi.mock("../store/ws.ts", () => ({ useWsStore: () => wsState }));
 vi.mock("../lib/api.ts", () => ({
   api: {
     fetchStory: vi.fn().mockResolvedValue(mockStory),
-    fetchSpec: vi.fn().mockResolvedValue({ content: "# My Spec\n\nSpec content here." }),
+    fetchSpec: vi.fn().mockResolvedValue({ path: "docs/specs/spec.md", title: "My Spec", body: "# My Spec\n\nSpec content here." }),
     fetchPlan: vi.fn().mockResolvedValue({
       title: "My Plan",
       tasks: [
