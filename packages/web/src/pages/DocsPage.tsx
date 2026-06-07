@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
 import { useSearchParams } from "react-router-dom";
 import type { ParsedPlan } from "@cc/shared";
 import { HierarchyStrip } from "../components/shared/HierarchyStrip.tsx";
@@ -98,7 +99,7 @@ export function DocsPage() {
               <div style={{ color: "var(--text-muted)" }}>Loading spec…</div>
             ) : (
               <div className="markdown">
-                <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
                   {specData.body}
                 </ReactMarkdown>
               </div>
