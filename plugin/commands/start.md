@@ -1,11 +1,11 @@
 ---
-description: Load a story and launch the Superpowers brainstorming workflow
+description: Load a story and launch the appropriate workflow based on its status
 allowed-tools:
   - Bash
   - Read
 ---
 
-Start a story by feeding it into the Superpowers brainstorming workflow.
+Start a story by loading it and dispatching to the appropriate workflow for its status.
 
 Usage: `/claude-control:start <story-id>`
 
@@ -37,18 +37,23 @@ Usage: `/claude-control:start <story-id>`
    ```
    (Best-effort — ignore any errors.)
 
-4. Invoke the `superpowers:brainstorming` skill directly via the Skill tool, passing the story as context:
+4. Determine the mode file based on the story's `status` field:
 
+   | Status | Mode file |
+   |--------|-----------|
+   | `backlog` | `backlog.md` |
+   | `in-progress` | `in-progress.md` |
+   | `done` | `done.md` |
+
+   If the status is not one of the above, print: "Unrecognized status '<status>' — defaulting to backlog mode." and use `backlog.md`.
+
+   Resolve the install location and construct the absolute path to the mode file:
+
+   ```bash
+   INSTALL=$(jq -r '."claude-control-local".installLocation' ~/.claude/plugins/known_marketplaces.json)
+   echo "$INSTALL/plugin/commands/lib/start/<mode-file>"
    ```
-   skill: superpowers:brainstorming
-   args: |
-     I want to work on this story:
 
-     **ID:** <id>
-     **Title:** <title>
-     **Status:** <status>
+   Replace `<mode-file>` with the filename from the table above.
 
-     <body>
-   ```
-
-   Do not ask the user to invoke the skill — invoke it yourself immediately.
+   Use the `Read` tool on the absolute path returned by that command. Then follow the instructions in the loaded file exactly. The story context available to the mode file is: `id`, `title`, `status`, `body`, `linked_spec_path`, `linked_plan_path`, `created_at`, `port`, `token`.
