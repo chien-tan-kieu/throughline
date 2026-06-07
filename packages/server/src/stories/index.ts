@@ -46,6 +46,7 @@ function applyPatch(content: string, patch: StoryPatch): string {
     yaml = updateFrontmatterField(yaml, "linked_spec", patch.linked_spec ?? "");
   if (patch.linked_plan !== undefined)
     yaml = updateFrontmatterField(yaml, "linked_plan", patch.linked_plan ?? "");
+  if (!yaml.endsWith("\n")) yaml += "\n";
   return ["", yaml, ...parts.slice(2)].join("---");
 }
 
@@ -159,6 +160,14 @@ export class StoryService {
     if (patch.size !== undefined) {
       sets.push("size = ?");
       vals.push(patch.size ?? null);
+    }
+    if (patch.linked_spec !== undefined) {
+      sets.push("linked_spec_path = ?");
+      vals.push(patch.linked_spec || null);
+    }
+    if (patch.linked_plan !== undefined) {
+      sets.push("linked_plan_path = ?");
+      vals.push(patch.linked_plan || null);
     }
     vals.push(id);
     this.db.run(`UPDATE stories SET ${sets.join(", ")} WHERE id = ?`, vals);
