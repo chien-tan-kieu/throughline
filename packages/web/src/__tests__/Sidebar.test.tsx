@@ -66,4 +66,16 @@ describe("Sidebar", () => {
     const btn = await screen.findByRole("button", { name: /docs/i });
     expect(btn.className).not.toContain("active");
   });
+
+  test("Story facet is active when currentPath is /story/:id", async () => {
+    renderSidebar("/story/US-2026-01-01-s1");
+    const btn = await screen.findByRole("button", { name: /^story$/i });
+    expect(btn.className).toContain("active");
+  });
+
+  test("Story facet is not active when currentPath is /docs", async () => {
+    renderSidebar("/docs");
+    const btn = await screen.findByRole("button", { name: /^story$/i });
+    expect(btn.className).not.toContain("active");
+  });
 });

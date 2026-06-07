@@ -42,8 +42,18 @@ export function Sidebar() {
               {(["story", "docs"] as const).map((facet) => (
                 <button
                   key={facet}
-                  className={`facet-nav${currentPath === `/${facet}` ? " active" : ""}`}
-                  onClick={() => navigate(`/${facet}`)}
+                  className={`facet-nav${
+                    facet === "story"
+                      ? currentPath.startsWith("/story/") ? " active" : ""
+                      : currentPath === `/${facet}` ? " active" : ""
+                  }`}
+                  onClick={() =>
+                    navigate(
+                      facet === "story"
+                        ? `/story/${encodeURIComponent(activeStory.id)}`
+                        : `/${facet}`,
+                    )
+                  }
                 >
                   <span className="facet-nav-icon">
                     {facet === "story" && (
