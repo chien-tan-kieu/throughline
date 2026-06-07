@@ -7,7 +7,7 @@ Produce a structured progress report for a story that is actively being implemen
 If `linked_plan_path` is set, URL-encode the path and fetch the parsed plan:
 
 ```bash
-PLAN_PATH_ENCODED=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "<linked_plan_path>")
+PLAN_PATH_ENCODED=$(node -e "process.stdout.write(encodeURIComponent(process.argv[1]))" "<linked_plan_path>")
 curl -s \
   -H "Authorization: Bearer <token>" \
   -H "Host: 127.0.0.1:<port>" \
@@ -48,7 +48,7 @@ The acceptance criteria live in the `## Acceptance criteria` section of the stor
 
 ## 4. Print the report
 
-Output the following report directly (do not summarise or paraphrase first — just print it):
+Output the following report directly (do not summarise or paraphrase first — just print it). Omit the **Plan status** section entirely if no plan is linked:
 
 ```
 ## Progress: <story title>
@@ -58,8 +58,6 @@ Task 1 — <title>: X/Y steps done
 Task 2 — <title>: X/Y steps done
 ...
 Overall: N/M tasks complete (P%)
-
-(Omit this section entirely if no plan is linked.)
 
 ### Recent activity
 <last 5–10 lines from git log --oneline output, verbatim>
