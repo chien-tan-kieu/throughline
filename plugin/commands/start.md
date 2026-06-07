@@ -58,4 +58,4 @@ Usage: `/claude-control:start <story-id>`
 
    Replace `<mode-file>` with the filename from the table above.
 
-   Use the `Read` tool on the absolute path returned by that command. Then follow the instructions in the loaded file exactly. The story context available to the mode file is: `id`, `title`, `status`, `body`, `linked_spec_path`, `linked_plan_path`, `created_at`, `port`, `token`.
+   Use the `Read` tool on the absolute path returned by that command. If the `Read` tool returns an error (e.g., file not found), print: "Mode file not found for status '<status>' — defaulting to backlog mode." and load `backlog.md` instead (re-run the bash block above with `<mode-file>` replaced by `backlog.md`). Then follow the instructions in the loaded file exactly. The story context available to the mode file is: `id`, `title`, `status`, `body`, `linked_spec_path`, `linked_plan_path`, `created_at`, `port`, `token`.
