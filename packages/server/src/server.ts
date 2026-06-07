@@ -93,6 +93,7 @@ export function createServer(config: ServerConfig): Server {
       }
 
       if (url.pathname.startsWith("/api/")) {
+        config.onActivity?.();
         if (config.apiCtx) return mountApiRoutes(req, url, config.apiCtx);
         return new Response("{}", { status: 501 });
       }
@@ -104,6 +105,7 @@ export function createServer(config: ServerConfig): Server {
         config.wsServer?.handleMessage(ws, msg);
       },
       open(ws) {
+        config.onActivity?.();
         config.wsServer?.handleOpen(ws);
       },
       close(ws) {
