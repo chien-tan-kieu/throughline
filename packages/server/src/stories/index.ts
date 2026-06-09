@@ -13,7 +13,7 @@ import {
 import type { Bus } from "../bus.ts";
 import { scaffoldStory } from "./template.ts";
 
-function isValidStoryId(id: string): boolean {
+export function isValidStoryId(id: string): boolean {
   return /^US\d+$/.test(id) || /^US-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/.test(id);
 }
 
@@ -122,11 +122,13 @@ export class StoryService {
     const today = new Date().toISOString().slice(0, 10);
     await writeFile(filePath, scaffoldStory(id, title, today), "utf-8");
     const ts = Date.now();
-    this.db.run(
-      `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at, seq)
-       VALUES (?, ?, ?, NULL, 'backlog', NULL, NULL, ?, ?, ?)`,
-      [id, filePath, title, ts, ts, n],
-    );
+    this.db.transaction(() => {
+      this.db.run(
+        `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at, seq)
+         VALUES (?, ?, ?, NULL, 'backlog', NULL, NULL, ?, ?, ?)`,
+        [id, filePath, title, ts, ts, n],
+      );
+    })();
     this.bus.publish({ type: "story.changed", data: { id, op: "create" } });
     const created = this.db
       .query<Story, [string]>("SELECT * FROM stories WHERE id = ?")

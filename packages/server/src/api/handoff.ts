@@ -1,8 +1,5 @@
 import type { HandoffService } from "../handoff/index.ts";
-
-function isValidStoryId(id: string): boolean {
-  return /^US\d+$/.test(id) || /^US-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/.test(id);
-}
+import { isValidStoryId } from "../stories/index.ts";
 
 export async function mountHandoffRoutes(
   req: Request,
