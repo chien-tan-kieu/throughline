@@ -261,4 +261,25 @@ describe("StoryService", () => {
     expect((service as any).reconcileTimer).toBeNull();
     expect(() => service.stop()).not.toThrow();
   });
+
+  test("get() accepts US{n} id format", async () => {
+    const id = "US99";
+    const filePath = join(cwd, "docs/superpowers/stories", `${id}.md`);
+    await writeFile(
+      filePath,
+      [
+        "---",
+        `id: ${id}`,
+        "title: New Format",
+        "status: backlog",
+        "created: 2026-01-01",
+        "---",
+        "",
+        "Body",
+      ].join("\n"),
+      "utf-8",
+    );
+    (service as any).upsertRow(id, filePath, "New Format", "backlog", null, null, null);
+    expect(service.get(id)).not.toBeNull();
+  });
 });

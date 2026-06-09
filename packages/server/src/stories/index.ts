@@ -13,7 +13,9 @@ import {
 import type { Bus } from "../bus.ts";
 import { scaffoldStory } from "./template.ts";
 
-const STORY_ID_REGEX = /^US-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/;
+function isValidStoryId(id: string): boolean {
+  return /^US\d+$/.test(id) || /^US-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/.test(id);
+}
 
 function toSlug(title: string): string {
   return title
@@ -101,7 +103,7 @@ export class StoryService {
   }
 
   get(id: string): StoryDetail | null {
-    if (!STORY_ID_REGEX.test(id)) return null;
+    if (!isValidStoryId(id)) return null;
     const row = this.db
       .query<Story, [string]>("SELECT * FROM stories WHERE id = ?")
       .get(id);
@@ -137,7 +139,7 @@ export class StoryService {
   }
 
   async update(id: string, patch: StoryPatch): Promise<Story | null> {
-    if (!STORY_ID_REGEX.test(id)) return null;
+    if (!isValidStoryId(id)) return null;
     const row = this.db
       .query<{ file_path: string }, [string]>(
         "SELECT file_path FROM stories WHERE id = ?",
@@ -180,7 +182,7 @@ export class StoryService {
   }
 
   async archive(id: string): Promise<void> {
-    if (!STORY_ID_REGEX.test(id)) return;
+    if (!isValidStoryId(id)) return;
     const row = this.db
       .query<{ file_path: string }, [string]>(
         "SELECT file_path FROM stories WHERE id = ?",
