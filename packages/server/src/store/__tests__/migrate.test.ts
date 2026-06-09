@@ -39,7 +39,7 @@ describe("runMigrations", () => {
       db.query<{ c: number }, []>("SELECT COUNT(*) as c FROM _migrations").get()
         ?.c ?? 0;
 
-    expect(count).toBe(3); // all migration files applied once each
+    expect(count).toBe(4); // all migration files applied once each
   });
 
   test("sessions table has expected columns", async () => {
@@ -98,5 +98,52 @@ describe("runMigrations", () => {
     expect(cols).toContain("story_id");
     expect(cols).toContain("file_path");
     expect(cols).toContain("generated_at");
+  });
+
+  test("stories table has seq column after migration", async () => {
+    await runMigrations(db, MIGRATIONS_DIR);
+    const cols = db
+      .query<{ name: string }, []>("PRAGMA table_info(stories)")
+      .all()
+      .map((r) => r.name);
+    expect(cols).toContain("seq");
+  });
+
+  test("stories seq column rejects duplicate non-null values", async () => {
+    await runMigrations(db, MIGRATIONS_DIR);
+    const ts = Date.now();
+    db.run(
+      `INSERT INTO stories (id, file_path, title, status, seq, created_at, updated_at)
+       VALUES ('US1', '/a', 'A', 'backlog', 1, ?, ?)`,
+      [ts, ts],
+    );
+    expect(() => {
+      db.run(
+        `INSERT INTO stories (id, file_path, title, status, seq, created_at, updated_at)
+         VALUES ('US2', '/b', 'B', 'backlog', 1, ?, ?)`,
+        [ts, ts],
+      );
+    }).toThrow();
+  });
+
+  test("stories seq column allows multiple NULL values", async () => {
+    await runMigrations(db, MIGRATIONS_DIR);
+    const ts = Date.now();
+    db.run(
+      `INSERT INTO stories (id, file_path, title, status, created_at, updated_at)
+       VALUES ('US-2026-01-01-a', '/a', 'A', 'backlog', ?, ?)`,
+      [ts, ts],
+    );
+    db.run(
+      `INSERT INTO stories (id, file_path, title, status, created_at, updated_at)
+       VALUES ('US-2026-01-01-b', '/b', 'B', 'backlog', ?, ?)`,
+      [ts, ts],
+    );
+    const count = db
+      .query<{ c: number }, []>(
+        "SELECT COUNT(*) as c FROM stories WHERE seq IS NULL",
+      )
+      .get()?.c;
+    expect(count).toBe(2);
   });
 });
