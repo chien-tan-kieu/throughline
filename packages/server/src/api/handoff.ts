@@ -1,6 +1,8 @@
 import type { HandoffService } from "../handoff/index.ts";
 
-const STORY_ID_REGEX = /^US-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/;
+function isValidStoryId(id: string): boolean {
+  return /^US\d+$/.test(id) || /^US-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/.test(id);
+}
 
 export async function mountHandoffRoutes(
   req: Request,
@@ -15,7 +17,7 @@ export async function mountHandoffRoutes(
   const match = url.pathname.match(/^\/api\/handoff\/(.+)$/);
   if (match && req.method === "POST") {
     const storyId = decodeURIComponent(match[1]);
-    if (!STORY_ID_REGEX.test(storyId)) {
+    if (!isValidStoryId(storyId)) {
       return Response.json({ error: "invalid story ID" }, { status: 400 });
     }
     const result = await handoff.generate(storyId);

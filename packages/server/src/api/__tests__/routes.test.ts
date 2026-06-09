@@ -120,7 +120,7 @@ describe("REST API routes", () => {
     });
     expect(res.status).toBe(201);
     const body = (await res.json()) as { id: string };
-    expect(body.id).toMatch(/^US-\d{4}-\d{2}-\d{2}-/);
+    expect(body.id).toMatch(/^US\d+$/);
   });
 
   test("POST /api/stories returns 400 when title is missing", async () => {

@@ -40,7 +40,7 @@ describe("StoryService", () => {
 
   test("create() returns a story with generated id and writes a file", async () => {
     const story = await service.create("Add OAuth login");
-    expect(story.id).toMatch(/^US-\d{4}-\d{2}-\d{2}-/);
+    expect(story.id).toMatch(/^US\d+$/);
     expect(story.title).toBe("Add OAuth login");
     expect(story.status).toBe("backlog");
     const row = db.query<{ id: string }, []>("SELECT id FROM stories").get();
@@ -49,8 +49,9 @@ describe("StoryService", () => {
 
   test("create() writes file under docs/superpowers/stories", async () => {
     const story = await service.create("Path Check");
+    expect(story.id).toBe("US1");
     expect(story.file_path).toBe(
-      join(cwd, "docs/superpowers/stories", `${story.id}.md`),
+      join(cwd, "docs/superpowers/stories", "US1.md"),
     );
   });
 
@@ -281,5 +282,32 @@ describe("StoryService", () => {
     );
     (service as any).upsertRow(id, filePath, "New Format", "backlog", null, null, null);
     expect(service.get(id)).not.toBeNull();
+  });
+
+  test("create() assigns sequential ids", async () => {
+    const first = await service.create("First Story");
+    const second = await service.create("Second Story");
+    expect(first.id).toBe("US1");
+    expect(second.id).toBe("US2");
+  });
+
+  test("upsertRow preserves seq for existing new-format story", async () => {
+    const story = await service.create("Preserve Seq");
+    expect(story.id).toBe("US1");
+    (service as any).upsertRow(
+      story.id,
+      story.file_path,
+      story.title,
+      story.status,
+      null,
+      null,
+      null,
+    );
+    const row = db
+      .query<{ seq: number | null }, [string]>(
+        "SELECT seq FROM stories WHERE id = ?",
+      )
+      .get(story.id);
+    expect(row?.seq).toBe(1);
   });
 });

@@ -17,14 +17,6 @@ function isValidStoryId(id: string): boolean {
   return /^US\d+$/.test(id) || /^US-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/.test(id);
 }
 
-function toSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 40);
-}
-
 function updateFrontmatterField(
   yaml: string,
   key: string,
@@ -120,15 +112,20 @@ export class StoryService {
   }
 
   async create(title: string): Promise<Story> {
-    const today = new Date().toISOString().slice(0, 10);
-    const id = `US-${today}-${toSlug(title)}`;
+    const { n } = this.db
+      .query<{ n: number }, []>(
+        "SELECT COALESCE(MAX(seq), 0) + 1 AS n FROM stories",
+      )
+      .get()!;
+    const id = `US${n}`;
     const filePath = join(this.storiesDir, `${id}.md`);
+    const today = new Date().toISOString().slice(0, 10);
     await writeFile(filePath, scaffoldStory(id, title, today), "utf-8");
     const ts = Date.now();
     this.db.run(
-      `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at)
-       VALUES (?, ?, ?, NULL, 'backlog', NULL, NULL, ?, ?)`,
-      [id, filePath, title, ts, ts],
+      `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at, seq)
+       VALUES (?, ?, ?, NULL, 'backlog', NULL, NULL, ?, ?, ?)`,
+      [id, filePath, title, ts, ts, n],
     );
     this.bus.publish({ type: "story.changed", data: { id, op: "create" } });
     const created = this.db
@@ -325,9 +322,9 @@ export class StoryService {
   ): void {
     const ts = Date.now();
     this.db.run(
-      `INSERT OR REPLACE INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, COALESCE((SELECT created_at FROM stories WHERE id = ?), ?), ?)`,
-      [id, filePath, title, size, status, linkedSpec, linkedPlan, id, ts, ts],
+      `INSERT OR REPLACE INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at, seq)
+       VALUES (?, ?, ?, ?, ?, ?, ?, COALESCE((SELECT created_at FROM stories WHERE id = ?), ?), ?, (SELECT seq FROM stories WHERE id = ?))`,
+      [id, filePath, title, size, status, linkedSpec, linkedPlan, id, ts, ts, id],
     );
   }
 }
