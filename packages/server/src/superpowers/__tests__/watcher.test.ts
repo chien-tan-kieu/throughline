@@ -3,7 +3,7 @@ import { Database } from "bun:sqlite";
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { stubBus } from "../../bus.ts";
 import { runMigrations } from "../../store/migrate.ts";
 import { SuperpowersWatcher } from "../index.ts";
@@ -78,5 +78,119 @@ describe("SuperpowersWatcher", () => {
 
     expect(published.some((e) => e.type === "plan.changed")).toBe(true);
     w.stop();
+  });
+
+  test("auto-links new spec file to active story via storyLinker", async () => {
+    await watcher.start();
+
+    // Set up an active session pointing at this cwd
+    const ts = Date.now();
+    db.run(
+      "INSERT INTO sessions (id, cwd, status, started_at) VALUES (?, ?, 'active', ?)",
+      ["sess-spec", cwd, ts],
+    );
+    db.run(
+      `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at)
+       VALUES ('US1', ?, 'Test Story', NULL, 'backlog', NULL, NULL, ?, ?)`,
+      [join(cwd, "docs/superpowers/stories/US1.md"), ts, ts],
+    );
+    db.run("UPDATE sessions SET active_story_id = 'US1' WHERE id = 'sess-spec'");
+
+    const linked: Array<{ storyId: string; type: string; path: string }> = [];
+    watcher.setStoryLinker((storyId, type, path) => {
+      linked.push({ storyId, type, path });
+      return Promise.resolve();
+    });
+
+    const specPath = join(cwd, "docs/superpowers/specs/new-spec.md");
+    await writeFile(specPath, "# My Spec\n\nContent.\n");
+    await watcher.handleFileChange(specPath);
+
+    expect(linked).toHaveLength(1);
+    expect(linked[0].storyId).toBe("US1");
+    expect(linked[0].type).toBe("spec");
+    expect(linked[0].path).toBe(resolve(specPath));
+  });
+
+  test("does not call storyLinker for a spec update (already known)", async () => {
+    const specPath = join(cwd, "docs/superpowers/specs/existing-spec.md");
+    await writeFile(specPath, "# Existing\n\nFirst version.\n");
+    await watcher.start(); // loads existing spec → already known
+
+    const ts = Date.now();
+    db.run(
+      "INSERT INTO sessions (id, cwd, status, started_at) VALUES (?, ?, 'active', ?)",
+      ["sess-update", cwd, ts],
+    );
+    db.run(
+      `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at)
+       VALUES ('US2', ?, 'Test Story', NULL, 'backlog', NULL, NULL, ?, ?)`,
+      [join(cwd, "docs/superpowers/stories/US2.md"), ts, ts],
+    );
+    db.run("UPDATE sessions SET active_story_id = 'US2' WHERE id = 'sess-update'");
+
+    const linked: Array<unknown> = [];
+    watcher.setStoryLinker(() => { linked.push(1); return Promise.resolve(); });
+
+    await writeFile(specPath, "# Existing\n\nUpdated content.\n");
+    await watcher.handleFileChange(specPath);
+
+    expect(linked).toHaveLength(0);
+  });
+
+  test("does not call storyLinker when active story already has a linked spec", async () => {
+    await watcher.start();
+
+    const ts = Date.now();
+    db.run(
+      "INSERT INTO sessions (id, cwd, status, started_at) VALUES (?, ?, 'active', ?)",
+      ["sess-already", cwd, ts],
+    );
+    db.run(
+      `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at)
+       VALUES ('US3', ?, 'Test Story', NULL, 'backlog', '/docs/specs/old.md', NULL, ?, ?)`,
+      [join(cwd, "docs/superpowers/stories/US3.md"), ts, ts],
+    );
+    db.run("UPDATE sessions SET active_story_id = 'US3' WHERE id = 'sess-already'");
+
+    const linked: Array<unknown> = [];
+    watcher.setStoryLinker(() => { linked.push(1); return Promise.resolve(); });
+
+    const specPath = join(cwd, "docs/superpowers/specs/another-spec.md");
+    await writeFile(specPath, "# Another\n\nContent.\n");
+    await watcher.handleFileChange(specPath);
+
+    expect(linked).toHaveLength(0);
+  });
+
+  test("auto-links new plan file to active story via storyLinker", async () => {
+    await watcher.start();
+
+    const ts = Date.now();
+    db.run(
+      "INSERT INTO sessions (id, cwd, status, started_at) VALUES (?, ?, 'active', ?)",
+      ["sess-plan", cwd, ts],
+    );
+    db.run(
+      `INSERT INTO stories (id, file_path, title, size, status, linked_spec_path, linked_plan_path, created_at, updated_at)
+       VALUES ('US4', ?, 'Test Story', NULL, 'backlog', NULL, NULL, ?, ?)`,
+      [join(cwd, "docs/superpowers/stories/US4.md"), ts, ts],
+    );
+    db.run("UPDATE sessions SET active_story_id = 'US4' WHERE id = 'sess-plan'");
+
+    const linked: Array<{ storyId: string; type: string; path: string }> = [];
+    watcher.setStoryLinker((storyId, type, path) => {
+      linked.push({ storyId, type, path });
+      return Promise.resolve();
+    });
+
+    const planPath = join(cwd, "docs/superpowers/plans/new-plan.md");
+    await writeFile(planPath, "# My Plan\n\n### Task 1: Go\n\n- [ ] step\n");
+    await watcher.handleFileChange(planPath);
+
+    expect(linked).toHaveLength(1);
+    expect(linked[0].storyId).toBe("US4");
+    expect(linked[0].type).toBe("plan");
+    expect(linked[0].path).toBe(resolve(planPath));
   });
 });

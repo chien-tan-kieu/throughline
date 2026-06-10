@@ -81,6 +81,41 @@ describe("StoryService", () => {
     expect(row?.status).toBe("in-progress");
   });
 
+  test("update() patches linked_spec_path and linked_plan_path in DB", async () => {
+    const story = await service.create("Link Test");
+    await service.update(story.id, {
+      linked_spec: "/docs/specs/test.md",
+      linked_plan: "/docs/plans/test.md",
+    });
+    const row = db
+      .query<{ linked_spec_path: string | null; linked_plan_path: string | null }, [string]>(
+        "SELECT linked_spec_path, linked_plan_path FROM stories WHERE id = ?",
+      )
+      .get(story.id);
+    expect(row?.linked_spec_path).toBe("/docs/specs/test.md");
+    expect(row?.linked_plan_path).toBe("/docs/plans/test.md");
+  });
+
+  test("update() writes linked_spec and linked_plan into frontmatter", async () => {
+    const story = await service.create("Frontmatter Link");
+    await service.update(story.id, { linked_spec: "/docs/specs/my-spec.md" });
+    const { readFile } = await import("node:fs/promises");
+    const content = await readFile(story.file_path, "utf-8");
+    expect(content).toContain("linked_spec: /docs/specs/my-spec.md");
+  });
+
+  test("update() clears linked_spec_path when patched with empty string", async () => {
+    const story = await service.create("Clear Link");
+    await service.update(story.id, { linked_spec: "/docs/specs/test.md" });
+    await service.update(story.id, { linked_spec: "" });
+    const row = db
+      .query<{ linked_spec_path: string | null }, [string]>(
+        "SELECT linked_spec_path FROM stories WHERE id = ?",
+      )
+      .get(story.id);
+    expect(row?.linked_spec_path).toBeNull();
+  });
+
   test("archive() moves story to archived status", async () => {
     const story = await service.create("Archive Me");
     await service.archive(story.id);

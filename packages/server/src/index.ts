@@ -65,6 +65,10 @@ export async function startDaemon(
   const handoffService = new HandoffService(cwd, db);
   const wsServer = new WsServer(bus, token);
 
+  watcher.setStoryLinker((storyId, type, absPath) =>
+    stories.update(storyId, type === "spec" ? { linked_spec: absPath } : { linked_plan: absPath }).then(() => {}),
+  );
+
   await watcher.start();
   await stories.start();
 

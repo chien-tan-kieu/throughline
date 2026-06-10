@@ -8,17 +8,24 @@ import { diffCheckboxState } from "./diff.ts";
 import { parsePlan } from "./parser.ts";
 import { advancePhase } from "./phase.ts";
 
+type StoryLinker = (storyId: string, type: "spec" | "plan", absPath: string) => Promise<void>;
+
 export class SuperpowersWatcher {
   private plans = new Map<string, ParsedPlan>();
   private specs = new Map<string, string>();
   private watchers: Array<{ close(): void }> = [];
   private retryTimer: ReturnType<typeof setTimeout> | null = null;
+  private storyLinker: StoryLinker | null = null;
 
   constructor(
     private cwd: string,
     private db: Database,
     private bus: Bus,
   ) {}
+
+  setStoryLinker(fn: StoryLinker): void {
+    this.storyLinker = fn;
+  }
 
   async start(): Promise<void> {
     const plansDir = join(this.cwd, "docs/superpowers/plans");
@@ -66,6 +73,7 @@ export class SuperpowersWatcher {
     }
 
     if (abs.startsWith(plansDir)) {
+      const isNew = !this.plans.has(abs);
       const prev = this.plans.get(abs) ?? { path: abs, title: "", tasks: [] };
       const next = parsePlan(content, abs);
       const diffs = diffCheckboxState(prev, next);
@@ -82,12 +90,35 @@ export class SuperpowersWatcher {
       } else if (prev.tasks.length === 0 && next.tasks.length > 0) {
         this.maybeAdvancePhase("plan");
       }
+      if (isNew) await this.maybeAutoLink("plan", abs);
     } else if (abs.startsWith(specsDir)) {
       const isNew = !this.specs.has(abs);
       this.specs.set(abs, content);
       this.bus.publish({ type: "spec.changed", data: { path: abs } });
-      if (isNew) this.maybeAdvancePhase("spec");
+      if (isNew) {
+        this.maybeAdvancePhase("spec");
+        await this.maybeAutoLink("spec", abs);
+      }
     }
+  }
+
+  private async maybeAutoLink(type: "spec" | "plan", absPath: string): Promise<void> {
+    if (!this.storyLinker) return;
+    const session = this.db
+      .query<{ active_story_id: string | null }, [string]>(
+        "SELECT active_story_id FROM sessions WHERE cwd = ? ORDER BY started_at DESC LIMIT 1",
+      )
+      .get(this.cwd);
+    const storyId = session?.active_story_id;
+    if (!storyId) return;
+    const col = type === "spec" ? "linked_spec_path" : "linked_plan_path";
+    const row = this.db
+      .query<Record<string, string | null>, [string]>(
+        `SELECT ${col} FROM stories WHERE id = ?`,
+      )
+      .get(storyId);
+    if (!row || row[col]) return;
+    await this.storyLinker(storyId, type, absPath);
   }
 
   private async loadDir(dir: string, isPlan: boolean): Promise<void> {
