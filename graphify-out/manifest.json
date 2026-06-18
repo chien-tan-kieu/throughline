@@ -1,18 +1,562 @@
 {
+  "/Users/chien.tankieu/Development/claude-control/scripts/sync-version.mjs": {
+    "mtime": 1780350015.5358162,
+    "hash": "12fddc94a0c9b7d039a34064418d44ce"
+  },
+  "/Users/chien.tankieu/Development/claude-control/scripts/extract-changelog.mjs": {
+    "mtime": 1780349927.7599864,
+    "hash": "60ca167c868552ca07534e8c1253c401"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/tailwind.config.js": {
+    "mtime": 1779081449.3741493,
+    "hash": "6d8045b51d71ff46728dd318d9aa2625"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/vite.config.ts": {
+    "mtime": 1780079270.47175,
+    "hash": "37501bc3dbbda1dda324f03c12ebc0ae"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/postcss.config.js": {
+    "mtime": 1779081446.8677952,
+    "hash": "222a79a9879c7cd4d9980533b7639465"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/App.tsx": {
+    "mtime": 1780519933.8358374,
+    "hash": "37b46034419769c174c2fc711926ba14"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/main.tsx": {
+    "mtime": 1780079313.5826087,
+    "hash": "881b7357407bcf10c1e9e2213b480eaf"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/test-setup.ts": {
+    "mtime": 1780079270.4716144,
+    "hash": "166a26ce4265ed1175aab3efd38ff02b"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/layout/Topbar.tsx": {
+    "mtime": 1780350292.0167007,
+    "hash": "609406967a8f7142ce5d22893ea93ee5"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/layout/Sidebar.tsx": {
+    "mtime": 1780816809.0818455,
+    "hash": "7ae8aa4850a27bb3d7da61c3b1422867"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/standup/StatsGrid.tsx": {
+    "mtime": 1779130546.5883462,
+    "hash": "9f34208c1c6353b92e32aa553ecef14a"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/standup/StandupSection.tsx": {
+    "mtime": 1779131067.6508787,
+    "hash": "1d3c0244413fe54ed31d73336509e20a"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/shared/SizePill.tsx": {
+    "mtime": 1779130996.622462,
+    "hash": "091e03f863d003b2af995e9e3f822878"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/shared/TaskCard.tsx": {
+    "mtime": 1779130446.5230637,
+    "hash": "13da485100333d505d9fcafeadd56a37"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/shared/TypeIcon.tsx": {
+    "mtime": 1779130396.0955868,
+    "hash": "ba9cbf7e1f2fe881bb03d3594f9e6fdf"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/shared/HierarchyStrip.tsx": {
+    "mtime": 1780517718.9778006,
+    "hash": "d752541cd38d7fc17d4ebab6387df4e0"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/shared/StatusPill.tsx": {
+    "mtime": 1779130402.4007568,
+    "hash": "49f4a76e65a97bc7e244614d1853c200"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/shared/StepRow.tsx": {
+    "mtime": 1779130435.1227896,
+    "hash": "db2a6368080880be7e9632065206f9f4"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/shared/LinkedCard.tsx": {
+    "mtime": 1780517723.8059216,
+    "hash": "bc4442427c3698fb372d570707561d8d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/stories/FilterBar.tsx": {
+    "mtime": 1780079270.4711275,
+    "hash": "9b6743adccebdcbc5cdad504dd5a317a"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/stories/StoryCard.tsx": {
+    "mtime": 1780426739.128622,
+    "hash": "3acf5fa32a553a1054f1014268f50570"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/components/stories/KanbanColumn.tsx": {
+    "mtime": 1780411492.2670805,
+    "hash": "dbd839d933e036f4af22eff62cef3e42"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/__tests__/Sidebar.test.tsx": {
+    "mtime": 1780816818.191111,
+    "hash": "67ae9d2b0a51799be8a09184d971fb46"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/__tests__/ui-store.test.ts": {
+    "mtime": 1779628305.1041255,
+    "hash": "f13506b5b9cf9d442ac1aa254910452d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/__tests__/Topbar.test.tsx": {
+    "mtime": 1780350269.347229,
+    "hash": "4ba8de1c4c439c625bfab581f5ef58f7"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/__tests__/StoriesPage.test.tsx": {
+    "mtime": 1780079270.4709625,
+    "hash": "ff03d9a68093055a419cd55dd2c47471"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/__tests__/KanbanColumn.test.tsx": {
+    "mtime": 1779628305.1039321,
+    "hash": "a017d54f9325ec12c5a6cf2c841333a7"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/__tests__/useWebSocket.test.ts": {
+    "mtime": 1780713266.7574036,
+    "hash": "86eb38890b3210702d13e37a041490b9"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/__tests__/DocsPage.test.tsx": {
+    "mtime": 1780812137.7240808,
+    "hash": "ae40802faa2ccc8ba6465297207d9063"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/__tests__/FilterBar.test.tsx": {
+    "mtime": 1780079270.4707813,
+    "hash": "6ff30eb830cb70d668bc355cc2ab59f0"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/hooks/useWebSocket.ts": {
+    "mtime": 1780713427.7416277,
+    "hash": "6e556bc1947398ebc4a265347238af6e"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/lib/api.ts": {
+    "mtime": 1780812120.805469,
+    "hash": "6612730a8f17f684e14acf9acc9f44c4"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/pages/StoryPage.tsx": {
+    "mtime": 1780520447.786078,
+    "hash": "dd07ba47f6cb1905e9274a763a9cf98f"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/pages/StoriesPage.tsx": {
+    "mtime": 1780426766.1550667,
+    "hash": "d997929a17dadba666c504f0fdee0645"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/pages/StandupPage.tsx": {
+    "mtime": 1779130567.8615923,
+    "hash": "4e78a707d1cf47e442dc9b7d234e8687"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/pages/DocsPage.tsx": {
+    "mtime": 1780812518.7108178,
+    "hash": "9117c5baba0af397a006a46fb11ac7b8"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/store/ws.ts": {
+    "mtime": 1779081750.3878832,
+    "hash": "f74fafb501854cebb63e03801fdc983e"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/src/store/ui.ts": {
+    "mtime": 1779628305.105247,
+    "hash": "a1a52c7356dc597d40e02db826fb1ae5"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/migrations/002_superpowers.sql": {
+    "mtime": 1778867648.1698847,
+    "hash": "270b18136bd50b92251158198488d118"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/migrations/003_handoffs.sql": {
+    "mtime": 1779080262.072144,
+    "hash": "237586004ee404a3d7ad230dbbee2b1a"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/migrations/004_story_seq.sql": {
+    "mtime": 1781033496.1463463,
+    "hash": "5844538fb48c5563deca1190e635184c"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/migrations/001_initial.sql": {
+    "mtime": 1778095825.9519382,
+    "hash": "2e2086adf56fa6fed06029bf4a59e643"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/__tests__/sync-version.test.ts": {
+    "mtime": 1780350009.008236,
+    "hash": "74c313a54a3b5fc362944ad4f253ee35"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/__tests__/extract-changelog.test.ts": {
+    "mtime": 1780349920.7141004,
+    "hash": "b63002bcae02f6607ab3840e7ce9547d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/bus.ts": {
+    "mtime": 1780405729.2483594,
+    "hash": "8b8468c98c3b2ea982c8f33e8a0aa876"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/index.ts": {
+    "mtime": 1781066571.6694148,
+    "hash": "58c2a980c3d81e87513961d0bae794ba"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/server.ts": {
+    "mtime": 1780809850.9556293,
+    "hash": "f3daf44e45deeaef82139182554e0664"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/security/index.ts": {
+    "mtime": 1779628305.1033008,
+    "hash": "d68739803a57bea8b2973f243b76570d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/security/__tests__/security.test.ts": {
+    "mtime": 1779628305.1031694,
+    "hash": "a1f318ea7a43bc44406e0f360b06bd47"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/handoff/index.ts": {
+    "mtime": 1779081236.0044181,
+    "hash": "ce0aba61a8fc49a1f4549c2aacdb7871"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/handoff/__tests__/service.test.ts": {
+    "mtime": 1779081264.1153147,
+    "hash": "9f184d19d6d03b325ed0939902ad9592"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/standup/index.ts": {
+    "mtime": 1779080637.2170248,
+    "hash": "6e64411b0833a1c8890593bf1ff5d1a0"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/standup/__tests__/service.test.ts": {
+    "mtime": 1779080667.8743262,
+    "hash": "4eeb727b7815e770b9139523bab6f40c"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/lifecycle/index.ts": {
+    "mtime": 1778306527.263512,
+    "hash": "0f92d49cd646c8b1a75a47a5cd5a978e"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/stories/template.ts": {
+    "mtime": 1778868256.1588237,
+    "hash": "f3a25c59d26df59be64af1e72d8bc4aa"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/stories/index.ts": {
+    "mtime": 1781034317.7066293,
+    "hash": "629797df8b5d6625b8ca7df479998b04"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/stories/__tests__/service.test.ts": {
+    "mtime": 1781060771.960915,
+    "hash": "ca670201294e089946c085c11e07e876"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/__tests__/daemon.test.ts": {
+    "mtime": 1780406304.6561596,
+    "hash": "7be16996055250370c299b5bb708bd7a"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/__tests__/integration.test.ts": {
+    "mtime": 1780670049.4640012,
+    "hash": "759953ef32e16a58718f937e865f8c12"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/__tests__/server.test.ts": {
+    "mtime": 1780375270.620508,
+    "hash": "ef29d1fa1b63b8717c21b8602d4c72be"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/hooks/handlers.ts": {
+    "mtime": 1780374672.4246352,
+    "hash": "ef1745b8a3fee638aac8d314f995d099"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/hooks/index.ts": {
+    "mtime": 1779336958.215502,
+    "hash": "f6f47b03d830a3de7f124f5d17d3d715"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/hooks/__tests__/observer-contract.test.ts": {
+    "mtime": 1778306527.2633502,
+    "hash": "4e56785e09c461f18d9ed9ec5e421cde"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/hooks/__tests__/phase-inference.test.ts": {
+    "mtime": 1779628305.1028879,
+    "hash": "a3052ace0bca94e7de80e77a343117bb"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/api/standup.ts": {
+    "mtime": 1779081031.3852775,
+    "hash": "5a81507e8fa747912150582aaa0673a3"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/api/superpowers.ts": {
+    "mtime": 1778868829.009853,
+    "hash": "19228f3b0c9fe92014216d6066507af9"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/api/stories.ts": {
+    "mtime": 1778868851.6528351,
+    "hash": "628b96609eed4618cefae934db31dde4"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/api/handoff.ts": {
+    "mtime": 1781034321.952748,
+    "hash": "9cc36a807e58af32264f2c16618bdc96"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/api/index.ts": {
+    "mtime": 1780405744.775994,
+    "hash": "24321be769e5ee43afde9abae4c16976"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/api/sessions.ts": {
+    "mtime": 1780713519.3758738,
+    "hash": "2d50edb94e2000e3a8648077d9075e7e"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/api/__tests__/standup-handoff.test.ts": {
+    "mtime": 1779081273.5035946,
+    "hash": "6c01a7d7d4b3f1714fcacccbd9183c68"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/api/__tests__/routes.test.ts": {
+    "mtime": 1781033983.700873,
+    "hash": "7e605f8fa72c276f39313a5be8cc0f5c"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/superpowers/diff.ts": {
+    "mtime": 1778867838.1505227,
+    "hash": "165dc442ca11056578e76c8c59f53495"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/superpowers/parser.ts": {
+    "mtime": 1778867750.2702827,
+    "hash": "2e6ea06d0302669f83d6fe88487ad3b5"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/superpowers/index.ts": {
+    "mtime": 1781066567.5427885,
+    "hash": "74bf736cdf7ac3c23e1fa977525ddb2f"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/superpowers/phase.ts": {
+    "mtime": 1778867922.9163754,
+    "hash": "e2fd55e2d2a4af0698aa63c24f99fd48"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/superpowers/__tests__/parser.test.ts": {
+    "mtime": 1778867768.81432,
+    "hash": "ef7b9ffce630502e32d6cbcf8e004d2e"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/superpowers/__tests__/watcher.test.ts": {
+    "mtime": 1781066541.796581,
+    "hash": "03f85a410c36542652234ee35f608ffd"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/superpowers/__tests__/diff.test.ts": {
+    "mtime": 1778867844.1375124,
+    "hash": "18512ec7363d98a036a5cee6bcc53892"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/superpowers/__tests__/phase.test.ts": {
+    "mtime": 1778867908.5359812,
+    "hash": "e3cdbbf846b6b87e9f743c779d3eacd9"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/ws/index.ts": {
+    "mtime": 1780405733.584573,
+    "hash": "8bbbfc6c58ee7f6413630ca3ff185e78"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/ws/__tests__/ws.test.ts": {
+    "mtime": 1780405492.2278366,
+    "hash": "59625747b1a3477547faf8047f9c4690"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/store/migrate.ts": {
+    "mtime": 1778306527.2646787,
+    "hash": "43ca57366a99382f3e3c608f773505b9"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/store/index.ts": {
+    "mtime": 1778306527.2645338,
+    "hash": "e298753480761d194a2ecef9de098bbe"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/store/__tests__/migrate.test.ts": {
+    "mtime": 1781033500.261014,
+    "hash": "cdf91e81733f3031590ccb3d6749a60d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/server/src/store/__tests__/store.test.ts": {
+    "mtime": 1778313039.9865816,
+    "hash": "4eb8b6ec54b0faae0788c5ce56c3c1bd"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/shared/src/api.ts": {
+    "mtime": 1780405725.4591286,
+    "hash": "6acc27678637ea1e243193e4f8054df9"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/shared/src/events.ts": {
+    "mtime": 1778095637.1576238,
+    "hash": "45bf9f79f00f3045a475c26d4f657b5a"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/shared/src/index.ts": {
+    "mtime": 1779080378.7007134,
+    "hash": "f652c563951c53d173a4a2bf316bdd32"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/shared/src/story.ts": {
+    "mtime": 1780079313.581169,
+    "hash": "59b8f2f6af55c0f60c20f63a7d5ab98a"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/shared/src/plan.ts": {
+    "mtime": 1778867090.0732172,
+    "hash": "1ea20b0c0a394e81d172a4609ac3c20c"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/shared/src/__tests__/story.test.ts": {
+    "mtime": 1780079313.580798,
+    "hash": "f794eb1f8b64d996ab39f2b198157810"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/shared/src/__tests__/events.test.ts": {
+    "mtime": 1778306527.265663,
+    "hash": "4d71dccf67869c8d7bfc3dce51d4835b"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/shared/src/__tests__/plan.test.ts": {
+    "mtime": 1778867094.0955126,
+    "hash": "b444713153a8ba4ffce5329356ab4492"
+  },
+  "/Users/chien.tankieu/Development/claude-control/CHANGELOG.md": {
+    "mtime": 1780350063.1937113,
+    "hash": "f32d2be77397d67888cf03058384da2a"
+  },
   "/Users/chien.tankieu/Development/claude-control/DESIGN.md": {
     "mtime": 1777997056.4568236,
     "hash": "c9ba6ea806e1b7f818b93b4734e8a325"
   },
   "/Users/chien.tankieu/Development/claude-control/CLAUDE.md": {
-    "mtime": 1777993285.8469613,
-    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+    "mtime": 1780372493.1767595,
+    "hash": "4ff5ac2a9bcef1d9f37bd29a8dcdc489"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/constitution.md": {
+    "mtime": 1780340531.0024831,
+    "hash": "23bb41d15878878181c3d4aa1ca9e779"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/README.md": {
+    "mtime": 1778429015.6365318,
+    "hash": "2eeddbfeb2407cb9ae9864c92ed2923d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/open.md": {
+    "mtime": 1780247109.616418,
+    "hash": "0780096371486cc578ad66a949a4797f"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/status.md": {
+    "mtime": 1780350342.0205884,
+    "hash": "11f610a3ba723f3b51182a19de953a14"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/standup.md": {
+    "mtime": 1780247094.900251,
+    "hash": "3f5b66bebf534c239717b431f2207d39"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/plan.md": {
+    "mtime": 1781060799.4442444,
+    "hash": "39a9aa60b24261b4d19923c62ad94694"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/story.md": {
+    "mtime": 1780247113.5095818,
+    "hash": "fb0699332abb08f1990114ec727341cf"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/spec.md": {
+    "mtime": 1781060791.872015,
+    "hash": "58bf2344761606e3e7d9e35207c242bf"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/start.md": {
+    "mtime": 1780846657.8279247,
+    "hash": "ea69e06652fa40db20484ba60a3d5937"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/handoff.md": {
+    "mtime": 1780247091.0328965,
+    "hash": "44fd6c25e8cc9f7ac98fe6c07087867a"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/lib/start/done.md": {
+    "mtime": 1780845970.022433,
+    "hash": "5e4c1238bf26a1c5e27e2116cb8cc04e"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/lib/start/in-progress.md": {
+    "mtime": 1780846632.4126499,
+    "hash": "72a7fa1d6db722e9c45a28dbfd4ea4d8"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/commands/lib/start/backlog.md": {
+    "mtime": 1780845647.7818465,
+    "hash": "17dad6b4cf094fe347b4aba4e5d9d5ad"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/skills/claude-control/SKILL.md": {
+    "mtime": 1778140162.2774181,
+    "hash": "96182b5e6e93f36f8932c73129fa444c"
+  },
+  "/Users/chien.tankieu/Development/claude-control/plugin/skills/spec-viewer/SKILL.md": {
+    "mtime": 1780520958.353295,
+    "hash": "963b5d52671de0d370b963ee87ef55d5"
   },
   "/Users/chien.tankieu/Development/claude-control/docs/features/claude-control-plugin/PRD.md": {
-    "mtime": 1777993256.8293493,
-    "hash": "974a139d6371a444dd78deaef2f15fbe"
+    "mtime": 1778927738.417228,
+    "hash": "69bccb35e48e1a88613c1ee5269ca60b"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-06-04-spec-plan-viewer-docs-page.md": {
+    "mtime": 1780516160.8367975,
+    "hash": "8707ea62e1a2b36b8d7ca3e0cf069598"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-05-16-phase2-superpowers-integration.md": {
+    "mtime": 1778927731.3742502,
+    "hash": "33130dabf852d4f3f6802e91bc052803"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-05-21-filter-stories-by-status.md": {
+    "mtime": 1779628305.1017182,
+    "hash": "4755f78a31b76225b0999a49fc87c623"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-06-02-versioning-and-release.md": {
+    "mtime": 1780347786.4261656,
+    "hash": "18cbcf0c29fca08433d1da136366d567"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-06-10-story-id-incremental.md": {
+    "mtime": 1781032948.3068686,
+    "hash": "2a4e0e32e9a7e545cc4ee321b6e815ce"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-05-17-phase3-dashboard.md": {
+    "mtime": 1779014164.4957252,
+    "hash": "0f3d9886f04f19ef1724e2dd48850ef3"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-06-07-start-command-status-branching.md": {
+    "mtime": 1780826878.8012886,
+    "hash": "1da643fc74f04e05d1b4af1e9be7cb00"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-05-06-claude-control-foundation.md": {
+    "mtime": 1778506083.4858809,
+    "hash": "34311c16875ed1b5e711871b0b09f7f7"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-05-29-stories-refresh-button.md": {
+    "mtime": 1780079270.469542,
+    "hash": "3ce986386eae2283f2251cd34945023f"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-05-25-realtime-story-sync.md": {
+    "mtime": 1780079270.4692676,
+    "hash": "060443c2f71ce9b7f9455a0c306f88d7"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-05-25-realtime-story-sync-design.md": {
+    "mtime": 1779670647.2850432,
+    "hash": "672b8ae2badacfb748a9becf2ce3d450"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-06-07-start-command-status-branching-design.md": {
+    "mtime": 1780826554.0195687,
+    "hash": "33e4c42c029ef9ca478663b46cd04a94"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-05-20-filter-stories-by-status-design.md": {
+    "mtime": 1779628305.1020315,
+    "hash": "a260febca2b89d5c9c38f6aeea430683"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-05-29-stories-refresh-button-design.md": {
+    "mtime": 1780079270.4698102,
+    "hash": "8b33d15426ab7387cc8fdc58cd7a5d4d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-05-13-superpowers-integration-stories-design.md": {
+    "mtime": 1778927731.3762836,
+    "hash": "3779895c374de69244435b463c7faf3e"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-06-04-spec-plan-viewer-design.md": {
+    "mtime": 1780515532.4496799,
+    "hash": "64aed56227bd6efa8caeff4a3edb2f7d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-06-10-story-id-incremental-design.md": {
+    "mtime": 1781031487.0908265,
+    "hash": "8b9cac47a07f446faa83fe947e78275d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-06-02-versioning-release-design.md": {
+    "mtime": 1780345372.6632097,
+    "hash": "2c05c5312c0db0d63fdc478b620279a6"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-05-17-phase3-dashboard-design.md": {
+    "mtime": 1779006061.883519,
+    "hash": "4d9c44ca843c4a83359c21564b2ba968"
   },
   "/Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md": {
-    "mtime": 1778013001.348478,
-    "hash": "e4e185b65fe875b565b3548e7eee8bb5"
+    "mtime": 1778927731.377682,
+    "hash": "9cb5a31beee06f481047428abd6f824d"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/stories/US-2026-06-02-plugin-parse-superpowers-spec-plan-files.md": {
+    "mtime": 1780810244.0921135,
+    "hash": "e82619fbc24bed8c2bb987fdcc8bafff"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/stories/US-2026-06-01-implement-versioning-and-release-mechani.md": {
+    "mtime": 1780426471.478903,
+    "hash": "f61563ac86dc5eb68597af76cc5fa11a"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/stories/US-2026-06-08-optimize-story-id-generation-to-use-incr.md": {
+    "mtime": 1781060055.2076871,
+    "hash": "afc16236731d463371ffd2f1f443f4b2"
+  },
+  "/Users/chien.tankieu/Development/claude-control/docs/superpowers/stories/US-2026-05-19-filter-stories-by-status-on-the-board-vi.md": {
+    "mtime": 1780427977.50287,
+    "hash": "665bee8dde7dd27aeae7e8cba81e5e2f"
+  },
+  "/Users/chien.tankieu/Development/claude-control/packages/web/index.html": {
+    "mtime": 1779081444.3097136,
+    "hash": "d3836240cdd733614cd9a2992a5a1d45"
+  },
+  "/Users/chien.tankieu/Development/claude-control/assets/claude-control-handoff.md": {
+    "mtime": 1778993735.5609381,
+    "hash": "d44b2c1f0a5dd123326c77f610f3ac7f"
+  },
+  "/Users/chien.tankieu/Development/claude-control/assets/claude-control-dashboard-hierarchy.html": {
+    "mtime": 1778993667.8482473,
+    "hash": "e60e93d63477e9af816ba4d2d5922f96"
   }
 }
