@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import { useSearchParams } from "react-router-dom";
-import type { ParsedPlan } from "@cc/shared";
+import type { ParsedPlan } from "@throughline/shared";
 import { HierarchyStrip } from "../components/shared/HierarchyStrip.tsx";
 import { LinkedCard } from "../components/shared/LinkedCard.tsx";
 import { TaskCard } from "../components/shared/TaskCard.tsx";
@@ -44,7 +44,7 @@ export function DocsPage() {
   if (!activeStoryId) {
     return (
       <div style={{ padding: "40px 32px", color: "var(--text-muted)" }}>
-        No active story. Start one with <code>/claude-control:start</code>.
+        No active story. Start one with <code>/throughline:start</code>.
       </div>
     );
   }
@@ -93,7 +93,7 @@ export function DocsPage() {
             !specPath ? (
               <div style={{ color: "var(--text-muted)", padding: "40px 0", textAlign: "center" }}>
                 <div style={{ fontSize: 16, marginBottom: 8 }}>No spec linked</div>
-                <div style={{ fontSize: 13 }}>Link one with <code>/claude-control:spec</code></div>
+                <div style={{ fontSize: 13 }}>Link one with <code>/throughline:spec</code></div>
               </div>
             ) : !specData ? (
               <div style={{ color: "var(--text-muted)" }}>Loading spec…</div>
@@ -109,7 +109,7 @@ export function DocsPage() {
             !planPath ? (
               <div style={{ color: "var(--text-muted)", padding: "40px 0", textAlign: "center" }}>
                 <div style={{ fontSize: 16, marginBottom: 8 }}>No plan linked</div>
-                <div style={{ fontSize: 13 }}>Link one with <code>/claude-control:plan</code></div>
+                <div style={{ fontSize: 13 }}>Link one with <code>/throughline:plan</code></div>
               </div>
             ) : !plan ? (
               <div style={{ color: "var(--text-muted)" }}>Loading plan…</div>

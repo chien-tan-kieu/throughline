@@ -8,15 +8,15 @@ allowed-tools:
 
 Start a story by loading it and dispatching to the appropriate workflow for its status.
 
-Usage: `/claude-control:start <story-id>`
+Usage: `/throughline:start <story-id>`
 
 1. Ensure daemon is running:
    ```bash
-   bash -c 'S=$(jq -r ".[\"claude-control-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate claude-control install."; exit 1; }'
+   bash -c 'S=$(jq -r ".[\"throughline-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate throughline install."; exit 1; }'
    ```
    If the script prints an error, stop and show it. Otherwise continue.
 
-2. Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.claude-control/runtime.json"` and parse `port` and `token` from the JSON output.
+2. Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.throughline/runtime.json"` and parse `port` and `token` from the JSON output.
 
 3. Fetch the story:
    ```bash
@@ -51,8 +51,8 @@ Usage: `/claude-control:start <story-id>`
    Resolve the install location and construct the absolute path to the mode file:
 
    ```bash
-   INSTALL=$(jq -r '."claude-control-local".installLocation' ~/.claude/plugins/known_marketplaces.json 2>/dev/null)
-   if [ -z "$INSTALL" ] || [ "$INSTALL" = "null" ]; then echo "Cannot resolve claude-control install location."; exit 1; fi
+   INSTALL=$(jq -r '."throughline-local".installLocation' ~/.claude/plugins/known_marketplaces.json 2>/dev/null)
+   if [ -z "$INSTALL" ] || [ "$INSTALL" = "null" ]; then echo "Cannot resolve throughline install location."; exit 1; fi
    echo "$INSTALL/plugin/commands/lib/start/<mode-file>"
    ```
 

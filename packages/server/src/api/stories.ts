@@ -1,5 +1,5 @@
 // packages/server/src/api/stories.ts
-import type { StoryPatch } from "@cc/shared";
+import type { StoryPatch } from "@throughline/shared";
 import type { StoryService } from "../stories/index.ts";
 
 export async function mountStoryRoutes(

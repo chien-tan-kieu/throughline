@@ -4,16 +4,16 @@ allowed-tools:
   - Bash
 ---
 
-Link a spec file to the active story. Usage: `/claude-control:spec [path]`
+Link a spec file to the active story. Usage: `/throughline:spec [path]`
 
 **Step 1: Ensure daemon is running**
 
 ```bash
-bash -c 'S=$(jq -r ".[\"claude-control-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate claude-control install."; exit 1; }'
+bash -c 'S=$(jq -r ".[\"throughline-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate throughline install."; exit 1; }'
 ```
 If the script prints an error, stop and show it. Otherwise continue.
 
-Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.claude-control/runtime.json"` and parse `port` and `token`.
+Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.throughline/runtime.json"` and parse `port` and `token`.
 
 **Step 2: Get the active story**
 
@@ -24,7 +24,7 @@ curl -s \
   http://127.0.0.1:<port>/api/sessions/current
 ```
 
-Parse `activeStoryId`. If it is `null`, print: "No active story. Start one with `/claude-control:start <id>`." and stop.
+Parse `activeStoryId`. If it is `null`, print: "No active story. Start one with `/throughline:start <id>`." and stop.
 
 **Step 3: Resolve the spec path**
 
@@ -38,7 +38,7 @@ If ARGUMENTS is not provided:
   ```bash
   ls "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/docs/superpowers/specs/" 2>/dev/null
   ```
-- Print the list. Ask the user: "Which spec file should be linked? Re-run with the filename as argument, e.g. `/claude-control:spec docs/superpowers/specs/<filename>`"
+- Print the list. Ask the user: "Which spec file should be linked? Re-run with the filename as argument, e.g. `/throughline:spec docs/superpowers/specs/<filename>`"
 - Stop.
 
 **Step 4: Link the spec**

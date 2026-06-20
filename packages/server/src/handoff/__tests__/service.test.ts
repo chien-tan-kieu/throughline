@@ -55,10 +55,10 @@ describe("HandoffService", () => {
     expect(row?.story_id).toBe("US-001");
   });
 
-  test("generate() writes to .claude-control/handoffs/<date>-<id>.md", async () => {
+  test("generate() writes to .throughline/handoffs/<date>-<id>.md", async () => {
     await seedStoryFile(cwd, db, { id: "US-002", title: "Path Test", status: "backlog" });
     const result = await svc.generate("US-002");
-    expect(result.filePath).toContain(".claude-control/handoffs");
+    expect(result.filePath).toContain(".throughline/handoffs");
     expect(result.filePath).toContain("US-002");
   });
 

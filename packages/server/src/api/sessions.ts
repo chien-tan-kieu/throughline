@@ -1,7 +1,7 @@
 // packages/server/src/api/sessions.ts
 import type { Database } from "bun:sqlite";
 import type { Bus } from "../bus.ts";
-import type { EventRecord, Session } from "@cc/shared";
+import type { EventRecord, Session } from "@throughline/shared";
 
 export async function mountSessionRoutes(
   req: Request,

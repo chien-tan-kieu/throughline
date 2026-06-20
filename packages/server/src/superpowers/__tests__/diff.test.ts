@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import type { ParsedPlan } from "@cc/shared";
+import type { ParsedPlan } from "@throughline/shared";
 import { diffCheckboxState } from "../diff.ts";
 
 function makePlan(taskSteps: Array<Array<"todo" | "done">>): ParsedPlan {

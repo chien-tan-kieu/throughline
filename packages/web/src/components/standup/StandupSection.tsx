@@ -1,4 +1,4 @@
-import type { StandupItem } from "@cc/shared";
+import type { StandupItem } from "@throughline/shared";
 type Variant = "shipped" | "in-progress" | "blockers";
 type Props = { variant: Variant; items: StandupItem[] };
 const titles: Record<Variant, string> = {

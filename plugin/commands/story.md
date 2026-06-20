@@ -1,22 +1,22 @@
 ---
-description: Manage Claude Control stories — new, list, or size subcommands
+description: Manage Throughline stories — new, list, or size subcommands
 allowed-tools:
   - Bash
   - Read
   - Write
 ---
 
-Manage stories. Usage: `/claude-control:story <subcommand> [args]`
+Manage stories. Usage: `/throughline:story <subcommand> [args]`
 
 **Step 0: Ensure daemon is running**
 
 Run this to check and auto-start if needed:
 ```bash
-bash -c 'S=$(jq -r ".[\"claude-control-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate claude-control install."; exit 1; }'
+bash -c 'S=$(jq -r ".[\"throughline-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate throughline install."; exit 1; }'
 ```
 If the script prints an error, stop and show it to the user. Otherwise continue.
 
-Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.claude-control/runtime.json"` and parse `port` and `token` from the JSON output. All curl commands use:
+Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.throughline/runtime.json"` and parse `port` and `token` from the JSON output. All curl commands use:
 - Header: `Authorization: Bearer <token>`
 - Header: `Host: 127.0.0.1:<port>`
 - Base URL: `http://127.0.0.1:<port>`

@@ -1,9 +1,9 @@
 #!/bin/bash
-# Ensures the claude-control daemon is running.
+# Ensures the throughline daemon is running.
 # Exits 0 if already healthy or successfully started.
 # Exits 1 and prints a message on failure.
 PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
-RUNTIME="$PROJECT_ROOT/.claude-control/runtime.json"
+RUNTIME="$PROJECT_ROOT/.throughline/runtime.json"
 
 probe() {
   PORT=$(jq -r .port "$RUNTIME" 2>/dev/null)
@@ -14,11 +14,11 @@ probe() {
 
 if [ -f "$RUNTIME" ] && probe; then exit 0; fi
 
-LOG="$PROJECT_ROOT/.claude-control/daemon.log"
-ROOT=$(jq -r '."claude-control-local".installLocation' \
+LOG="$PROJECT_ROOT/.throughline/daemon.log"
+ROOT=$(jq -r '."throughline-local".installLocation' \
   ~/.claude/plugins/known_marketplaces.json 2>/dev/null)
 [ -z "$ROOT" ] || [ "$ROOT" = "null" ] && \
-  echo "Cannot locate claude-control install." && exit 1
+  echo "Cannot locate throughline install." && exit 1
 bun run "$ROOT/packages/server/src/index.ts" >> "$LOG" 2>&1 &
 
 for i in $(seq 1 30); do

@@ -1,5 +1,5 @@
 import { useDroppable } from "@dnd-kit/core";
-import type { Story } from "@cc/shared";
+import type { Story } from "@throughline/shared";
 import { useUiStore } from "../../store/ui.ts";
 import { StoryCard } from "./StoryCard.tsx";
 

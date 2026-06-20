@@ -1,4 +1,4 @@
-# Claude Control — Project Guide
+# Throughline — Project Guide
 
 ## Package Manager
 
@@ -12,11 +12,11 @@
 ## Workspace Structure
 
 ```
-claude-control/          ← repo root (bun workspaces host)
+throughline/          ← repo root (bun workspaces host)
   packages/
-    server/              ← @cc/server  — Bun HTTP daemon (bun:test)
-    web/                 ← @cc/web     — React dashboard (vitest)
-    shared/              ← @cc/shared  — Shared TypeScript types
+    server/              ← @throughline/server  — Bun HTTP daemon (bun:test)
+    web/                 ← @throughline/web     — React dashboard (vitest)
+    shared/              ← @throughline/shared  — Shared TypeScript types
   plugin/                ← Claude Code plugin (skills, commands, hooks)
   scripts/               ← Release utility scripts (sync-version.mjs, extract-changelog.mjs)
   .github/workflows/     ← CI (ci.yml) and release (release.yml) pipelines
@@ -62,6 +62,6 @@ Version is authoritative in root `package.json`. Running `bun run release`:
 
 `packages/server/src/index.ts` — exports `startDaemon()`. The daemon:
 - Binds to port range 47821–47830
-- Writes `.claude-control/runtime.json` (port, token, pid, version)
+- Writes `.throughline/runtime.json` (port, token, pid, version)
 - Exposes `GET /api/healthz` and `GET /api/status` without auth
 - All other `/api/*` routes require `Authorization: Bearer <token>`

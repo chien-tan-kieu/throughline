@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import type { StandupDigest } from "@cc/shared";
+import type { StandupDigest } from "@throughline/shared";
 import { StandupSection } from "../components/standup/StandupSection.tsx";
 import { StatsGrid } from "../components/standup/StatsGrid.tsx";
 import { api } from "../lib/api.ts";

@@ -1,6 +1,6 @@
 ---
 name: spec-viewer
-description: Design contract for building or modifying the DocsPage in claude-control dashboard
+description: Design contract for building or modifying the DocsPage in throughline dashboard
 ---
 
 # spec-viewer: DocsPage Design Contract

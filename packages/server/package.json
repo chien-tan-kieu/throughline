@@ -1,5 +1,5 @@
 {
-  "name": "@cc/server",
+  "name": "@throughline/server",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -7,7 +7,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@cc/shared": "workspace:*"
+    "@throughline/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "^1.3.14"

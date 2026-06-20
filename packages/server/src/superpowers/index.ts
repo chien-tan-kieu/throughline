@@ -2,7 +2,7 @@ import type { Database } from "bun:sqlite";
 import { watch } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import type { ParsedPlan, Phase } from "@cc/shared";
+import type { ParsedPlan, Phase } from "@throughline/shared";
 import type { Bus } from "../bus.ts";
 import { diffCheckboxState } from "./diff.ts";
 import { parsePlan } from "./parser.ts";

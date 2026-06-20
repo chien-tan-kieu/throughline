@@ -1,5 +1,5 @@
 import type { Database } from "bun:sqlite";
-import type { StandupDigest, StandupItem } from "@cc/shared";
+import type { StandupDigest, StandupItem } from "@throughline/shared";
 
 export class StandupService {
   constructor(private db: Database) {}

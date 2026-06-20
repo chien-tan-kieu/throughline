@@ -54,7 +54,7 @@ export class HandoffService {
       storyBody.replace(/^---[\s\S]*?---\n/, "").trim(),
     ].join("\n");
 
-    const handoffsDir = join(this.cwd, ".claude-control", "handoffs");
+    const handoffsDir = join(this.cwd, ".throughline", "handoffs");
     await mkdir(handoffsDir, { recursive: true });
 
     const fileName = `${dateStr}-${storyId}.md`;

@@ -1,8 +1,8 @@
 {
-  "name": "claude-control",
+  "name": "throughline",
   "description": "Workflow visualizer for Claude Code + Superpowers. Observer-only.",
   "version": "0.1.0",
-  "author": { "name": "claude-control contributors" },
+  "author": { "name": "throughline contributors" },
   "license": "MIT",
   "commands": "./plugin/commands/",
   "hooks": "./plugin/hooks/hooks.json",

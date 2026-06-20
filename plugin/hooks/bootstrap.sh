@@ -1,8 +1,8 @@
 #!/bin/bash
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
-RUNTIME="${PROJECT_ROOT}/.claude-control/runtime.json"
-LOG="${PROJECT_ROOT}/.claude-control/daemon.log"
-mkdir -p "${PROJECT_ROOT}/.claude-control"
+RUNTIME="${PROJECT_ROOT}/.throughline/runtime.json"
+LOG="${PROJECT_ROOT}/.throughline/daemon.log"
+mkdir -p "${PROJECT_ROOT}/.throughline"
 
 probe() {
   local port pid
@@ -15,7 +15,7 @@ probe() {
 emit_context() {
   local plugin_constitution="$CLAUDE_PLUGIN_ROOT/plugin/constitution.md"
   local project_constitution="$PROJECT_ROOT/.claude/constitution.md"
-  local status="Claude Control is observing this session. This plugin only observes — it never blocks tool calls."
+  local status="Throughline is observing this session. This plugin only observes — it never blocks tool calls."
 
   if [ -f "$project_constitution" ]; then
     {

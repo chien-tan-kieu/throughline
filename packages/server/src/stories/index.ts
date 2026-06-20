@@ -9,7 +9,7 @@ import {
   type StoryDetail,
   type StoryPatch,
   parseFrontmatter,
-} from "@cc/shared";
+} from "@throughline/shared";
 import type { Bus } from "../bus.ts";
 import { scaffoldStory } from "./template.ts";
 

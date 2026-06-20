@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { createElement, type ReactNode } from "react";
 import { KanbanColumn } from "../components/stories/KanbanColumn.tsx";
 import { useUiStore } from "../store/ui.ts";
-import type { Story } from "@cc/shared";
+import type { Story } from "@throughline/shared";
 
 const mockStories: Story[] = [
   { id: "US-2026-01-01-story-one", file_path: "f1.md", title: "Story One", status: "backlog", size: "M", linked_spec_path: null, linked_plan_path: null, created_at: 0, updated_at: 0 },

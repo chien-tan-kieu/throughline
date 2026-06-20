@@ -1,11 +1,11 @@
 {
-  "name": "claude-control",
-  "description": "AI-driven project management and story tracking for Claude Code",
+  "name": "throughline",
+  "description": "A Kanban board + Spec-Driven Development lifecycle tracker for Claude Code — observes your Superpowers session and tracks stories through brainstorm → spec → plan → implement, built for solo-developer-with-AI flow.",
   "version": "1.0.0",
   "author": {
     "name": "chien-tan-kieu"
   },
-  "homepage": "https://github.com/chien-tan-kieu/claude-control",
-  "repository": "https://github.com/chien-tan-kieu/claude-control",
+  "homepage": "https://github.com/chien-tan-kieu/throughline",
+  "repository": "https://github.com/chien-tan-kieu/throughline",
   "license": "MIT"
 }

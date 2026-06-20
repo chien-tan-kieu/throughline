@@ -1,5 +1,5 @@
 ---
-description: Show today's standup digest from Claude Control (shipped yesterday, in-progress, blockers)
+description: Show today's standup digest from Throughline (shipped yesterday, in-progress, blockers)
 allowed-tools:
   - Bash
 ---
@@ -8,11 +8,11 @@ Generate and display the daily standup digest.
 
 1. Ensure the daemon is running:
    ```bash
-   bash -c 'S=$(jq -r ".[\"claude-control-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate claude-control install."; exit 1; }'
+   bash -c 'S=$(jq -r ".[\"throughline-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate throughline install."; exit 1; }'
    ```
    If the script prints an error, stop and show it.
 
-2. Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.claude-control/runtime.json"` and extract `port` and `token` from the JSON output.
+2. Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.throughline/runtime.json"` and extract `port` and `token` from the JSON output.
 
 3. Fetch the standup digest:
    ```bash

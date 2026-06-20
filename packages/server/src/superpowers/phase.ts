@@ -1,5 +1,5 @@
 import type { Database } from "bun:sqlite";
-import type { Phase } from "@cc/shared";
+import type { Phase } from "@throughline/shared";
 
 const PHASE_ORDER: Phase[] = ["brainstorm", "spec", "plan", "implement"];
 

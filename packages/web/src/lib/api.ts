@@ -1,4 +1,4 @@
-import type { StandupDigest, StoryDetail, StoryPatch, Story } from "@cc/shared";
+import type { StandupDigest, StoryDetail, StoryPatch, Story } from "@throughline/shared";
 import { useWsStore } from "../store/ws.ts";
 
 function base() {

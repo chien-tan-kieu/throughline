@@ -1,11 +1,11 @@
 {
-  "name": "claude-control-local",
+  "name": "throughline-local",
   "owner": {
-    "name": "claude-control contributors"
+    "name": "throughline contributors"
   },
   "plugins": [
     {
-      "name": "claude-control",
+      "name": "throughline",
       "version": "0.1.0",
       "source": "./",
       "description": "Workflow visualizer for Claude Code + Superpowers. Observer-only."

@@ -1,5 +1,5 @@
 import type { Database } from "bun:sqlite";
-import type { HookEvent, Phase } from "@cc/shared";
+import type { HookEvent, Phase } from "@throughline/shared";
 import type { Bus } from "../bus.ts";
 import { persistEvent } from "../store/index.ts";
 

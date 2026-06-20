@@ -42,10 +42,10 @@ export async function startDaemon(
 
   const dataDir =
     options.dataDir ??
-    join(cwd, ".claude-control");
+    join(cwd, ".throughline");
   await mkdir(dataDir, { recursive: true });
 
-  const db = new Database(join(dataDir, "claude-control.db"));
+  const db = new Database(join(dataDir, "throughline.db"));
   await runMigrations(db, MIGRATIONS_DIR);
 
   const tokenFile = join(dataDir, "token");
@@ -99,7 +99,7 @@ export async function startDaemon(
     } catch {
       if (port === endPort) {
         process.stderr.write(
-          `Claude Control: could not bind to any port in ${startPort}–${endPort}\n`,
+          `Throughline: could not bind to any port in ${startPort}–${endPort}\n`,
         );
         process.exit(1);
       }
@@ -138,5 +138,5 @@ export async function startDaemon(
 
 if (import.meta.main) {
   await startDaemon();
-  console.log("Claude Control daemon started.");
+  console.log("Throughline daemon started.");
 }

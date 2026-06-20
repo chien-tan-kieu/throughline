@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import type { StorySize } from "@cc/shared";
+import type { StorySize } from "@throughline/shared";
 import { HierarchyStrip } from "../components/shared/HierarchyStrip.tsx";
 import { LinkedCard } from "../components/shared/LinkedCard.tsx";
 import { SizePill } from "../components/shared/SizePill.tsx";

@@ -1,6 +1,6 @@
-# PRD — Claude Control
+# PRD — Throughline
 
-**A Claude Code plugin that visualizes the Superpowers workflow, with optional Agile/Scrum extensions for solo-and-small-team developers.**
+**A Claude Code plugin that visualizes the Superpowers (Spec-Driven Development) workflow, with an optional Kanban board and story tracking for solo-developer-with-AI flow.**
 
 > Status: Draft v0.3 (research-backed, scope locked from review)
 > Audience: Tech Lead / senior engineers implementing or reviewing this
@@ -11,11 +11,11 @@
 
 ## 1. TL;DR
 
-Claude Control is a Claude Code plugin that ships hooks, slash commands, skills, and a local web dashboard. The dashboard is a **passive observer** of your Claude Code session — it doesn't deny tool calls, doesn't block stop, doesn't modify input. Hooks fire, the daemon listens, and the dashboard renders state.
+Throughline is a Claude Code plugin that ships hooks, slash commands, skills, and a local web dashboard. The dashboard is a **passive observer** of your Claude Code session — it doesn't deny tool calls, doesn't block stop, doesn't modify input. Hooks fire, the daemon listens, and the dashboard renders state.
 
 The dashboard's job is to be a **better visualization of the Superpowers workflow** than tailing a terminal or jumping between markdown files in your IDE. It reads Superpowers' own artifacts (`docs/superpowers/specs/*.md`, `docs/superpowers/plans/*.md`) and pairs them with the live event stream so you can watch a plan's checkboxes tick off in real time, see which tool calls correspond to which plan task, and track subagent activity that's otherwise invisible in the terminal.
 
-On top of Superpowers' core flow (brainstorm → spec → plan → implement) the plugin adds a thin Agile layer that solo-and-small-team developers can opt into: **user stories** (with **S/M/L sizing**) as the input format that feeds Superpowers, **standup view**, and **handoff notes**. No issue tracker sync, no enforced ceremonies — just the minimum scaffolding that makes solo work resumable and team handovers clean.
+On top of Superpowers' core flow (brainstorm → spec → plan → implement) the plugin adds a thin Kanban layer that solo-developer-with-AI flow can opt into: **user stories** (with **S/M/L sizing**) as the input format that feeds Superpowers, plus **standup** and **handoff** as context utilities — not Scrum ceremonies. There is no sprint, no velocity, no enforced cadence and no issue tracker sync — just continuous flow over a board, with the minimum scaffolding that makes solo work resumable and handovers clean.
 
 Stack: Bun + bun:sqlite for the daemon; Vite + React + TypeScript for the dashboard. Distributed exclusively via the Claude Code plugin marketplace. Single-user, single-machine. Open-source MIT.
 
@@ -47,7 +47,7 @@ Three concrete gaps with the current Superpowers experience:
 
 Plugin distribution gives us:
 
-- **Zero-touch install**: `/plugin install claude-control@<marketplace>` ships the hooks. No editing user `settings.json`, no install script.
+- **Zero-touch install**: `/plugin install throughline@<marketplace>` ships the hooks. No editing user `settings.json`, no install script.
 - **Auto-discovery of Superpowers**: when both plugins are installed, our hooks fire alongside Superpowers' skills. We share the same session.
 - **Trust model**: users review the plugin marketplace listing before install. We don't need to convince them to run a third-party daemon spawner.
 
@@ -72,15 +72,15 @@ The primary surface. Pairs Superpowers artifacts with the live event stream:
 - **Phase indicator**: shows where in the brainstorm → spec → plan → implement cycle the session currently is, inferred from skill activations and artifact presence.
 - **Replay scrubber**: drag through the last N minutes of session activity. Useful when stepping away and coming back.
 
-### 3.2 Surface B: Agile Layer
+### 3.2 Surface B: Kanban Layer
 
-Optional. Solo-friendly defaults; team extensions when you need them.
+Optional. Solo-friendly defaults; continuous flow over a board, no enforced cadence.
 
-- **User stories**: markdown documents under `docs/superpowers/stories/`. Each story has a title, narrative ("As a..., I want..., so that..."), acceptance criteria, S/M/L size, status (`backlog | in-progress | done`), and zero or more linked Superpowers spec/plan files. **A user story is the input to a Superpowers brainstorming session** — when the user invokes `/claude-control:start <story-id>`, the plugin pre-populates Claude's context with the story and triggers Superpowers' brainstorming skill.
+- **User stories**: markdown documents under `docs/superpowers/stories/`. Each story has a title, narrative ("As a..., I want..., so that..."), acceptance criteria, S/M/L size, status (`backlog | in-progress | done`), and zero or more linked Superpowers spec/plan files. **A user story is the input to a Superpowers brainstorming session** — when the user invokes `/throughline:start <story-id>`, the plugin pre-populates Claude's context with the story and triggers Superpowers' brainstorming skill.
 - **Standup view**: a single page summarizing "what shipped yesterday, what's in progress today, what's blocked." Auto-generated from the session/event log. Copy button for pasting into Slack/Discord/standup.
-- **Handoff notes**: when a user marks a story or in-progress workflow as "needs handoff", the plugin generates a markdown summary — current state, what was just tried, what's next, links to the plan with checkbox state preserved. Handoff notes are written to `.claude-control/handoffs/<date>-<story>.md`, ready to commit and share.
+- **Handoff notes**: when a user marks a story or in-progress workflow as "needs handoff", the plugin generates a markdown summary — current state, what was just tried, what's next, links to the plan with checkbox state preserved. Handoff notes are written to `.throughline/handoffs/<date>-<story>.md`, ready to commit and share.
 
-The Agile layer is opt-in: if the user never creates a story, the plugin works fine as just the Workflow Visualizer.
+The Kanban layer is opt-in: if the user never creates a story, the plugin works fine as just the Workflow Visualizer.
 
 ---
 
@@ -98,7 +98,7 @@ The Agile layer is opt-in: if the user never creates a story, the plugin works f
 | G6  | Live plan view that pairs checkbox state with tool calls                                                    |
 | G7  | Subagent activity surfaced in session timeline (flat list; tree view deferred to P1)                        |
 | G8  | User stories with S/M/L sizing — files under `docs/superpowers/stories/`, dashboard CRUD                     |
-| G9  | Slash command `/claude-control:start <story-id>` that opens Superpowers' brainstorming with story as input              |
+| G9  | Slash command `/throughline:start <story-id>` that opens Superpowers' brainstorming with story as input              |
 | G10 | Standup view (auto-generated from event log) with copy-to-clipboard                                         |
 | G11 | Handoff notes generator                                                                                     |
 | G12 | Cross-platform (macOS/Linux/Windows) — daemon binary cross-compiled with Bun                                |
@@ -221,7 +221,7 @@ Inference is best-effort. If wrong, the dashboard shows "phase: unknown" rather 
 │ User's Machine │
 │ │
 │ ┌──────────────────┐ ┌──────────────────────────────────┐ │
-│ │ Claude Code │ │ claude-control plugin │ │
+│ │ Claude Code │ │ throughline plugin │ │
 │ │ CLI session │ │ (loaded by Claude Code) │ │
 │ │ │ │ │ │
 │ │ Hooks fire │ │ hooks/hooks.json │ │
@@ -232,7 +232,7 @@ Inference is best-effort. If wrong, the dashboard shows "phase: unknown" rather 
 │ │ POST hook events │
 │ ▼ │
 │ ┌──────────────────────────────────────────────────────────────┐ │
-│ │ Claude Control Daemon (Bun, 127.0.0.1:port) │ │
+│ │ Throughline Daemon (Bun, 127.0.0.1:port) │ │
 │ │ ┌────────────────────────────────────────────────────────┐ │ │
 │ │ │ Bun.serve │ │ │
 │ │ │ /hooks/:event ← receive events, no-op response │ │ │
@@ -255,12 +255,12 @@ Inference is best-effort. If wrong, the dashboard shows "phase: unknown" rather 
 │ │ Browser tab │────┘ ├─ docs/superpowers/ │
 │ │ React SPA │ │ ├─ specs/ │
 │ │ (dashboard) │ │ └─ plans/ ← read by daemon│
-│ └──────────────────┘ ├─ .claude-control/ │
+│ └──────────────────┘ ├─ .throughline/ │
 │ │ ├─ stories/ ← daemon owns │
 │ │ └─ handoffs/ ← daemon writes │
 │ └─ ... │
 │ │
-│ ~/.claude-control/ │
+│ ~/.throughline/ │
 │ ├─ daemon.log │
 │ ├─ runtime.json (port, token, pid) │
 │ └─ state.db (events, sessions) │
@@ -274,9 +274,9 @@ Inference is best-effort. If wrong, the dashboard shows "phase: unknown" rather 
 |---|---|---|
 | Hook events, sessions | daemon, SQLite | rolling 30 days |
 | User stories | filesystem at `<repo>/docs/superpowers/stories/*.md` (canonical) + SQLite cache | git-tracked by user |
-| Handoff notes | filesystem at `<repo>/.claude-control/handoffs/*.md` | git-tracked by user |
+| Handoff notes | filesystem at `<repo>/.throughline/handoffs/*.md` | git-tracked by user |
 | Superpowers specs/plans | filesystem at `<repo>/docs/superpowers/` (canonical, owned by Superpowers) | read-only for us |
-| Runtime info (port, token, pid) | `~/.claude-control/runtime.json` | written on start |
+| Runtime info (port, token, pid) | `~/.throughline/runtime.json` | written on start |
 | UI selection, filters | browser sessionStorage | ephemeral |
 
 Story and handoff files are markdown so they're git-friendly. The SQLite cache is for fast queries and gets rebuilt from files on daemon start. Files are the source of truth — if the user edits a story in their IDE, the watcher picks it up.
@@ -297,20 +297,20 @@ Standard Claude Code plugin layout:
 
 ```
 
-claude-control/
+throughline/
 ├── .claude-plugin/
 │ └── plugin.json ← name, version, description
 ├── hooks/
 │ └── hooks.json ← all hook handler definitions
 ├── commands/
-│ ├── status.md ← /claude-control:status
-│ ├── start.md ← /claude-control:start <story-id>
-│ ├── story.md ← /claude-control:story new|list|size
-│ ├── standup.md ← /claude-control:standup
-│ ├── handoff.md ← /claude-control:handoff <story-id>
-│ └── open.md ← /claude-control:open (open dashboard)
+│ ├── status.md ← /throughline:status
+│ ├── start.md ← /throughline:start <story-id>
+│ ├── story.md ← /throughline:story new|list|size
+│ ├── standup.md ← /throughline:standup
+│ ├── handoff.md ← /throughline:handoff <story-id>
+│ └── open.md ← /throughline:open (open dashboard)
 ├── skills/
-│ └── claude-control/SKILL.md ← optional skill that explains the plugin to Claude
+│ └── throughline/SKILL.md ← optional skill that explains the plugin to Claude
 ├── bin/
 │ ├── darwin-x64/cc-daemon
 │ ├── darwin-arm64/cc-daemon
@@ -327,7 +327,7 @@ The `bin/` directory holds cross-compiled Bun binaries (one per platform). At ~8
 
 ```json
 {
-  "description": "Claude Control — workflow visualizer",
+  "description": "Throughline — workflow visualizer",
   "hooks": {
     "SessionStart": [
       {
@@ -412,16 +412,16 @@ Implemented as standard Claude Code commands (markdown files with frontmatter un
 
 | Command                         | What it does                                                                                                                      |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `/claude-control:status`                    | Print daemon status, dashboard URL, current session, active story                                                                 |
-| `/claude-control:open`                      | Print dashboard URL with token query (Claude shows it; user clicks)                                                               |
-| `/claude-control:story new <title>`         | Scaffold a new user story file                                                                                                    |
-| `/claude-control:story list`                | List stories with status and size                                                                                                 |
-| `/claude-control:story size <id> <S\|M\|L>` | Set/update story size                                                                                                             |
-| `/claude-control:start <story-id>`          | Load story content into Claude's context, instruct Claude to invoke Superpowers' brainstorming skill with this story as the basis |
-| `/claude-control:standup`                   | Generate today's standup digest                                                                                                   |
-| `/claude-control:handoff <story-id>`        | Generate handoff notes for the named story                                                                                        |
+| `/throughline:status`                    | Print daemon status, dashboard URL, current session, active story                                                                 |
+| `/throughline:open`                      | Print dashboard URL with token query (Claude shows it; user clicks)                                                               |
+| `/throughline:story new <title>`         | Scaffold a new user story file                                                                                                    |
+| `/throughline:story list`                | List stories with status and size                                                                                                 |
+| `/throughline:story size <id> <S\|M\|L>` | Set/update story size                                                                                                             |
+| `/throughline:start <story-id>`          | Load story content into Claude's context, instruct Claude to invoke Superpowers' brainstorming skill with this story as the basis |
+| `/throughline:standup`                   | Generate today's standup digest                                                                                                   |
+| `/throughline:handoff <story-id>`        | Generate handoff notes for the named story                                                                                        |
 
-The interesting one is `/claude-control:start`. It works by:
+The interesting one is `/throughline:start`. It works by:
 
 1. Reading the story file from disk.
 2. Constructing a prompt like: _"I want to start work on this user story. Use the Superpowers brainstorming skill to refine it into a design spec before any implementation. Story: ..."_
@@ -489,8 +489,8 @@ Same role as before: Zod schemas for hook events, contract types for REST and WS
 
 ```
 $ claude
-> /plugin marketplace add github.com/<org>/claude-control-marketplace
-> /plugin install claude-control
+> /plugin marketplace add github.com/<org>/throughline-marketplace
+> /plugin install throughline
 [Claude Code reads plugin.json, hooks.json — hooks now active]
 
 (next time the user starts a session)
@@ -498,10 +498,10 @@ $ claude
 > [SessionStart fires → command hook spawns daemon]
 > [HTTP hooks now route to daemon]
 
-> /claude-control:status
+> /throughline:status
 ✓ Daemon running on http://127.0.0.1:47821
   Dashboard: http://127.0.0.1:47821/?token=<...>
-  Open with: /claude-control:open
+  Open with: /throughline:open
 ```
 
 No edit of `~/.claude/settings.json`. No CLI install command. The plugin's own `hooks/hooks.json` is loaded by Claude Code automatically.
@@ -547,14 +547,14 @@ Claude generates Bash { command: "pytest" }
 ### 8.4 Story → Superpowers brainstorm flow
 
 ```
-$ /claude-control:story new "Add OAuth login"
+$ /throughline:story new "Add OAuth login"
   → daemon scaffolds docs/superpowers/stories/US-2026-05-04-oauth-login.md with template
   → user edits in IDE: narrative, acceptance criteria, leaves size blank
 
-$ /claude-control:story size US-2026-05-04-oauth-login M
+$ /throughline:story size US-2026-05-04-oauth-login M
   → daemon updates frontmatter
 
-$ /claude-control:start US-2026-05-04-oauth-login
+$ /throughline:start US-2026-05-04-oauth-login
   → command expands to a prompt that loads story content + instructs Superpowers brainstorm
   → Claude reads, brainstorming skill activates, asks clarifying questions
   → user answers, design doc gets written to docs/superpowers/specs/
@@ -569,12 +569,12 @@ $ /claude-control:start US-2026-05-04-oauth-login
 
 (work is done)
 
-$ /claude-control:story (mark done in dashboard, or manually edit frontmatter)
+$ /throughline:story (mark done in dashboard, or manually edit frontmatter)
 ```
 
 ### 8.5 Standup generation
 
-The standup digest is a function of (recent sessions, recent story state changes, recent handoffs). Generated on demand by `/claude-control:standup` or by clicking "Standup" in dashboard:
+The standup digest is a function of (recent sessions, recent story state changes, recent handoffs). Generated on demand by `/throughline:standup` or by clicking "Standup" in dashboard:
 
 ```markdown
 ## Standup — 2026-05-05
@@ -598,8 +598,8 @@ The "blockers" section is auto-detected from `PostToolUseFailure` patterns (e.g.
 ### 8.6 Handoff notes
 
 ```
-$ /claude-control:handoff US-2026-05-04-oauth-login
-  → daemon generates .claude-control/handoffs/2026-05-05-oauth-login.md:
+$ /throughline:handoff US-2026-05-04-oauth-login
+  → daemon generates .throughline/handoffs/2026-05-05-oauth-login.md:
 
 # Handoff: Add OAuth login (US-2026-05-04-oauth-login)
 
@@ -836,7 +836,7 @@ Mostly inherited from v0.2 (the daemon is still localhost-bound and token-authed
 | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | DNS rebinding (browser visits malicious site, JS POSTs to `127.0.0.1:port`) | Validate `Host` header — accept only `127.0.0.1[:port]` and `localhost[:port]`. Bearer token mandatory.                                                                                                                                |
 | LAN attacker reaching daemon                                                | Hardcode `hostname: "127.0.0.1"`. No config option.                                                                                                                                                                                    |
-| Token leak via committed file                                               | Token in `~/.claude-control/runtime.json` (mode 0600), referenced from settings as `$CLAUDE_CONTROL_TOKEN` env var (set via `CLAUDE_ENV_FILE` in SessionStart). Plugin's `hooks.json` references the env var, never the token literal. |
+| Token leak via committed file                                               | Token in `~/.throughline/runtime.json` (mode 0600), referenced from settings as `$CLAUDE_CONTROL_TOKEN` env var (set via `CLAUDE_ENV_FILE` in SessionStart). Plugin's `hooks.json` references the env var, never the token literal. |
 | Story files leaking secrets                                                 | Stories are user-authored markdown. We don't have a way to know if they contain secrets. Document: don't paste API keys into stories.                                                                                                  |
 | Path traversal via story id                                                 | Validate story ids against a strict regex, reject `..`                                                                                                                                                                                 |
 | Daemon DoS via flood of hook events                                         | Rate-limit per session_id (1000 events/min hard cap). Beyond that, return 200 but don't persist.                                                                                                                                       |
@@ -849,9 +849,9 @@ What we _don't_ have to worry about now: rule injection, malicious imported rule
 
 Single channel: **Claude Code plugin marketplace**.
 
-- Repo: `<org>/claude-control` — the plugin source.
-- Marketplace: either submit to an existing curated marketplace (e.g., `obra/superpowers-marketplace`) or run our own at `<org>/claude-control-marketplace` for users to add.
-- Install: `/plugin marketplace add <repo>` then `/plugin install claude-control`.
+- Repo: `<org>/throughline` — the plugin source.
+- Marketplace: either submit to an existing curated marketplace (e.g., `obra/superpowers-marketplace`) or run our own at `<org>/throughline-marketplace` for users to add.
+- Install: `/plugin marketplace add <repo>` then `/plugin install throughline`.
 - Update: handled by Claude Code's plugin update mechanism. We follow SemVer.
 
 We don't ship to npm. We don't ship a Homebrew tap. We don't have an `install.sh`. The plugin's `bin/<platform>/` directory is the entire binary distribution mechanism.
@@ -895,7 +895,7 @@ Development: web on 5173 (`vite dev`), daemon on 47821, Vite proxies `/api`, `/h
 ### 14.1 Monorepo layout
 
 ```
-claude-control/
+throughline/
 ├── package.json
 ├── pnpm-workspace.yaml
 ├── tsconfig.base.json
@@ -951,14 +951,14 @@ claude-control/
 ```bash
 # Dev
 pnpm dev
-# → @cc/web: vite dev (5173)
-# → @cc/server: bun run --watch src/index.ts (47821)
+# → @throughline/web: vite dev (5173)
+# → @throughline/server: bun run --watch src/index.ts (47821)
 
 # Production
 pnpm build
-# 1. @cc/shared: tsc emit
-# 2. @cc/web: vite build → dist/web/
-# 3. @cc/server: bun build --compile for each target → dist/bin/<target>/cc-daemon
+# 1. @throughline/shared: tsc emit
+# 2. @throughline/web: vite build → dist/web/
+# 3. @throughline/server: bun build --compile for each target → dist/bin/<target>/cc-daemon
 # 4. Package: copy dist/bin/* into plugin/bin/<platform>/
 # 5. Plugin is now ready to ship
 ```
@@ -993,7 +993,7 @@ DB writes are async (fire-and-forget), bounded by a high-water mark of 1000 in-f
 | Daemon crashes mid-session                                           | Hooks get connection refused → CC logs non-blocking error → next event tries again. SessionStart respawns. Dashboard shows "disconnected" until back.                      |
 | Multiple parallel CC sessions                                        | Singleton daemon, each session tracked by `session_id`. Dashboard has selector.                                                                                            |
 | `claude --resume`                                                    | SessionStart fires with matcher `resume`; daemon recovers session record. Session associations restored.                                                                   |
-| User installs Superpowers after Claude Control                       | Watcher detects new `docs/superpowers/` directory on next file event; starts parsing.                                                                                      |
+| User installs Superpowers after Throughline                       | Watcher detects new `docs/superpowers/` directory on next file event; starts parsing.                                                                                      |
 | User uninstalls Superpowers                                          | Plan/spec views show "no Superpowers artifacts found". Stories and standup still work.                                                                                     |
 | User has no Superpowers and no stories                               | Dashboard works as a plain event timeline. Useful but minimal.                                                                                                             |
 | Plan file has malformed checkbox syntax                              | Parser skips malformed entries, logs warning. Doesn't crash.                                                                                                               |
@@ -1004,7 +1004,7 @@ DB writes are async (fire-and-forget), bounded by a high-water mark of 1000 in-f
 | User manually kills daemon                                           | Next hook respawns.                                                                                                                                                        |
 | Disk full                                                            | Daemon stops persisting but keeps responding to hooks (logs warning). UI shows banner.                                                                                     |
 | DB corruption                                                        | Detect on boot, rename file to `.bak`, init fresh. UI shows warning.                                                                                                       |
-| User opens dashboard without token                                   | Static SPA served, but API calls fail with 401. Dashboard shows "no token — open via /claude-control:open".                                                                            |
+| User opens dashboard without token                                   | Static SPA served, but API calls fail with 401. Dashboard shows "no token — open via /throughline:open".                                                                            |
 
 ---
 
@@ -1032,7 +1032,7 @@ DB writes are async (fire-and-forget), bounded by a high-water mark of 1000 in-f
 - Daemon: Bun.serve, bun:sqlite, hostname-bound, Bearer auth, Host validation.
 - Hook handlers for SessionStart (command), UserPromptSubmit, PreToolUse, PostToolUse, PostToolUseFailure, Stop, SubagentStart, SubagentStop, Notification, FileChanged, InstructionsLoaded — all observer-only.
 - Bootstrap binary (probe + spawn detached), token persisted via `CLAUDE_ENV_FILE`.
-- Slash commands: `/claude-control:status`, `/claude-control:open`, `/claude-control:story (new|list|size)`, `/claude-control:start`, `/claude-control:standup`, `/claude-control:handoff`.
+- Slash commands: `/throughline:status`, `/throughline:open`, `/throughline:story (new|list|size)`, `/throughline:start`, `/throughline:standup`, `/throughline:handoff`.
 - Superpowers artifact watcher (specs + plans), markdown parser with checkbox state diff.
 - Phase inference from skill loads + artifact presence.
 - Story CRUD, file-backed, with watcher.
@@ -1116,7 +1116,7 @@ Weeks 7–8  Distribution + Polish
 
 ```json
 {
-  "description": "Claude Control — workflow visualizer for Superpowers and beyond",
+  "description": "Throughline — workflow visualizer for Superpowers and beyond",
   "hooks": {
     "SessionStart": [
       {
@@ -1302,7 +1302,7 @@ As a [...], I want [...], so that [...].
 {
   "hookSpecificOutput": {
     "hookEventName": "SessionStart",
-    "additionalContext": "Claude Control is observing this session.\nDashboard: http://127.0.0.1:47821 (run `/claude-control:open` for token-included URL)\nActive story: US-2026-05-04-oauth-login (size M)\nLinked plan: docs/superpowers/plans/2026-05-04-oauth.md (4/12 tasks done)\n\nThis plugin only observes — it never blocks tool calls or modifies your work."
+    "additionalContext": "Throughline is observing this session.\nDashboard: http://127.0.0.1:47821 (run `/throughline:open` for token-included URL)\nActive story: US-2026-05-04-oauth-login (size M)\nLinked plan: docs/superpowers/plans/2026-05-04-oauth.md (4/12 tasks done)\n\nThis plugin only observes — it never blocks tool calls or modifies your work."
   }
 }
 ```

@@ -1,4 +1,4 @@
-export { parsePlan } from "@cc/shared";
+export { parsePlan } from "@throughline/shared";
 
 export function parseSpec(
   content: string,

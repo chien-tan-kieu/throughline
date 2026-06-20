@@ -1,6 +1,6 @@
 // packages/server/src/hooks/index.ts
 import type { Database } from "bun:sqlite";
-import { type HookEvent, HookEventSchema } from "@cc/shared";
+import { type HookEvent, HookEventSchema } from "@throughline/shared";
 import type { Bus } from "../bus.ts";
 import type { SuperpowersWatcher } from "../superpowers/index.ts";
 import { dispatchEvent } from "./handlers.ts";

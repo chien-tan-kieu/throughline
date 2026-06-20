@@ -1,5 +1,5 @@
 import type { Database } from "bun:sqlite";
-import type { HookEvent } from "@cc/shared";
+import type { HookEvent } from "@throughline/shared";
 
 export function upsertSession(db: Database, event: HookEvent): void {
   db.run(

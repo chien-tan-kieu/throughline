@@ -1,4 +1,4 @@
-import type { HookEvent, Phase, PlanTask } from "@cc/shared";
+import type { HookEvent, Phase, PlanTask } from "@throughline/shared";
 
 export type BusEvent =
   | { type: "hook"; data: HookEvent }

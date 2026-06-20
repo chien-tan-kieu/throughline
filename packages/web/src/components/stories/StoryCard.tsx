@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useDraggable } from "@dnd-kit/core";
-import type { Story } from "@cc/shared";
+import type { Story } from "@throughline/shared";
 import { useWsStore } from "../../store/ws.ts";
 
 type Props = { story: Story };

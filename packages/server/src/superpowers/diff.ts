@@ -1,4 +1,4 @@
-import type { ParsedPlan } from "@cc/shared";
+import type { ParsedPlan } from "@throughline/shared";
 
 export interface CheckboxDiff {
   taskIndex: number;

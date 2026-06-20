@@ -1,4 +1,4 @@
-import type { WSOut } from "@cc/shared";
+import type { WSOut } from "@throughline/shared";
 // packages/server/src/ws/index.ts
 import type { Server as BunServer, ServerWebSocket } from "bun";
 import type { Bus, BusEvent } from "../bus.ts";

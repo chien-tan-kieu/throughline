@@ -1,6 +1,6 @@
 #!/bin/bash
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
-RUNTIME="${PROJECT_ROOT}/.claude-control/runtime.json"
+RUNTIME="${PROJECT_ROOT}/.throughline/runtime.json"
 [ -f "$RUNTIME" ] || exit 0
 
 PORT=$(jq -r '.port' "$RUNTIME" 2>/dev/null) || exit 0

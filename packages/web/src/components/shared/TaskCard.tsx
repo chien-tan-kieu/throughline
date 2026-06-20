@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { PlanTask } from "@cc/shared";
+import type { PlanTask } from "@throughline/shared";
 import { StepRow } from "./StepRow.tsx";
 
 type Props = { task: PlanTask; taskIndex: number };

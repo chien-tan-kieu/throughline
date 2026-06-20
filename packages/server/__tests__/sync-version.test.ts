@@ -13,19 +13,19 @@ function makeTempRepo(version: string): string {
 
   writeFileSync(
     join(root, "package.json"),
-    JSON.stringify({ name: "claude-control", version, private: true }, null, 2) + "\n",
+    JSON.stringify({ name: "throughline", version, private: true }, null, 2) + "\n",
   );
 
   for (const pkg of ["server", "web", "shared"]) {
     writeFileSync(
       join(root, `packages/${pkg}/package.json`),
-      JSON.stringify({ name: `@cc/${pkg}`, version: "0.0.0" }, null, 2) + "\n",
+      JSON.stringify({ name: `@throughline/${pkg}`, version: "0.0.0" }, null, 2) + "\n",
     );
   }
 
   writeFileSync(
     join(root, "plugin/plugin.json"),
-    JSON.stringify({ name: "claude-control", version: "0.0.0" }, null, 2) + "\n",
+    JSON.stringify({ name: "throughline", version: "0.0.0" }, null, 2) + "\n",
   );
 
   writeFileSync(
@@ -62,6 +62,6 @@ describe("syncVersion", () => {
     await syncVersion(root);
 
     const serverPkg = JSON.parse(readFileSync(join(root, "packages/server/package.json"), "utf8"));
-    expect(serverPkg.name).toBe("@cc/server");
+    expect(serverPkg.name).toBe("@throughline/server");
   });
 });

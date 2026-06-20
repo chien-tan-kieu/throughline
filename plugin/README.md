@@ -1,6 +1,6 @@
-# claude-control plugin
+# throughline plugin
 
-Observer plugin for Claude Code. Records hook events to a local SQLite database.
+A Kanban board + Spec-Driven Development lifecycle tracker for Claude Code, built on a passive observer. It records hook events to a local SQLite database and pairs them with stories and a board so you can see where your Superpowers work stands — brainstorm → spec → plan → implement — across sessions. Built for solo-developer-with-AI flow, not team Scrum: continuous flow over a board, with `standup` and `handoff` as context utilities rather than ceremonies.
 
 ## Local development
 
@@ -21,14 +21,14 @@ After starting a session with `--plugin-dir`:
 
 ```bash
 # Confirm the daemon is running and see its port
-cat ~/.claude-control/runtime.json
+cat ~/.throughline/runtime.json
 
 # Query recorded events
-sqlite3 ~/.claude-control/claude-control.db \
+sqlite3 ~/.throughline/throughline.db \
   "SELECT event_name, session_id, datetime(ts/1000, 'unixepoch', 'localtime') FROM events ORDER BY ts DESC LIMIT 20;"
 ```
 
-Data directory defaults to `~/.claude-control`. Override with `CLAUDE_PLUGIN_DATA`:
+Data directory defaults to `~/.throughline`. Override with `CLAUDE_PLUGIN_DATA`:
 
 ```bash
 CLAUDE_PLUGIN_DATA=/tmp/cc-test claude --plugin-dir ./plugin

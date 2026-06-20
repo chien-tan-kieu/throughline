@@ -1,4 +1,4 @@
-import type { StorySize } from "@cc/shared";
+import type { StorySize } from "@throughline/shared";
 type Props = { size: StorySize | null; onClick?: () => void };
 const labels: Record<StorySize, string> = { XS: "X-Small", S: "Small", M: "Medium", L: "Large", XL: "X-Large" };
 export function SizePill({ size, onClick }: Props) {

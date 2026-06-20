@@ -2,7 +2,7 @@ import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors } from "@
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Story } from "@cc/shared";
+import type { Story } from "@throughline/shared";
 import { FilterBar } from "../components/stories/FilterBar.tsx";
 import { KanbanColumn } from "../components/stories/KanbanColumn.tsx";
 import { api } from "../lib/api.ts";

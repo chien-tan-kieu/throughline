@@ -1,17 +1,17 @@
-# Claude Control Dashboard — Design Handoff
+# Throughline Dashboard — Design Handoff
 
 **Status:** Brainstorm output, ready for spec phase
 **Scope:** UI layout and behavior only — no backend, no WebSocket implementation
 **Companion files:**
 
-- `claude-control-dashboard-hierarchy.html` — interactive visual reference (ground truth)
+- `throughline-dashboard-hierarchy.html` — interactive visual reference (ground truth)
 - `DESIGN.md` — Supabase-inspired theme tokens this UI inherits from
 
 ---
 
 ## 1. Purpose
 
-Claude Control is a passive observer dashboard for a local AI coding session running the Superpowers workflow (brainstorm → spec → plan → implement). It's a single-user, single-machine app served at `localhost`, read-heavy, with real-time updates via WebSocket.
+Throughline is a passive observer dashboard for a local AI coding session running the Superpowers workflow (brainstorm → spec → plan → implement). It's a single-user, single-machine app served at `localhost`, read-heavy, with real-time updates via WebSocket.
 
 The dashboard visualizes the three Superpowers artifacts (Story, Spec, Plan) and their relationship, lets the user navigate between them as facets of the work being done, and surfaces an auto-generated standup digest.
 
@@ -23,7 +23,7 @@ This handoff is the design output of the brainstorm phase. Take it into the spec
 
 Copied verbatim from the product handoff so this document is self-contained:
 
-> **Product context.** Claude Control is a passive observer dashboard for a local AI coding session. It visualizes the Superpowers workflow (brainstorm → spec → plan → implement). Single-user, single-machine, served at localhost. Dark UI preferred (developer tool).
+> **Product context.** Throughline is a passive observer dashboard for a local AI coding session. It visualizes the Superpowers workflow (brainstorm → spec → plan → implement). Single-user, single-machine, served at localhost. Dark UI preferred (developer tool).
 >
 > **Pages / views (Phase 3 scope):**
 >
@@ -131,7 +131,7 @@ The viewport is a 48px topbar over a two-column body: 252px sidebar + flexible m
 
 Houses the three globals the requirements mandate plus identity:
 
-- **Brand** — Claude Control logo (green gradient mark) + name
+- **Brand** — Throughline logo (green gradient mark) + name
 - **Project identifier** — `[BE]` icon + `billing-engine` (static label, no switcher dropdown; single-machine context)
 - **Workflow phase track** (center) — four-segment pill showing `Brainstorm · Spec · Plan · Implement` with the current phase in green. Read-only indicator, not interactive.
 - **Session ID** (right) — `SESSION sess_a4f2c1` in monospace
@@ -538,7 +538,7 @@ Items deliberately left for the spec writer to decide:
 
 ## 14. Visual Ground Truth
 
-The companion HTML file `claude-control-dashboard-hierarchy.html` is the canonical visual reference. Open it in a browser to see all five views, hover states, animations, and interactions. When the spec or implementation has a question about "what should this look like", the HTML is the answer.
+The companion HTML file `throughline-dashboard-hierarchy.html` is the canonical visual reference. Open it in a browser to see all five views, hover states, animations, and interactions. When the spec or implementation has a question about "what should this look like", the HTML is the answer.
 
 The HTML uses Google Fonts (Geist + Source Code Pro) via CDN. For the production build, either inline the fonts or use a local copy — the dashboard runs at localhost and shouldn't have an external network dependency for fonts.
 

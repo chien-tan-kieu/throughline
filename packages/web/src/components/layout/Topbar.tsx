@@ -21,7 +21,7 @@ export function Topbar() {
             <path d="M6 4 L18 12 L6 20 Z" fill="#0f0f0f" />
           </svg>
         </div>
-        <span className="brand-name">Claude Control</span>
+        <span className="brand-name">Throughline</span>
       </div>
 
       <div className="topbar-divider" />
