@@ -26,6 +26,7 @@ export interface DaemonOptions {
   dataDir?: string;
   cwd?: string;
   rateLimit?: { limit: number; windowMs: number };
+  webDistPath?: string;
 }
 
 export interface DaemonHandle {
@@ -92,6 +93,7 @@ export async function startDaemon(
         wsServer,
         apiCtx,
         version: VERSION,
+        webDistPath: options.webDistPath,
         onActivity: () => activityRef.fn(),
         rateLimit: options.rateLimit,
       });
@@ -137,6 +139,6 @@ export async function startDaemon(
 }
 
 if (import.meta.main) {
-  await startDaemon();
+  await startDaemon({ webDistPath: process.env.THROUGHLINE_WEB_DIST });
   console.log("Throughline daemon started.");
 }

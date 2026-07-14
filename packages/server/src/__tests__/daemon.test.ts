@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { existsSync, readFileSync } from "node:fs";
+import { mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { type DaemonHandle, startDaemon } from "../index.ts";
@@ -74,6 +75,30 @@ describe("port range fallback", () => {
       await handle2.stop();
     } finally {
       occupied.stop(true);
+    }
+  });
+});
+
+describe("startDaemon with custom webDistPath", () => {
+  test("serves index.html from the provided webDistPath instead of the default", async () => {
+    const dataDir = join(tmpdir(), `cc-webdist-data-${Date.now()}`);
+    const webDistPath = join(tmpdir(), `cc-webdist-assets-${Date.now()}`);
+    await mkdir(webDistPath, { recursive: true });
+    await writeFile(
+      join(webDistPath, "index.html"),
+      "<!doctype html><html><body>CUSTOM-MARKER</body></html>",
+    );
+
+    const handle = await startDaemon({ port: 0, dataDir, webDistPath });
+    try {
+      const res = await fetch(`http://127.0.0.1:${handle.port}/`, {
+        headers: { Host: `127.0.0.1:${handle.port}` },
+      });
+      expect(res.status).toBe(200);
+      const body = await res.text();
+      expect(body).toContain("CUSTOM-MARKER");
+    } finally {
+      await handle.stop();
     }
   });
 });
