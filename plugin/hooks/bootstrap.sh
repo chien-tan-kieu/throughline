@@ -38,6 +38,9 @@ if [ -f "$RUNTIME" ] && probe; then
 fi
 
 if [ -f "$CLAUDE_PLUGIN_ROOT/packages/server/src/index.ts" ]; then
+  if [ ! -d "$CLAUDE_PLUGIN_ROOT/node_modules/@throughline/shared" ]; then
+    (cd "$CLAUDE_PLUGIN_ROOT" && bun install --frozen-lockfile) >> "$LOG" 2>&1
+  fi
   bun run "$CLAUDE_PLUGIN_ROOT/packages/server/src/index.ts" >> "$LOG" 2>&1 &
 else
   "$CLAUDE_PLUGIN_ROOT/bin/cc-daemon" >> "$LOG" 2>&1 &

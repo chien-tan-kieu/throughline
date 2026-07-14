@@ -274,7 +274,7 @@
     if (!activeStoryId || !story) {
       return (
         <div style={{ padding: "40px 32px", color: "var(--text-muted)" }}>
-          No active story. Start one with <code>/claude-control:start</code>.
+          No active story. Start one with <code>/throughline:start</code>.
         </div>
       );
     }
@@ -320,7 +320,7 @@
               !specPath ? (
                 <div style={{ color: "var(--text-muted)", padding: "40px 0", textAlign: "center" }}>
                   <div style={{ fontSize: 16, marginBottom: 8 }}>No spec linked</div>
-                  <div style={{ fontSize: 13 }}>Link one with <code>/claude-control:spec</code></div>
+                  <div style={{ fontSize: 13 }}>Link one with <code>/throughline:spec</code></div>
                 </div>
               ) : !specData ? (
                 <div style={{ color: "var(--text-muted)" }}>Loading spec…</div>
@@ -336,7 +336,7 @@
               !planPath ? (
                 <div style={{ color: "var(--text-muted)", padding: "40px 0", textAlign: "center" }}>
                   <div style={{ fontSize: 16, marginBottom: 8 }}>No plan linked</div>
-                  <div style={{ fontSize: 13 }}>Link one with <code>/claude-control:plan</code></div>
+                  <div style={{ fontSize: 13 }}>Link one with <code>/throughline:plan</code></div>
                 </div>
               ) : !plan ? (
                 <div style={{ color: "var(--text-muted)" }}>Loading plan…</div>
@@ -775,7 +775,7 @@ The `.markdown` class in index.css currently has no styles for `input[type="chec
   ````markdown
   ---
   name: spec-viewer
-  description: Design contract for building or modifying the DocsPage in claude-control dashboard
+  description: Design contract for building or modifying the DocsPage in throughline dashboard
   ---
 
   # spec-viewer: DocsPage Design Contract

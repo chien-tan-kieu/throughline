@@ -5,7 +5,7 @@
 
 ## Overview
 
-The `/claude-control:start` command currently always invokes `superpowers:brainstorming` regardless of story status. This spec changes step 4 to branch on status — dispatching to a mode file that contains the appropriate workflow for that story's state. The mode files live under `plugin/commands/lib/start/` and are loaded at runtime via the `Read` tool.
+The `/throughline:start` command currently always invokes `superpowers:brainstorming` regardless of story status. This spec changes step 4 to branch on status — dispatching to a mode file that contains the appropriate workflow for that story's state. The mode files live under `plugin/commands/lib/start/` and are loaded at runtime via the `Read` tool.
 
 ## Motivation
 
@@ -46,7 +46,7 @@ Step 4 replaces the current unconditional brainstorming invocation:
 
 1. Run bash to resolve the install location and construct the mode file path:
    ```bash
-   INSTALL=$(jq -r '."claude-control-local".installLocation' ~/.claude/plugins/known_marketplaces.json)
+   INSTALL=$(jq -r '."throughline-local".installLocation' ~/.claude/plugins/known_marketplaces.json)
    echo "$INSTALL/plugin/commands/lib/start/<status>.md"
    ```
 2. Use the `Read` tool on the absolute path returned above.

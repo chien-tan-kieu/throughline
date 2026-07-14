@@ -349,8 +349,8 @@ The `bin/` directory holds cross-compiled Bun binaries (one per platform). At ~8
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/PreToolUse",
             "timeout": 10,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"]
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"]
           }
         ]
       }
@@ -516,12 +516,12 @@ SessionStart event fires (matcher: startup|resume|clear|compact)
    └─ probe fail → spawn daemon detached → wait up to 3s → exit 0
 ```
 
-The bootstrap binary writes the token to `$CLAUDE_ENV_FILE` so subsequent HTTP hooks can use `Authorization: Bearer $CLAUDE_CONTROL_TOKEN`:
+The bootstrap binary writes the token to `$CLAUDE_ENV_FILE` so subsequent HTTP hooks can use `Authorization: Bearer $THROUGHLINE_TOKEN`:
 
 ```bash
 # Inside bootstrap, after daemon is up:
 if [ -n "$CLAUDE_ENV_FILE" ]; then
-  echo "export CLAUDE_CONTROL_TOKEN=$TOKEN" >> "$CLAUDE_ENV_FILE"
+  echo "export THROUGHLINE_TOKEN=$TOKEN" >> "$CLAUDE_ENV_FILE"
 fi
 ```
 
@@ -836,7 +836,7 @@ Mostly inherited from v0.2 (the daemon is still localhost-bound and token-authed
 | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | DNS rebinding (browser visits malicious site, JS POSTs to `127.0.0.1:port`) | Validate `Host` header — accept only `127.0.0.1[:port]` and `localhost[:port]`. Bearer token mandatory.                                                                                                                                |
 | LAN attacker reaching daemon                                                | Hardcode `hostname: "127.0.0.1"`. No config option.                                                                                                                                                                                    |
-| Token leak via committed file                                               | Token in `~/.throughline/runtime.json` (mode 0600), referenced from settings as `$CLAUDE_CONTROL_TOKEN` env var (set via `CLAUDE_ENV_FILE` in SessionStart). Plugin's `hooks.json` references the env var, never the token literal. |
+| Token leak via committed file                                               | Token in `~/.throughline/runtime.json` (mode 0600), referenced from settings as `$THROUGHLINE_TOKEN` env var (set via `CLAUDE_ENV_FILE` in SessionStart). Plugin's `hooks.json` references the env var, never the token literal. |
 | Story files leaking secrets                                                 | Stories are user-authored markdown. We don't have a way to know if they contain secrets. Document: don't paste API keys into stories.                                                                                                  |
 | Path traversal via story id                                                 | Validate story ids against a strict regex, reject `..`                                                                                                                                                                                 |
 | Daemon DoS via flood of hook events                                         | Rate-limit per session_id (1000 events/min hard cap). Beyond that, return 200 but don't persist.                                                                                                                                       |
@@ -1137,8 +1137,8 @@ Weeks 7–8  Distribution + Polish
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/UserPromptSubmit",
             "timeout": 5,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"],
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"],
             "async": true
           }
         ]
@@ -1152,8 +1152,8 @@ Weeks 7–8  Distribution + Polish
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/PreToolUse",
             "timeout": 5,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"],
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"],
             "async": true
           }
         ]
@@ -1167,8 +1167,8 @@ Weeks 7–8  Distribution + Polish
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/PostToolUse",
             "timeout": 5,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"],
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"],
             "async": true
           }
         ]
@@ -1181,8 +1181,8 @@ Weeks 7–8  Distribution + Polish
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/PostToolUseFailure",
             "timeout": 5,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"],
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"],
             "async": true
           }
         ]
@@ -1195,8 +1195,8 @@ Weeks 7–8  Distribution + Polish
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/SubagentStart",
             "timeout": 5,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"],
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"],
             "async": true
           }
         ]
@@ -1209,8 +1209,8 @@ Weeks 7–8  Distribution + Polish
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/SubagentStop",
             "timeout": 5,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"],
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"],
             "async": true
           }
         ]
@@ -1223,8 +1223,8 @@ Weeks 7–8  Distribution + Polish
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/Stop",
             "timeout": 5,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"],
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"],
             "async": true
           }
         ]
@@ -1237,8 +1237,8 @@ Weeks 7–8  Distribution + Polish
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/InstructionsLoaded",
             "timeout": 5,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"],
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"],
             "async": true
           }
         ]
@@ -1252,8 +1252,8 @@ Weeks 7–8  Distribution + Polish
             "type": "http",
             "url": "http://127.0.0.1:47821/hooks/FileChanged",
             "timeout": 5,
-            "headers": { "Authorization": "Bearer $CLAUDE_CONTROL_TOKEN" },
-            "allowedEnvVars": ["CLAUDE_CONTROL_TOKEN"],
+            "headers": { "Authorization": "Bearer $THROUGHLINE_TOKEN" },
+            "allowedEnvVars": ["THROUGHLINE_TOKEN"],
             "async": true
           }
         ]

@@ -5,7 +5,7 @@
 
 ## Problem
 
-When a story `.md` file is deleted or edited directly on disk (outside the API), the Claude Control UI does not reflect the change. The real-time pipeline (fs.watch → SQLite → bus → WebSocket → React Query) already exists end-to-end, but has two bugs and one missing layer:
+When a story `.md` file is deleted or edited directly on disk (outside the API), the Throughline UI does not reflect the change. The real-time pipeline (fs.watch → SQLite → bus → WebSocket → React Query) already exists end-to-end, but has two bugs and one missing layer:
 
 1. **Deletions silently dropped** — when `readFile` returns null, the watcher callback exits early with no SQLite update and no bus event. The story stays visible in the UI indefinitely.
 2. **Title never synced from frontmatter** — `parseFrontmatter()` returns `fm.title` but `upsertRow()` is never passed it. The `COALESCE` fallback in the SQL preserves the stale title.

@@ -1,10 +1,10 @@
-# Claude Control — Phase 3: Dashboard + Standup + Handoff
+# Throughline — Phase 3: Dashboard + Standup + Handoff
 
 > Status: Draft  
 > Date: 2026-05-17  
 > Follows: `docs/superpowers/specs/2026-05-13-superpowers-integration-stories-design.md`  
-> Visual ground truth: `assets/claude-control-dashboard-hierarchy.html`  
-> Design handoff: `assets/claude-control-handoff.md`
+> Visual ground truth: `assets/throughline-dashboard-hierarchy.html`  
+> Design handoff: `assets/throughline-handoff.md`
 
 ---
 
@@ -17,7 +17,7 @@ Ship the React dashboard SPA and the two generators deferred from Phase 2. By th
 - Plan checkbox state and story updates reflect in the browser in real time via WebSocket.
 - `StandupService` generates a digest from the previous calendar day's SQLite data.
 - `HandoffService` generates a markdown handoff document for any story and writes it to disk.
-- `/claude-control:standup` and `/claude-control:handoff` slash commands are functional.
+- `/throughline:standup` and `/throughline:handoff` slash commands are functional.
 - Story size supports five values: XS, S, M, L, XL (plus null).
 
 ---
@@ -30,9 +30,9 @@ Ship the React dashboard SPA and the two generators deferred from Phase 2. By th
 - Five dashboard views: Plan, Story, Spec, Stories Board, Standup
 - `server.ts` catch-all: serve `packages/web/dist/index.html` for non-API routes
 - `StandupService` — previous-calendar-day digest from SQLite
-- `HandoffService` — markdown generator, writes to `<repo>/.claude-control/handoffs/`
+- `HandoffService` — markdown generator, writes to `<repo>/.throughline/handoffs/`
 - `GET /api/standup?date=` and `POST /api/handoff/:storyId` and `GET /api/handoffs`
-- `/claude-control:standup` and `/claude-control:handoff` slash commands
+- `/throughline:standup` and `/throughline:handoff` slash commands
 - Size enum expanded to `XS | S | M | L | XL | null` across shared types, DB, and UI
 
 ### Deferred to Phase 4
@@ -97,8 +97,8 @@ packages/server/src/
   api/handoff.ts                     ← mountHandoffRoutes()
 
 plugin/commands/
-  standup.md                         ← /claude-control:standup
-  handoff.md                         ← /claude-control:handoff
+  standup.md                         ← /throughline:standup
+  handoff.md                         ← /throughline:handoff
 ```
 
 ### 3.2 SPA serving (Phase 3)
@@ -122,7 +122,7 @@ if (req.method === "GET" && !url.pathname.startsWith("/api")
 
 ### 3.3 Token / port discovery
 
-The dashboard is opened via `/claude-control:open` which appends `?token=<token>` to the URL. The SPA reads `token` from `window.location.search` and `port` from `window.location.port` on mount and stores both in Zustand. All `api.ts` fetch calls and the WS connection use these values. No hardcoded port.
+The dashboard is opened via `/throughline:open` which appends `?token=<token>` to the URL. The SPA reads `token` from `window.location.search` and `port` from `window.location.port` on mount and stores both in Zustand. All `api.ts` fetch calls and the WS connection use these values. No hardcoded port.
 
 ### 3.4 WebSocket integration
 
@@ -139,7 +139,7 @@ The dashboard is opened via `/claude-control:open` which appends `?token=<token>
 
 ## 4. Frontend: views and components
 
-The design handoff (`assets/claude-control-handoff.md`) is the canonical reference for visual decisions. This section specifies behaviour and data wiring only.
+The design handoff (`assets/throughline-handoff.md`) is the canonical reference for visual decisions. This section specifies behaviour and data wiring only.
 
 ### 4.1 Global shell
 
@@ -282,7 +282,7 @@ export type HandoffResult = {
 3. Read plan markdown from `linked_plan_path` if present (for task/step state section).
 4. Read spec title from `linked_spec_path` frontmatter if present.
 5. Assemble markdown following PRD §8.6 template: header, status block, what's done (completed tasks from plan), what's next (first incomplete task + its steps), recent activity note.
-6. Write to `<cwd>/.claude-control/handoffs/<YYYY-MM-DD>-<storyId>.md` (mkdir -p).
+6. Write to `<cwd>/.throughline/handoffs/<YYYY-MM-DD>-<storyId>.md` (mkdir -p).
 7. Insert row into `handoffs` table.
 8. Return `{ filePath, content }`.
 
@@ -328,7 +328,7 @@ Print the formatted markdown to terminal.
 
 **`plugin/commands/handoff.md`**
 
-Usage: `/claude-control:handoff <story-id>`
+Usage: `/throughline:handoff <story-id>`
 
 Step 0: ensure daemon running.  
 Step 1: `POST /api/handoff/<story-id>`.  
@@ -346,7 +346,7 @@ The story size field expands from `S | M | L` to `XS | S | M | L | XL` (plus nul
 | `packages/shared/src/api.ts` | `StandupItem.size`, `Story.size`, `StoryPatch.size` same union |
 | `packages/server/src/stories/index.ts` | No code change needed — size stored as raw string in SQLite |
 | `packages/web` — `SizePill` component | Five variants: XS/S = neutral gray, M = amber, L = warm orange, XL = warm red |
-| `assets/claude-control-handoff.md` | Reference only — no code change |
+| `assets/throughline-handoff.md` | Reference only — no code change |
 | PRD §11 sizing convention table | Descriptive update: XS ≈ <1h single-function, XL ≈ multi-day/week+ |
 
 No SQLite migration needed — the `size` column is `TEXT`, unconstrained.
@@ -411,7 +411,7 @@ Unit tests for `useWebSocket` hook using a mock WS server (Bun's built-in WS).
 
 ## 10. Out of scope
 
-Everything in `assets/claude-control-handoff.md` §11 (Out of Scope) applies here. Additionally:
+Everything in `assets/throughline-handoff.md` §11 (Out of Scope) applies here. Additionally:
 
 - Binary embedding of SPA (Phase 4)
 - Subagent activity view (Phase 4)

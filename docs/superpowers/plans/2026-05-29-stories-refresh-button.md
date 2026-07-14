@@ -319,7 +319,7 @@ Expected output ends with: `✓ built in ...ms`
 
 - [ ] **Step 2: Open the dashboard and verify**
 
-Open `http://127.0.0.1:<port>/#token=<token>` (get port/token from `<project-root>/.claude-control/runtime.json`).
+Open `http://127.0.0.1:<port>/#token=<token>` (get port/token from `<project-root>/.throughline/runtime.json`).
 
 Navigate to **Stories**. Confirm:
 - A `↻` icon button appears at the right end of the filter-pills row

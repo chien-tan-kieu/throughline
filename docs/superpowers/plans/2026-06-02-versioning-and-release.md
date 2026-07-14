@@ -4,7 +4,7 @@
 
 **Goal:** Implement automated versioning, changelog generation, CI/CD pipelines, and version surfacing across the daemon API, dashboard UI, and status command.
 
-**Architecture:** Root `package.json` is the single version source of truth; `scripts/sync-version.mjs` propagates it to all five derived locations on each release via a `release-it` hook. GitHub Actions handles test gating and GitHub release creation. The `GET /api/status` endpoint exposes the running version; the dashboard Topbar consumes it; and the `claude-control:status` command prints it from `runtime.json`.
+**Architecture:** Root `package.json` is the single version source of truth; `scripts/sync-version.mjs` propagates it to all five derived locations on each release via a `release-it` hook. GitHub Actions handles test gating and GitHub release creation. The `GET /api/status` endpoint exposes the running version; the dashboard Topbar consumes it; and the `throughline:status` command prints it from `runtime.json`.
 
 **Tech Stack:** `release-it` + `@release-it/conventional-changelog` for release automation; GitHub Actions with `oven-sh/setup-bun@v2`; Bun test (server), Vitest (web).
 
@@ -219,7 +219,7 @@ function makeTempRepo(version: string): string {
 
   writeFileSync(
     join(root, "package.json"),
-    JSON.stringify({ name: "claude-control", version, private: true }, null, 2) + "\n",
+    JSON.stringify({ name: "throughline", version, private: true }, null, 2) + "\n",
   );
 
   for (const pkg of ["server", "web", "shared"]) {
@@ -231,7 +231,7 @@ function makeTempRepo(version: string): string {
 
   writeFileSync(
     join(root, "plugin/plugin.json"),
-    JSON.stringify({ name: "claude-control", version: "0.0.0" }, null, 2) + "\n",
+    JSON.stringify({ name: "throughline", version: "0.0.0" }, null, 2) + "\n",
   );
 
   writeFileSync(
@@ -363,7 +363,7 @@ All notable changes to this project will be documented in this file.
 
 ### Initial release
 
-First formal versioned release of claude-control. Includes:
+First formal versioned release of throughline. Includes:
 
 - Daemon server with HTTP API and WebSocket support
 - Story management (CRUD, board view, status filtering)
@@ -377,14 +377,14 @@ First formal versioned release of claude-control. Includes:
 
 ```json
 {
-  "name": "claude-control",
+  "name": "throughline",
   "description": "AI-driven project management and story tracking for Claude Code",
   "version": "1.0.0",
   "author": {
     "name": "chien-tan-kieu"
   },
-  "homepage": "https://github.com/chien-tan-kieu/claude-control",
-  "repository": "https://github.com/chien-tan-kieu/claude-control",
+  "homepage": "https://github.com/chien-tan-kieu/throughline",
+  "repository": "https://github.com/chien-tan-kieu/throughline",
   "license": "MIT"
 }
 ```
@@ -671,7 +671,7 @@ git commit -m "feat: display daemon version in dashboard Topbar"
 
 ---
 
-### Task 8: Update `claude-control:status` command to show version
+### Task 8: Update `throughline:status` command to show version
 
 **Files:**
 - Modify: `plugin/commands/status.md`
@@ -696,7 +696,7 @@ Where `<version>` is the `version` field from the `runtime.json` read in step 2.
 
 ```bash
 git add plugin/commands/status.md
-git commit -m "feat: show daemon version in claude-control:status output"
+git commit -m "feat: show daemon version in throughline:status output"
 ```
 
 ---

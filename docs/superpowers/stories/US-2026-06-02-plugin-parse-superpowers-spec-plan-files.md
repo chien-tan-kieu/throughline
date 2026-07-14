@@ -5,13 +5,13 @@ status: done
 size: 
 created: 2026-06-02
 
-linked_spec: /Users/chien.tankieu/Development/claude-control/docs/superpowers/specs/2026-06-04-spec-plan-viewer-design.md
-linked_plan: /Users/chien.tankieu/Development/claude-control/docs/superpowers/plans/2026-06-04-spec-plan-viewer-docs-page.md
+linked_spec: /Users/chien.tankieu/Development/throughline/docs/superpowers/specs/2026-06-04-spec-plan-viewer-design.md
+linked_plan: /Users/chien.tankieu/Development/throughline/docs/superpowers/plans/2026-06-04-spec-plan-viewer-docs-page.md
 ---
 
 ## Story
 
-As a **developer using Claude Control**, I want to view my superpowers spec and plan files rendered as a visual HTML page in the Dashboard, so that I can quickly understand the structure and progress of my implementation plans without reading raw markdown files.
+As a **developer using Throughline**, I want to view my superpowers spec and plan files rendered as a visual HTML page in the Dashboard, so that I can quickly understand the structure and progress of my implementation plans without reading raw markdown files.
 
 ## Acceptance criteria
 

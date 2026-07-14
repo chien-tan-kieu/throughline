@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Initial release
 
-First formal versioned release of claude-control. Includes:
+First formal versioned release of throughline. Includes:
 
 - Daemon server with HTTP API and WebSocket support
 - Story management (CRUD, board view, status filtering)

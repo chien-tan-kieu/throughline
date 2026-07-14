@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Branch `/claude-control:start` on story status so backlog launches brainstorming, in-progress produces a progress report, and done produces a closure review.
+**Goal:** Branch `/throughline:start` on story status so backlog launches brainstorming, in-progress produces a progress report, and done produces a closure review.
 
 **Architecture:** `start.md` keeps steps 1–3b unchanged and adds a dispatch step that reads the story status, resolves the plugin install path, and loads the appropriate mode file from `plugin/commands/lib/start/`. Each mode file is a self-contained prose instruction document.
 
@@ -262,7 +262,7 @@
      Resolve the install location and construct the absolute path to the mode file:
 
      ```bash
-     INSTALL=$(jq -r '."claude-control-local".installLocation' ~/.claude/plugins/known_marketplaces.json)
+     INSTALL=$(jq -r '."throughline-local".installLocation' ~/.claude/plugins/known_marketplaces.json)
      echo "$INSTALL/plugin/commands/lib/start/<mode-file>"
      ```
 
@@ -283,15 +283,15 @@
 
   Start a story by loading it and dispatching to the appropriate workflow for its status.
 
-  Usage: `/claude-control:start <story-id>`
+  Usage: `/throughline:start <story-id>`
 
   1. Ensure daemon is running:
      ```bash
-     bash -c 'S=$(jq -r ".[\"claude-control-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate claude-control install."; exit 1; }'
+     bash -c 'S=$(jq -r ".[\"throughline-local\"].installLocation" ~/.claude/plugins/known_marketplaces.json 2>/dev/null)/plugin/commands/lib/ensure-daemon.sh; [ -f "$S" ] && bash "$S" || { echo "Cannot locate throughline install."; exit 1; }'
      ```
      If the script prints an error, stop and show it. Otherwise continue.
 
-  2. Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.claude-control/runtime.json"` and parse `port` and `token` from the JSON output.
+  2. Run `cat "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/.throughline/runtime.json"` and parse `port` and `token` from the JSON output.
 
   3. Fetch the story:
      ```bash
@@ -326,7 +326,7 @@
      Resolve the install location and construct the absolute path to the mode file:
 
      ```bash
-     INSTALL=$(jq -r '."claude-control-local".installLocation' ~/.claude/plugins/known_marketplaces.json)
+     INSTALL=$(jq -r '."throughline-local".installLocation' ~/.claude/plugins/known_marketplaces.json)
      echo "$INSTALL/plugin/commands/lib/start/<mode-file>"
      ```
 
@@ -359,7 +359,7 @@
 
 No automated tests exist for prose command files. After all tasks are committed, verify each path:
 
-- [ ] **Backlog path:** Run `/claude-control:start` on a story with `status: backlog`. Confirm brainstorming launches.
-- [ ] **In-progress path:** Run `/claude-control:start` on a story with `status: in-progress`. Confirm a progress report is printed with plan status, git log, and AC assessment sections.
-- [ ] **Done path:** Run `/claude-control:start` on a story with `status: done` (e.g. `US-2026-06-02-plugin-parse-superpowers-spec-plan-files`). Confirm a closure review is printed with shipped items and AC review.
-- [ ] **Fallback path:** Temporarily set a story's status to an unrecognized value (e.g. `review`) in its markdown file, restart the daemon, and run `/claude-control:start`. Confirm the fallback message appears and brainstorming proceeds.
+- [ ] **Backlog path:** Run `/throughline:start` on a story with `status: backlog`. Confirm brainstorming launches.
+- [ ] **In-progress path:** Run `/throughline:start` on a story with `status: in-progress`. Confirm a progress report is printed with plan status, git log, and AC assessment sections.
+- [ ] **Done path:** Run `/throughline:start` on a story with `status: done` (e.g. `US-2026-06-02-plugin-parse-superpowers-spec-plan-files`). Confirm a closure review is printed with shipped items and AC review.
+- [ ] **Fallback path:** Temporarily set a story's status to an unrecognized value (e.g. `review`) in its markdown file, restart the daemon, and run `/throughline:start`. Confirm the fallback message appears and brainstorming proceeds.

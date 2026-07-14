@@ -695,7 +695,7 @@ git commit -m "fix(plugin): use URL hash fragment instead of query param for das
 
 ---
 
-## Task 6: End-to-end verification via `/claude-control:open`
+## Task 6: End-to-end verification via `/throughline:open`
 
 No files changed. This task confirms the full change is wired together correctly by running the actual plugin command and inspecting its output.
 
@@ -713,11 +713,11 @@ http://127.0.0.1:<port>/#token=<token>
 
 If `?token=` appears anywhere, Task 5 Step 1 was not applied correctly — stop and fix it before continuing.
 
-- [ ] **Step 2: Invoke the `/claude-control:open` skill**
+- [ ] **Step 2: Invoke the `/throughline:open` skill**
 
-Use the `Skill` tool to invoke `claude-control:open`. The skill will:
+Use the `Skill` tool to invoke `throughline:open`. The skill will:
 1. Ensure the daemon is running
-2. Read `~/.claude-control/runtime.json` for `port` and `token`
+2. Read `~/.throughline/runtime.json` for `port` and `token`
 3. Print the dashboard URL
 
 - [ ] **Step 3: Semantic check — verify `#token=` in the printed URL**

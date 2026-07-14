@@ -469,10 +469,10 @@ describe("HandoffService", () => {
     expect(row?.story_id).toBe("US-001");
   });
 
-  test("generate() writes to .claude-control/handoffs/<date>-<id>.md", async () => {
+  test("generate() writes to .throughline/handoffs/<date>-<id>.md", async () => {
     await seedStoryFile(cwd, db, { id: "US-002", title: "Path Test", status: "backlog" });
     const result = await svc.generate("US-002");
-    expect(result.filePath).toContain(".claude-control/handoffs");
+    expect(result.filePath).toContain(".throughline/handoffs");
     expect(result.filePath).toContain("US-002");
   });
 
@@ -566,7 +566,7 @@ export class HandoffService {
       storyBody.replace(/^---[\s\S]*?---\n/, "").trim(),
     ].join("\n");
 
-    const handoffsDir = join(this.cwd, ".claude-control", "handoffs");
+    const handoffsDir = join(this.cwd, ".throughline", "handoffs");
     await mkdir(handoffsDir, { recursive: true });
 
     const fileName = `${dateStr}-${storyId}.md`;
@@ -859,7 +859,7 @@ git commit -m "feat(api): add /api/standup, /api/handoff, /api/handoffs routes"
 
 ```markdown
 ---
-description: Show today's standup digest from Claude Control (shipped yesterday, in-progress, blockers)
+description: Show today's standup digest from Throughline (shipped yesterday, in-progress, blockers)
 allowed-tools:
   - Bash
 ---
@@ -869,12 +869,12 @@ Generate and display the daily standup digest.
 1. Ensure the daemon is running:
    ```bash
    bash -c '
-     RUNTIME=~/.claude-control/runtime.json
+     RUNTIME=~/.throughline/runtime.json
      probe() { PORT=$(jq -r .port "$RUNTIME" 2>/dev/null); curl -sf --max-time 2 "http://127.0.0.1:$PORT/api/healthz" >/dev/null 2>&1; }
      if [ -f "$RUNTIME" ] && probe; then exit 0; fi
-     LOG=~/.claude-control/daemon.log
-     ROOT=$(cat ~/.claude/plugins/known_marketplaces.json 2>/dev/null | jq -r '"'"'."claude-control-local".installLocation'"'"' 2>/dev/null)
-     [ -z "$ROOT" ] && echo "Cannot locate claude-control install." && exit 1
+     LOG=~/.throughline/daemon.log
+     ROOT=$(cat ~/.claude/plugins/known_marketplaces.json 2>/dev/null | jq -r '"'"'."throughline-local".installLocation'"'"' 2>/dev/null)
+     [ -z "$ROOT" ] && echo "Cannot locate throughline install." && exit 1
      bun run "$ROOT/packages/server/src/index.ts" >> "$LOG" 2>&1 &
      for i in $(seq 1 30); do sleep 0.1; [ -f "$RUNTIME" ] && probe && exit 0; done
      echo "Daemon failed to start. Check $LOG." && exit 1
@@ -882,7 +882,7 @@ Generate and display the daily standup digest.
    ```
    If the script prints an error, stop and show it.
 
-2. Read `~/.claude-control/runtime.json` and extract `port` and `token`.
+2. Read `~/.throughline/runtime.json` and extract `port` and `token`.
 
 3. Fetch the standup digest:
    ```bash
@@ -915,33 +915,33 @@ Generate and display the daily standup digest.
 
 ```markdown
 ---
-description: Generate a handoff document for a story. Usage: /claude-control:handoff <story-id>
+description: Generate a handoff document for a story. Usage: /throughline:handoff <story-id>
 allowed-tools:
   - Bash
 ---
 
 Generate a handoff document for the specified story and write it to disk.
 
-Usage: `/claude-control:handoff <story-id>`
+Usage: `/throughline:handoff <story-id>`
 
 The story ID is the full ID like `US-2026-05-17-billing-engine`.
 
 1. Ensure the daemon is running (same bootstrap as other commands):
    ```bash
    bash -c '
-     RUNTIME=~/.claude-control/runtime.json
+     RUNTIME=~/.throughline/runtime.json
      probe() { PORT=$(jq -r .port "$RUNTIME" 2>/dev/null); curl -sf --max-time 2 "http://127.0.0.1:$PORT/api/healthz" >/dev/null 2>&1; }
      if [ -f "$RUNTIME" ] && probe; then exit 0; fi
-     LOG=~/.claude-control/daemon.log
-     ROOT=$(cat ~/.claude/plugins/known_marketplaces.json 2>/dev/null | jq -r '"'"'."claude-control-local".installLocation'"'"' 2>/dev/null)
-     [ -z "$ROOT" ] && echo "Cannot locate claude-control install." && exit 1
+     LOG=~/.throughline/daemon.log
+     ROOT=$(cat ~/.claude/plugins/known_marketplaces.json 2>/dev/null | jq -r '"'"'."throughline-local".installLocation'"'"' 2>/dev/null)
+     [ -z "$ROOT" ] && echo "Cannot locate throughline install." && exit 1
      bun run "$ROOT/packages/server/src/index.ts" >> "$LOG" 2>&1 &
      for i in $(seq 1 30); do sleep 0.1; [ -f "$RUNTIME" ] && probe && exit 0; done
      echo "Daemon failed to start. Check $LOG." && exit 1
    '
    ```
 
-2. Read `~/.claude-control/runtime.json` and extract `port` and `token`.
+2. Read `~/.throughline/runtime.json` and extract `port` and `token`.
 
 3. POST to generate the handoff:
    ```bash
@@ -965,7 +965,7 @@ The story ID is the full ID like `US-2026-05-17-billing-engine`.
 
 ```bash
 git add plugin/commands/standup.md plugin/commands/handoff.md
-git commit -m "feat(commands): add /claude-control:standup and /claude-control:handoff slash commands"
+git commit -m "feat(commands): add /throughline:standup and /throughline:handoff slash commands"
 ```
 
 ---
@@ -1085,7 +1085,7 @@ export default defineConfig({
       href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <title>Claude Control</title>
+    <title>Throughline</title>
   </head>
   <body>
     <div id="root"></div>
@@ -1743,7 +1743,7 @@ export function Topbar() {
             <path d="M6 4 L18 12 L6 20 Z" fill="#0f0f0f" />
           </svg>
         </div>
-        <span className="brand-name">Claude Control</span>
+        <span className="brand-name">Throughline</span>
       </div>
 
       <div className="topbar-divider" />
@@ -3066,12 +3066,12 @@ bun run packages/server/src/index.ts &
 sleep 1
 
 # Read the port
-PORT=$(jq -r .port ~/.claude-control/runtime.json)
-TOKEN=$(jq -r .token ~/.claude-control/runtime.json)
+PORT=$(jq -r .port ~/.throughline/runtime.json)
+TOKEN=$(jq -r .token ~/.throughline/runtime.json)
 
 # Verify dashboard is served
 curl -s -H "Authorization: Bearer $TOKEN" -H "Host: 127.0.0.1:$PORT" \
-  "http://127.0.0.1:$PORT/" | grep -q "Claude Control" && echo "SPA served OK" || echo "SPA not found"
+  "http://127.0.0.1:$PORT/" | grep -q "Throughline" && echo "SPA served OK" || echo "SPA not found"
 
 # Verify API still works alongside SPA
 curl -s -H "Authorization: Bearer $TOKEN" -H "Host: 127.0.0.1:$PORT" \
@@ -3109,7 +3109,7 @@ git commit -m "feat(server): serve SPA from packages/web/dist/ with GET catch-al
 | StandupService — previous-day digest | Task 2 |
 | HandoffService — markdown generator | Task 3 |
 | `GET /api/standup`, `POST /api/handoff/:id`, `GET /api/handoffs` | Task 4 |
-| `/claude-control:standup` and `/claude-control:handoff` commands | Task 5 |
+| `/throughline:standup` and `/throughline:handoff` commands | Task 5 |
 | Size enum XS\|S\|M\|L\|XL\|null | Task 1 |
 | DB handoffs table (003 migration) | Task 1 |
 | WS integration: plan.changed / story.changed cache invalidation | Task 7 |

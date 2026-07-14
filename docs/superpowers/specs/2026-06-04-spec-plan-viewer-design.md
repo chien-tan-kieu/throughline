@@ -116,9 +116,9 @@ Explicitly references the `frontend-design` skill: use CSS variables for all col
 
 | Condition | Behaviour |
 |-----------|-----------|
-| No active story | Full-page message: "No active story. Start one with `/claude-control:start`." |
-| Active story, no spec linked | Spec tab placeholder: "No spec linked. Link one with `/claude-control:spec`." |
-| Active story, no plan linked | Plan tab placeholder: "No plan linked. Link one with `/claude-control:plan`." |
+| No active story | Full-page message: "No active story. Start one with `/throughline:start`." |
+| Active story, no spec linked | Spec tab placeholder: "No spec linked. Link one with `/throughline:spec`." |
+| Active story, no plan linked | Plan tab placeholder: "No plan linked. Link one with `/throughline:plan`." |
 | Both unlinked | Default tab is Spec; both placeholders shown on respective tabs |
 
 ## Testing

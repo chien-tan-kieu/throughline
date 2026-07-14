@@ -8,7 +8,7 @@
 
 ## Overview
 
-This document specifies the versioning and release mechanism for the claude-control plugin. The goals are:
+This document specifies the versioning and release mechanism for the throughline plugin. The goals are:
 
 - A single authoritative version number, consistent across all packages and the plugin manifest
 - An automated local release command that bumps the version, generates a changelog entry, and pushes a git tag
@@ -186,14 +186,14 @@ New file at `plugin/plugin.json`. This is read by the Claude Code plugin runtime
 
 ```json
 {
-  "name": "claude-control",
+  "name": "throughline",
   "description": "AI-driven project management and story tracking for Claude Code",
   "version": "1.0.0",
   "author": {
     "name": "chien-tan-kieu"
   },
-  "homepage": "https://github.com/chien-tan-kieu/claude-control",
-  "repository": "https://github.com/chien-tan-kieu/claude-control",
+  "homepage": "https://github.com/chien-tan-kieu/throughline",
+  "repository": "https://github.com/chien-tan-kieu/throughline",
   "license": "MIT"
 }
 ```
@@ -201,8 +201,8 @@ New file at `plugin/plugin.json`. This is read by the Claude Code plugin runtime
 **GitHub-based installation** — users add this entry to their `known_marketplaces.json`:
 
 ```json
-"claude-control": {
-  "source": { "source": "github", "repo": "chien-tan-kieu/claude-control" },
+"throughline": {
+  "source": { "source": "github", "repo": "chien-tan-kieu/throughline" },
   "installLocation": "..."
 }
 ```
@@ -224,7 +224,7 @@ All notable changes to this project will be documented in this file.
 
 ### Initial release
 
-First formal versioned release of claude-control. Includes:
+First formal versioned release of throughline. Includes:
 
 - Daemon server with HTTP API and WebSocket support
 - Story management (CRUD, board view, status filtering)

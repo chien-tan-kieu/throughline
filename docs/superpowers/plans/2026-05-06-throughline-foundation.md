@@ -1,4 +1,4 @@
-# Claude Control Foundation (Weeks 1–2) Implementation Plan
+# Throughline Foundation (Weeks 1–2) Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
@@ -8,7 +8,7 @@
 
 **Tech Stack:** Bun 1.x (runtime, test runner, SQLite via `bun:sqlite`), pnpm (workspace), Zod 3.x (schema validation), Biome (lint + format), TypeScript (strict, no build step needed — Bun runs `.ts` directly).
 
-**Reference spec:** `docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md`
+**Reference spec:** `docs/superpowers/specs/2026-05-06-throughline-foundation-design.md`
 
 ---
 
@@ -17,7 +17,7 @@
 Files created or modified by this plan:
 
 ```
-claude-control/
+throughline/
 ├── package.json                                   ← workspace root (Task 1)
 ├── pnpm-workspace.yaml                            ← workspace config (Task 1)
 ├── tsconfig.base.json                             ← shared TS config (Task 1)
@@ -65,7 +65,7 @@ claude-control/
     │   ├── bootstrap.sh                           ← probe + spawn daemon (Task 10)
     │   └── forward.sh                             ← port discovery + curl forward (Task 10)
     ├── skills/
-    │   └── claude-control/
+    │   └── throughline/
     │       └── SKILL.md                           ← explains plugin to Claude (Task 10)
     └── README.md                                  ← plugin usage instructions (Task 10)
 ```
@@ -89,7 +89,7 @@ No tests for pure config — this task ends with a successful `pnpm install`.
 
 ```json
 {
-  "name": "claude-control",
+  "name": "throughline",
   "private": true,
   "version": "0.1.0",
   "scripts": {
@@ -203,7 +203,7 @@ packages:
 - [x] **Step 8: Install dependencies**
 
 ```bash
-cd /path/to/claude-control && pnpm install
+cd /path/to/throughline && pnpm install
 ```
 
 Expected: lockfile created, `node_modules/@cc/shared` symlinked, no errors.
@@ -1595,10 +1595,10 @@ export async function startDaemon(
   const dataDir =
     options.dataDir ??
     process.env.CLAUDE_PLUGIN_DATA ??
-    join(process.env.HOME ?? "/tmp", ".claude-control");
+    join(process.env.HOME ?? "/tmp", ".throughline");
   await mkdir(dataDir, { recursive: true });
 
-  const db = new Database(join(dataDir, "claude-control.db"));
+  const db = new Database(join(dataDir, "throughline.db"));
   await runMigrations(db, MIGRATIONS_DIR);
 
   const token = Buffer.from(
@@ -1628,7 +1628,7 @@ export async function startDaemon(
     } catch {
       if (port === endPort) {
         process.stderr.write(
-          `Claude Control: could not bind to any port in ${startPort}–${endPort}\n`,
+          `Throughline: could not bind to any port in ${startPort}–${endPort}\n`,
         );
         process.exit(1);
       }
@@ -1665,7 +1665,7 @@ export async function startDaemon(
 // Run directly: bun run src/index.ts
 if (import.meta.main) {
   await startDaemon();
-  console.log("Claude Control daemon started.");
+  console.log("Throughline daemon started.");
 }
 ```
 
@@ -1869,7 +1869,7 @@ git commit -m "test(server): add integration test for full hook round-trip and s
 - Create: `plugin/hooks/hooks.json`
 - Create: `plugin/hooks/bootstrap.sh`
 - Create: `plugin/hooks/forward.sh`
-- Create: `plugin/skills/claude-control/SKILL.md`
+- Create: `plugin/skills/throughline/SKILL.md`
 - Create: `plugin/README.md`
 
 No automated tests — the smoke test is manual (step 7).
@@ -1878,10 +1878,10 @@ No automated tests — the smoke test is manual (step 7).
 
 ```json
 {
-  "name": "claude-control",
+  "name": "throughline",
   "description": "Workflow visualizer for Claude Code + Superpowers. Observer-only.",
   "version": "0.1.0",
-  "author": { "name": "claude-control contributors" },
+  "author": { "name": "throughline contributors" },
   "license": "MIT"
 }
 ```
@@ -1947,7 +1947,7 @@ probe() { curl -sf --max-time 2 "http://127.0.0.1:$1/api/healthz" > /dev/null 2>
 if [ -f "$RUNTIME" ]; then
   PORT=$(jq -r '.port' "$RUNTIME" 2>/dev/null)
   if probe "$PORT"; then
-    echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Claude Control is observing this session. This plugin only observes — it never blocks tool calls."}}'
+    echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Throughline is observing this session. This plugin only observes — it never blocks tool calls."}}'
     exit 0
   fi
 fi
@@ -1962,7 +1962,7 @@ for i in $(seq 1 30); do
   sleep 0.1
   if [ -f "$RUNTIME" ]; then
     PORT=$(jq -r '.port' "$RUNTIME" 2>/dev/null) && probe "$PORT" && \
-      echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Claude Control started."}}' && exit 0
+      echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Throughline started."}}' && exit 0
   fi
 done
 
@@ -1973,14 +1973,14 @@ exit 0
 chmod +x plugin/hooks/bootstrap.sh
 ```
 
-- [x] **Step 5: Create `plugin/skills/claude-control/SKILL.md`**
+- [x] **Step 5: Create `plugin/skills/throughline/SKILL.md`**
 
 ```markdown
-# claude-control
+# throughline
 
-This session is being observed by the Claude Control plugin.
+This session is being observed by the Throughline plugin.
 
-Claude Control records hook events (tool use, session start/end, subagent lifecycle) to a local SQLite database. It **never blocks tool calls or modifies responses** — it is observer-only.
+Throughline records hook events (tool use, session start/end, subagent lifecycle) to a local SQLite database. It **never blocks tool calls or modifies responses** — it is observer-only.
 
 No action is required from you. The daemon runs silently in the background.
 ```
@@ -1988,7 +1988,7 @@ No action is required from you. The daemon runs silently in the background.
 - [x] **Step 6: Create `plugin/README.md`**
 
 ```markdown
-# claude-control plugin
+# throughline plugin
 
 Observer plugin for Claude Code. Records hook events to a local SQLite database.
 
@@ -2021,7 +2021,7 @@ claude --plugin-dir ./plugin
 Then type any message. Check the daemon log:
 
 ```bash
-tail -f "${CLAUDE_PLUGIN_DATA:-$HOME/.claude-control}/daemon.log"
+tail -f "${CLAUDE_PLUGIN_DATA:-$HOME/.throughline}/daemon.log"
 ```
 
 Expected: daemon starts, events appear in log, Claude continues responding normally.
@@ -2029,7 +2029,7 @@ Expected: daemon starts, events appear in log, Claude continues responding norma
 Verify events were stored:
 
 ```bash
-DB="${CLAUDE_PLUGIN_DATA:-$HOME/.claude-control}/claude-control.db"
+DB="${CLAUDE_PLUGIN_DATA:-$HOME/.throughline}/throughline.db"
 bun -e "const {Database} = require('bun:sqlite'); const db = new Database('$DB'); console.log(db.query('SELECT event_name, ts FROM events ORDER BY ts DESC LIMIT 10').all())"
 ```
 

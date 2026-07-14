@@ -1,9 +1,9 @@
-# Claude Control — Superpowers Integration + Stories (Phase 2)
+# Throughline — Superpowers Integration + Stories (Phase 2)
 
 > Status: Draft  
 > Date: 2026-05-13  
-> Follows: `docs/superpowers/specs/2026-05-06-claude-control-foundation-design.md`  
-> Deferred to Phase 3: standup generator, handoff generator (`/claude-control:standup`, `/claude-control:handoff`)
+> Follows: `docs/superpowers/specs/2026-05-06-throughline-foundation-design.md`  
+> Deferred to Phase 3: standup generator, handoff generator (`/throughline:standup`, `/throughline:handoff`)
 
 ---
 
@@ -16,7 +16,7 @@ Wire the daemon to the Superpowers workflow and add story management so the syst
 - Phase is inferred from `InstructionsLoaded` events and artifact presence.
 - Stories can be created, read, updated, and archived via REST and slash commands.
 - A WebSocket server is ready for the Dashboard to subscribe to in Phase 3.
-- Four slash commands are functional: `/claude-control:status`, `/claude-control:open`, `/claude-control:story`, `/claude-control:start`.
+- Four slash commands are functional: `/throughline:status`, `/throughline:open`, `/throughline:story`, `/throughline:start`.
 
 ---
 
@@ -30,12 +30,12 @@ Wire the daemon to the Superpowers workflow and add story management so the syst
 - REST API routes — sessions, events, stories CRUD, plans, specs (replaces 501 stubs)
 - Database migration `002_superpowers.sql` — plan_tasks, plan_steps, stories tables
 - `@cc/shared` additions — `plan.ts`, `story.ts`, updated `api.ts`
-- Slash commands — `/claude-control:status`, `/claude-control:open`, `/claude-control:story`, `/claude-control:start`
+- Slash commands — `/throughline:status`, `/throughline:open`, `/throughline:story`, `/throughline:start`
 
 ### Deferred to Phase 3
 
-- Standup generator (`/claude-control:standup`, `GET /api/standup`)
-- Handoff generator (`/claude-control:handoff`, `POST /api/handoff/:storyId`)
+- Standup generator (`/throughline:standup`, `GET /api/standup`)
+- Handoff generator (`/throughline:handoff`, `POST /api/handoff/:storyId`)
 - Dashboard SPA (React/Vite)
 
 ---
@@ -408,7 +408,7 @@ CREATE INDEX IF NOT EXISTS idx_stories_status  ON stories(status);
 
 All four files live under `plugin/commands/`. Each has YAML frontmatter with `description` and `allowed-tools` restricted to `Read` and `Bash` (curl to localhost only).
 
-**`status.md`** — reads `~/.claude-control/runtime.json`, calls `GET /api/healthz` and `GET /api/sessions` (latest), prints: daemon status, port, session id, inferred phase, active story id.
+**`status.md`** — reads `~/.throughline/runtime.json`, calls `GET /api/healthz` and `GET /api/sessions` (latest), prints: daemon status, port, session id, inferred phase, active story id.
 
 **`open.md`** — reads `runtime.json` for port + token, prints `http://127.0.0.1:<port>/?token=<token>` for the user to click.
 

@@ -6,7 +6,7 @@
 
 ## Problem
 
-The claude-control dashboard URL currently embeds the auth token as a query parameter:
+The throughline dashboard URL currently embeds the auth token as a query parameter:
 
 ```
 http://127.0.0.1:<port>/?token=<value>

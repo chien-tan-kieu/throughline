@@ -1,8 +1,8 @@
-# Design: Claude Control — Foundation (Weeks 1–2)
+# Design: Throughline — Foundation (Weeks 1–2)
 
 **Date:** 2026-05-06
-**Scope:** Weeks 1–2 of the claude-control plugin MVP. Weeks 3–4 (Superpowers integration, stories, standup) and Weeks 5–8 (dashboard, distribution) are separate specs.
-**Source:** PRD at `docs/features/claude-control-plugin/PRD.md` + hooks API audit against live Anthropic docs.
+**Scope:** Weeks 1–2 of the throughline plugin MVP. Weeks 3–4 (Superpowers integration, stories, standup) and Weeks 5–8 (dashboard, distribution) are separate specs.
+**Source:** PRD at `docs/features/throughline-plugin/PRD.md` + hooks API audit against live Anthropic docs.
 
 ---
 
@@ -28,7 +28,7 @@ The PRD contained several assumptions about the Claude Code hooks API that neede
 | `FileChanged` matcher supports glob patterns | Matcher accepts **literal filenames only** — no wildcards or directories | Drop `FileChanged` from `hooks.json`; daemon does its own file watching via `Bun.watch` / chokidar (Weeks 3–4) |
 | `SubagentStop` field: `last_assistant_message` | Actual field name is **`output`** | Use `output` in Zod schema |
 | `SubagentStop` field: `agent_id` | Actual field is **`subagent_id`** | Use `subagent_id` in Zod schema |
-| `~/.claude-control/` for runtime data | Use **`$CLAUDE_PLUGIN_DATA`** env var (provided by Claude Code for plugin persistent storage) | Replace all hardcoded home-dir paths with `$CLAUDE_PLUGIN_DATA` |
+| `~/.throughline/` for runtime data | Use **`$CLAUDE_PLUGIN_DATA`** env var (provided by Claude Code for plugin persistent storage) | Replace all hardcoded home-dir paths with `$CLAUDE_PLUGIN_DATA` |
 | Token distributed via `CLAUDE_ENV_FILE` | Not needed — shell scripts read `runtime.json` directly | `CLAUDE_ENV_FILE` not used in foundation |
 
 **New hooks added (not in PRD):**
@@ -36,7 +36,7 @@ The PRD contained several assumptions about the Claude Code hooks API that neede
 | Hook | Reason |
 |---|---|
 | `SessionEnd` | Definitive session termination; `Stop` fires per-turn, not per-session. Use `SessionEnd` to set `sessions.status = 'ended'` |
-| `UserPromptExpansion` | Fires on slash command expansion — detects `/claude-control:start`, `/claude-control:story`, etc. |
+| `UserPromptExpansion` | Fires on slash command expansion — detects `/throughline:start`, `/throughline:story`, etc. |
 | `PreCompact` / `PostCompact` | Context compaction lifecycle events; annotate session timeline |
 
 **Phase inference via `InstructionsLoaded`:** confirmed to exist with fields `file_path`, `memory_type`, `load_reason`. Use as primary phase signal; artifact presence on disk as fallback. `memory_type = 'Managed'` is the expected value for plugin skill files. Mark phase as `unknown` if neither signal fires — do not guess.
@@ -48,7 +48,7 @@ The PRD contained several assumptions about the Claude Code hooks API that neede
 pnpm workspace with three packages. Only `shared` and `server` are implemented in Weeks 1–2. `web` is a stub directory so the workspace resolves.
 
 ```
-claude-control/
+throughline/
 ├── package.json                  ← pnpm workspace root, scripts: dev, build, test
 ├── pnpm-workspace.yaml
 ├── tsconfig.base.json            ← strict: true, moduleResolution: bundler
@@ -87,7 +87,7 @@ claude-control/
     │   ├── bootstrap.sh          ← probe + spawn daemon
     │   └── forward.sh            ← port discovery + curl forward
     ├── skills/
-    │   └── claude-control/
+    │   └── throughline/
     │       └── SKILL.md          ← explains plugin to Claude
     └── README.md
 ```
@@ -233,10 +233,10 @@ Every handler ends with `return new Response('{}', { status: 200 })`. No excepti
 
 ```json
 {
-  "name": "claude-control",
+  "name": "throughline",
   "description": "Workflow visualizer for Claude Code + Superpowers. Observer-only.",
   "version": "0.1.0",
-  "author": { "name": "claude-control contributors" },
+  "author": { "name": "throughline contributors" },
   "license": "MIT"
 }
 ```
@@ -305,7 +305,7 @@ probe() { curl -sf --max-time 2 "http://127.0.0.1:$1/api/healthz" > /dev/null 2>
 if [ -f "$RUNTIME" ]; then
   PORT=$(jq -r '.port' "$RUNTIME" 2>/dev/null)
   if probe "$PORT"; then
-    echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Claude Control is observing this session. Run /claude-control:open for the dashboard URL. This plugin only observes — it never blocks tool calls."}}'
+    echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Throughline is observing this session. Run /throughline:open for the dashboard URL. This plugin only observes — it never blocks tool calls."}}'
     exit 0
   fi
 fi
@@ -323,7 +323,7 @@ for i in $(seq 1 30); do
   sleep 0.1
   if [ -f "$RUNTIME" ]; then
     PORT=$(jq -r '.port' "$RUNTIME" 2>/dev/null) && probe "$PORT" && \
-      echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Claude Control started."}}' && exit 0
+      echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Throughline started."}}' && exit 0
   fi
 done
 
@@ -469,7 +469,7 @@ The following are intentionally out of scope for Weeks 1–2 and will be specced
 - Standup generator, handoff generator (Weeks 3–4)
 - React dashboard, Vite scaffold, WS client (Weeks 5–6)
 - Cross-platform binary compilation, plugin packaging for marketplace (Weeks 7–8)
-- Slash commands: `/claude-control:status`, `/claude-control:open`, `/claude-control:story`, `/claude-control:start`, `/claude-control:standup`, `/claude-control:handoff` (Weeks 3–4)
+- Slash commands: `/throughline:status`, `/throughline:open`, `/throughline:story`, `/throughline:start`, `/throughline:standup`, `/throughline:handoff` (Weeks 3–4)
 
 The `forward.sh` shell script is an explicitly temporary artifact. It will be replaced by a compiled Bun binary with `bootstrap` and `forward <EventName>` subcommands in Weeks 7–8. The interface boundary is clean: `hooks.json` command paths are the only coupling point between the plugin scaffold and the forwarding implementation.
 

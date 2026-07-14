@@ -653,7 +653,7 @@ Full updated top of the function (replace from `const token = ...` through the p
     } catch {
       if (port === endPort) {
         process.stderr.write(
-          `Claude Control: could not bind to any port in ${startPort}–${endPort}\n`,
+          `Throughline: could not bind to any port in ${startPort}–${endPort}\n`,
         );
         process.exit(1);
       }
@@ -2480,12 +2480,12 @@ export async function startDaemon(
   const dataDir =
     options.dataDir ??
     process.env.CLAUDE_PLUGIN_DATA ??
-    join(process.env.HOME ?? "/tmp", ".claude-control");
+    join(process.env.HOME ?? "/tmp", ".throughline");
   await mkdir(dataDir, { recursive: true });
 
   const cwd = options.cwd ?? process.cwd();
 
-  const db = new Database(join(dataDir, "claude-control.db"));
+  const db = new Database(join(dataDir, "throughline.db"));
   await runMigrations(db, MIGRATIONS_DIR);
 
   const token = Buffer.from(
@@ -2526,7 +2526,7 @@ export async function startDaemon(
     } catch {
       if (port === endPort) {
         process.stderr.write(
-          `Claude Control: could not bind to any port in ${startPort}–${endPort}\n`,
+          `Throughline: could not bind to any port in ${startPort}–${endPort}\n`,
         );
         process.exit(1);
       }
@@ -2565,7 +2565,7 @@ export async function startDaemon(
 
 if (import.meta.main) {
   await startDaemon();
-  console.log("Claude Control daemon started.");
+  console.log("Throughline daemon started.");
 }
 ```
 
@@ -2757,15 +2757,15 @@ git commit -m "feat(server): trigger watcher on PostToolUse Edit/Write and add W
 
 ```markdown
 ---
-description: Show Claude Control daemon status, active session, and inferred phase
+description: Show Throughline daemon status, active session, and inferred phase
 allowed-tools:
   - Bash
   - Read
 ---
 
-Show the Claude Control daemon status.
+Show the Throughline daemon status.
 
-1. Read `~/.claude-control/runtime.json`. If the file does not exist, print "Daemon not running." and stop.
+1. Read `~/.throughline/runtime.json`. If the file does not exist, print "Daemon not running." and stop.
 
 2. Parse the JSON and extract `port` and `token`.
 
@@ -2793,14 +2793,14 @@ Show the Claude Control daemon status.
 
 ```markdown
 ---
-description: Print the Claude Control dashboard URL for the browser
+description: Print the Throughline dashboard URL for the browser
 allowed-tools:
   - Read
 ---
 
-Open the Claude Control dashboard.
+Open the Throughline dashboard.
 
-1. Read `~/.claude-control/runtime.json`. If the file does not exist, print "Daemon not running. Start it with: bun run src/index.ts" and stop.
+1. Read `~/.throughline/runtime.json`. If the file does not exist, print "Daemon not running. Start it with: bun run src/index.ts" and stop.
 
 2. Parse the JSON and extract `port` and `token`.
 
@@ -2815,15 +2815,15 @@ Open the Claude Control dashboard.
 
 ```markdown
 ---
-description: Manage Claude Control stories — new, list, or size subcommands
+description: Manage Throughline stories — new, list, or size subcommands
 allowed-tools:
   - Bash
   - Read
 ---
 
-Manage stories. Usage: `/claude-control:story <subcommand> [args]`
+Manage stories. Usage: `/throughline:story <subcommand> [args]`
 
-Read `~/.claude-control/runtime.json` to get `port` and `token`. All curl commands use:
+Read `~/.throughline/runtime.json` to get `port` and `token`. All curl commands use:
 - Header: `Authorization: Bearer <token>`
 - Header: `Host: 127.0.0.1:<port>`
 - Base URL: `http://127.0.0.1:<port>`
@@ -2878,9 +2878,9 @@ allowed-tools:
 
 Start a story by feeding it into the Superpowers brainstorming workflow.
 
-Usage: `/claude-control:start <story-id>`
+Usage: `/throughline:start <story-id>`
 
-1. Read `~/.claude-control/runtime.json` for `port` and `token`.
+1. Read `~/.throughline/runtime.json` for `port` and `token`.
 
 2. Fetch the story:
    ```bash
