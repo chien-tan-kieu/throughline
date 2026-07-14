@@ -131,6 +131,19 @@ Don't claim a task complete without running the relevant checks:
 
 **Why:** "Looks right" is not evidence. Type checks and tests are.
 
+### Maintain running implementation notes
+
+While implementing any task, maintain a running `implementation-notes.md` at the repo root (create it if missing). Update it as you work, not as a summary at the end.
+
+Record entries under four sections:
+
+1. **Decisions outside the spec** — choices you made that the spec did not cover.
+2. **Deviations from the spec** — places where reality forced a change from what was asked, and why.
+3. **Trade-offs** — where you weighed speed vs. simplicity vs. correctness, and which side you picked.
+4. **Anything else** — anything a reviewer should know before reading the diff.
+
+Keep entries to one or two lines each, with file/function references where relevant. Do NOT log trivia (formatting, naming, obvious idioms). Instead, record only what a reviewer would otherwise have to reverse-engineer from the diff.
+
 ### Escalate to advisor after 2 failed iterations
 
 If you have attempted to resolve an issue (bug fix, test failure, unexpected behavior, or recurring error) **2 times without success**, stop and call the `advisor` tool before trying again.
