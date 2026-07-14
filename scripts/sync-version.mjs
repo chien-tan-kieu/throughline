@@ -9,6 +9,8 @@ import { join } from "node:path";
  *   packages/web/package.json
  *   packages/shared/package.json
  *   plugin/plugin.json
+ *   .claude-plugin/plugin.json
+ *   .claude-plugin/marketplace.json
  *   packages/server/src/index.ts  (const VERSION = "..." literal)
  *
  * @param {string} rootDir - repo root directory
@@ -28,6 +30,17 @@ export async function syncVersion(rootDir) {
   const pluginJson = JSON.parse(readFileSync(pluginPath, "utf8"));
   pluginJson.version = version;
   writeFileSync(pluginPath, JSON.stringify(pluginJson, null, 2) + "\n", "utf8");
+
+  const claudePluginPath = join(rootDir, ".claude-plugin/plugin.json");
+  const claudePluginJson = JSON.parse(readFileSync(claudePluginPath, "utf8"));
+  claudePluginJson.version = version;
+  writeFileSync(claudePluginPath, JSON.stringify(claudePluginJson, null, 2) + "\n", "utf8");
+
+  const marketplacePath = join(rootDir, ".claude-plugin/marketplace.json");
+  const marketplaceJson = JSON.parse(readFileSync(marketplacePath, "utf8"));
+  const throughlinePlugin = marketplaceJson.plugins.find((p) => p.name === "throughline");
+  throughlinePlugin.version = version;
+  writeFileSync(marketplacePath, JSON.stringify(marketplaceJson, null, 2) + "\n", "utf8");
 
   const indexPath = join(rootDir, "packages/server/src/index.ts");
   const indexContent = readFileSync(indexPath, "utf8");
