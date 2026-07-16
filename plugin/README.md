@@ -2,6 +2,28 @@
 
 A Kanban board + Spec-Driven Development lifecycle tracker for Claude Code, built on a passive observer. It records hook events to a local SQLite database and pairs them with stories and a board so you can see where your Superpowers work stands — brainstorm → spec → plan → implement — across sessions. Built for solo-developer-with-AI flow, not team Scrum: continuous flow over a board, with `standup` and `handoff` as context utilities rather than ceremonies.
 
+## Installing (end users)
+
+Add a marketplace entry pointing at this repo's `dist` branch — a curated
+build (bundled server, built web assets, plugin resources only; no source,
+tests, or dev tooling):
+
+```json
+{
+  "throughline": {
+    "source": { "source": "github", "repo": "chien-tan-kieu/throughline", "ref": "dist" },
+    "installLocation": "..."
+  }
+}
+```
+
+Use `"ref": "dist"` to always track the latest release, or pin to an exact
+past release with `"ref": "vX.Y.Z"`. List available versions with:
+
+```bash
+git ls-remote --tags https://github.com/chien-tan-kieu/throughline
+```
+
 ## Local development
 
 Claude Code does not support installing plugins from local paths via `claude plugins install`.
