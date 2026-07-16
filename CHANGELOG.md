@@ -2,6 +2,172 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## [2.0.0] - 2026-07-16
+
+- docs: add plugin distribution build design spec and implementation plan
+- docs: document dist-branch install and version pinning
+- feat: build and publish curated dist branch on release
+- fix: add missing dev/prod fallback to ensure-daemon.sh
+- fix: run bundled bin/server.js in bootstrap.sh's production path
+- chore: remove release-it in favor of scripts/release.mjs
+- feat: add plain release script to replace release-it
+- fix: update sync-version fixture for .claude-plugin files
+- feat: thread webDistPath through startDaemon for bundled production builds
+- feat: sync version into .claude-plugin manifest files
+- chore(ci): bump actions/checkout to v5 for Node.js 24
+- docs: update constitution
+- refactor: continue claude-control to throughline rename across docs
+- refactor: rename project from claude-control to throughline
+- chore: update repository manifest and knowledge graph state files
+- chore(server): add @types/bun to resolve bun:* and node:* IDE warnings
+- feat(docs): auto-link spec/plan files to active story on creation
+- docs: add story requirement for incremental US{n} ID generation
+- refactor(stories): export isValidStoryId, wrap create INSERT in transaction
+- feat(stories): generate incremental US{n} ids from seq column
+- feat(stories): accept US{n} id format in get/update/archive
+- feat(db): add seq column to stories for incremental IDs
+- docs: add implementation plan for incremental story ID generation
+- docs: add design spec for incremental story ID generation (US{n})
+- docs: add design spec and implementation plan for start command status-based branching and DocsPage migration
+- feat: implement story status-based branching in the start command with dedicated backlog, in-progress, and closure review workflows.
+- fix(plugin): add Read-error fallback for missing mode file in start
+- fix(plugin): use node for URL encoding, clarify plan-omit instruction
+- fix(plugin): add Skill to allowed-tools and guard jq null in start
+- feat(plugin): dispatch start command by story status
+- feat(plugin): add start/done mode file
+- fix(plugin): use PlanTask.title not label in in-progress mode
+- feat(plugin): add start/in-progress mode file
+- feat(plugin): add start/backlog mode file
+- fix(sidebar): Story facet navigates to /story/:id and activates on /story/* paths
+- feat(web): render GFM tables in markdown via remark-gfm, add table CSS
+- fix(web): use specData.body instead of specData.content — server returns body field
+- fix(stories): sync linked_spec_path/linked_plan_path to DB on PATCH and fix applyPatch trailing newline
+- fix(server): reset idle timer on API requests and WebSocket connects
+- fix(ws): hydrate active story on WebSocket connect via GET /api/sessions/current
+- fix(hooks): forward.sh reads project-local runtime.json instead of stale plugin data path
+- fix(web): default to Spec tab when both docs unlinked, add missing test
+- feat(plugin): add spec-viewer skill with DocsPage design contract
+- chore(web): delete SpecPage and PlanPage — replaced by DocsPage
+- feat(web): add checkbox styles to .markdown for task list rendering
+- feat(web): update StoryPage links to /docs with tab params
+- feat(web): replace spec/plan facets with single docs facet in Sidebar
+- feat(web): route /docs to DocsPage, redirect / /plan /spec
+- fix(web): update DocsPage tests to allow multiple text matches for unlinked states
+- fix(web): correct DocsPage unlinked filenames and split loading from no-story guard
+- feat(web): add DocsPage with tabbed Spec/Plan view
+- feat(shared): add Docs node to HierarchyStrip and active accent prop to LinkedCard
+- docs: add spec-plan viewer design spec
+- chore: add bunfig.toml for bun test configuration
+- feat(dashboard): kanban drag-and-drop with DragOverlay and blue Done status
+- feat(dashboard): wire active story tracking via session.updated event
+- ci: add workflow_dispatch trigger to release workflow
+- fix: stop watcher before file create in handleFileEvent race test
+- fix: make webDistPath configurable, isolate StoryService watcher race
+- fix: add skill→phase inference in PostToolUse handler
+- chore: remove pnpm, migrate to bun-only toolchain, add CLAUDE.md
+- fix: sync bun.lock after adding release-it
+- feat: implement automated versioning, release workflow, and CI pipeline for the plugin
+- ci: add GitHub Actions CI and release workflows
+- feat: show daemon version in claude-control:status output
+- feat: display daemon version in dashboard Topbar
+- feat: expose version via GET /api/status
+- feat: configure release-it for automated versioning
+- feat: add CHANGELOG.md bootstrap and plugin manifest
+- feat: add sync-version script
+- feat: add extract-changelog script
+- chore: set version baseline to 1.0.0
+- refactor: centralize constitution injection in bootstrap hook and consolidate project guidelines
+- refactor: centralize daemon startup logic into an external script and update command documentation to reference it
+- fix: align bootstrap.sh to per-project dataDir and harden probe() with PID check
+- fix: daemon TDZ crash, story parser empty fields, token persistence on refresh
+- Merge pull request #2 from chien-tan-kieu/feat/realtime-story-sync
+- feat: wire refetch and dataUpdatedAt from useQuery into FilterBar
+- feat: add refresh button and last-updated timestamp to FilterBar
+- style: add UA button resets to .refresh-btn
+- style: add refresh-btn, updated-label, spinning styles to filter bar
+- docs(plan): stories board refresh button implementation plan
+- docs(spec): stories board refresh button and last-updated timestamp
+- feat: document implementation plan for real-time StoryService synchronization and lifecycle event handling
+- fix(stories): skip archived rows in handleFileEvent deletion branch and log watcher errors
+- fix(stories): log reconcile errors instead of silently swallowing them
+- feat(stories): wire reconcile() to 30s setInterval in start/stop lifecycle
+- feat(stories): add reconcile() to sync disk vs SQLite
+- feat(stories): prune stale SQLite rows on startup
+- fix(stories): use content === null to avoid false deletion on empty files
+- feat(stories): delete SQLite row and emit bus event when watched file is removed
+- fix(stories): remove redundant await on synchronous upsertRow in loadAll
+- feat(stories): sync title from frontmatter on upsert and extract handleFileEvent
+- docs: add real-time story sync design spec
+- Merge pull request #1 from chien-tan-kieu/feat/filter-stories-by-status
+- feat: initialize understand-anything directory for repository indexing and analysis
+- fix(daemon): persist auth token across restarts to stable dashboard URL
+- fix(server): serve index.html without auth so hash-fragment bootstrap works
+- fix(plugin): use URL hash fragment instead of query param for dashboard token
+- feat(web): read auth token from URL hash fragment, strip immediately
+- feat(web): remove token from WS URL, use first-message auth
+- chore(ws): remove unused base variable from ws.test.ts
+- feat(ws): replace token query-param with first-message auth
+- refactor: stop exposing auth tokens in URLs by using hash fragments and first-message WebSocket authentication
+- feat: secure authentication by removing tokens from URLs in favor of hash fragments and first-message WebSocket auth.
+- feat: stop auth token URL exposure by switching to fragment-based browser auth and first-message WebSocket authentication.
+- fix(security): remove query-param token fallback from checkAuth
+- feat: add phase inference hook, update static asset serving, and initialize story filter documentation and tests
+- feat(web): wire StoriesPage with FilterBar and column filter props
+- refactor(web): export StoryFilter from ui.ts, remove duplicate in FilterBar
+- feat(web): add FilterBar component with pill tabs and count badges
+- feat(web): add isFiltered prop to KanbanColumn with empty state and clear action
+- feat(web): add CSS for filter pills and filtered column
+- feat(web): add useUiStore for story filter state
+- feat(server): serve SPA from packages/web/dist/ with GET catch-all
+- fix(web): fix SizePill ghost state, StoryCard navigation, AC checklist, spec rail, hierarchy strip
+- feat(web): implement all 5 views — Plan, Story, Spec, Stories board, Standup
+- fix(web): guard post-unmount WS reconnect, remove no-op Host header
+- feat(web): global shell — CSS tokens, Topbar, Sidebar, WS hook, Zustand store, api.ts
+- feat(web): scaffold Vite+React workspace with TypeScript, Tailwind, vitest
+- feat(commands): add /claude-control:standup and /claude-control:handoff slash commands
+- fix(api): use null-return pattern, add HandoffService.list(), add 201 success test
+- feat(api): add /api/standup, /api/handoff, /api/handoffs routes
+- fix(handoff): use positional loop in extractPlanSummary
+- fix(handoff): remove stub extractDoneTasks, fix extractPlanSummary, add plan test
+- feat(handoff): add HandoffService that writes markdown handoff docs
+- fix(standup): use UTC for date window; tie blocker cutoff to date param
+- feat(standup): add StandupService with shipped/in-progress/blocker digest
+- fix(shared): export StorySize, StandupItem, StandupDigest from index
+- feat: add handoffs migration and narrow StorySize enum to XS-XL
+- refactor: migrate story storage to docs directory and update slash command namespace to claude-control
+- feat(plugin): add cc-status, cc-open, cc-story, cc-start slash commands
+- feat(server): trigger watcher on PostToolUse Edit/Write and add WS integration test
+- feat(server): wire SuperpowersWatcher, StoryService, WsServer into startDaemon
+- feat(server): add REST API routes for sessions, stories, plans, and specs
+- feat(server): add WsServer with subscribe/fanout and wire into Bun.serve websocket handlers
+- feat(server): add StoryService with CRUD, file watcher, and Bus integration
+- feat(server): add SuperpowersWatcher with file watching, plan parsing, and phase inference
+- feat(server): add inferPhase and advancePhase with forward-only constraint
+- feat(server): add diffCheckboxState for plan step change detection
+- feat(server): add superpowers parser module with parseSpec
+- feat(server): add migration 002 for stories, plan_tasks, and plan_steps tables
+- feat(server): upgrade Bus with BusEvent union and subscribe() method
+- feat(shared): add Phase, Session, EventRecord, WSOut contract types
+- feat(shared): add Story types and YAML frontmatter parser
+- fix(shared): resolve biome lint issues in plan.ts and plan.test.ts
+- feat(shared): add ParsedPlan types and parsePlan state machine
+- docs: update development documentation and add marketplace plugin configuration file
+- chore: generate knowledge graph and semantic analysis report for Claude Control project documentation
+- chore: initialize project workspace with design specifications, session hooks, and knowledge graph infrastructure
+- fix: resolve biome lint errors across all packages
+- feat(plugin): add plugin scaffold with bootstrap.sh, forward.sh, and hooks.json
+- test(server): add integration test for full hook round-trip and session lifecycle
+- feat(server): add daemon lifecycle with port range binding, runtime.json, and idle timer
+- feat(server): add HTTP server with route table, auth gate, and 501 stubs
+- feat(server): add hook handlers with observer contract (all events return {})
+- feat(server): add security gate with token auth, Host validation, and rate limiter
+- feat(server): add store with persistEvent and session lifecycle management
+- feat(server): add SQLite migration runner and initial schema
+- feat(shared): add Zod discriminated union for all 14 hook event types
+- fix: add allowImportingTsExtensions to tsconfig, ignore graphify-out in biome
+- chore: scaffold pnpm workspace with shared, server, web packages
+
 ## [1.0.0] - 2026-06-02
 
 ### Initial release
