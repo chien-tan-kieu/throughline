@@ -7,12 +7,10 @@
     "build": "bun --filter @throughline/web build",
     "test": "bun --filter '*' test",
     "lint": "bunx biome check .",
-    "release": "release-it"
+    "release": "bun scripts/release.mjs --"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@release-it/conventional-changelog": "^11.0.1",
-    "release-it": "^20.2.0",
     "typescript": "^5.7.0"
   },
   "workspaces": [
