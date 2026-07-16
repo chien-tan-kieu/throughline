@@ -19,7 +19,12 @@ ROOT=$(jq -r '."throughline-local".installLocation' \
   ~/.claude/plugins/known_marketplaces.json 2>/dev/null)
 [ -z "$ROOT" ] || [ "$ROOT" = "null" ] && \
   echo "Cannot locate throughline install." && exit 1
-bun run "$ROOT/packages/server/src/index.ts" >> "$LOG" 2>&1 &
+if [ -f "$ROOT/packages/server/src/index.ts" ]; then
+  bun run "$ROOT/packages/server/src/index.ts" >> "$LOG" 2>&1 &
+else
+  THROUGHLINE_WEB_DIST="$ROOT/bin/web" \
+    bun run "$ROOT/bin/server.js" >> "$LOG" 2>&1 &
+fi
 
 for i in $(seq 1 30); do
   sleep 0.1
