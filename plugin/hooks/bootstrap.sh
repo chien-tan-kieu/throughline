@@ -43,7 +43,8 @@ if [ -f "$CLAUDE_PLUGIN_ROOT/packages/server/src/index.ts" ]; then
   fi
   bun run "$CLAUDE_PLUGIN_ROOT/packages/server/src/index.ts" >> "$LOG" 2>&1 &
 else
-  "$CLAUDE_PLUGIN_ROOT/bin/cc-daemon" >> "$LOG" 2>&1 &
+  THROUGHLINE_WEB_DIST="$CLAUDE_PLUGIN_ROOT/bin/web" \
+    bun run "$CLAUDE_PLUGIN_ROOT/bin/server.js" >> "$LOG" 2>&1 &
 fi
 
 for i in $(seq 1 30); do
