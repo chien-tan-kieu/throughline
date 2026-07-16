@@ -18,7 +18,7 @@ import { SuperpowersWatcher } from "./superpowers/index.ts";
 import { WsServer } from "./ws/index.ts";
 
 const MIGRATIONS_DIR = join(import.meta.dir, "../migrations");
-const VERSION = "2.0.0";
+export const VERSION = "2.0.0";
 
 export interface DaemonOptions {
   port?: number;

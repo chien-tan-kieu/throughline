@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type DaemonHandle, startDaemon } from "../index.ts";
+import { type DaemonHandle, VERSION, startDaemon } from "../index.ts";
 
 describe("startDaemon", () => {
   let handle: DaemonHandle;
@@ -47,7 +47,7 @@ describe("startDaemon", () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.status).toBe("ok");
-    expect(body.version).toBe("1.0.0");
+    expect(body.version).toBe(VERSION);
   });
 });
 

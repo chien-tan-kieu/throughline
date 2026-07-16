@@ -48,7 +48,7 @@ function makeTempRepo(version: string): string {
 
   writeFileSync(
     join(root, "packages/server/src/index.ts"),
-    `const VERSION = "0.0.0";\nexport { VERSION };\n`,
+    `export const VERSION = "0.0.0";\n`,
   );
 
   return root;

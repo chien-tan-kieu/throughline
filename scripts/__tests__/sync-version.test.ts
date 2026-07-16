@@ -23,7 +23,7 @@ async function makeFixture(version: string) {
   await mkdir(join(root, "packages/server/src"), { recursive: true });
   await writeFile(
     join(root, "packages/server/src/index.ts"),
-    'const VERSION = "0.0.0";\n\nexport {};\n',
+    'export const VERSION = "0.0.0";\n',
   );
 
   await mkdir(join(root, "plugin"), { recursive: true });

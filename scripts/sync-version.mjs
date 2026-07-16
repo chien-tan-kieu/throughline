@@ -45,8 +45,8 @@ export async function syncVersion(rootDir) {
   const indexPath = join(rootDir, "packages/server/src/index.ts");
   const indexContent = readFileSync(indexPath, "utf8");
   const updated = indexContent.replace(
-    /^const VERSION = "[^"]*";/m,
-    `const VERSION = "${version}";`,
+    /^export const VERSION = "[^"]*";/m,
+    `export const VERSION = "${version}";`,
   );
   writeFileSync(indexPath, updated, "utf8");
 }
