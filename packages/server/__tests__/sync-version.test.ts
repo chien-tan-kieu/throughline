@@ -10,6 +10,7 @@ function makeTempRepo(version: string): string {
   mkdirSync(join(root, "packages/web"), { recursive: true });
   mkdirSync(join(root, "packages/shared"), { recursive: true });
   mkdirSync(join(root, "plugin"), { recursive: true });
+  mkdirSync(join(root, ".claude-plugin"), { recursive: true });
 
   writeFileSync(
     join(root, "package.json"),
@@ -26,6 +27,23 @@ function makeTempRepo(version: string): string {
   writeFileSync(
     join(root, "plugin/plugin.json"),
     JSON.stringify({ name: "throughline", version: "0.0.0" }, null, 2) + "\n",
+  );
+
+  writeFileSync(
+    join(root, ".claude-plugin/plugin.json"),
+    JSON.stringify({ name: "throughline", version: "0.0.0" }, null, 2) + "\n",
+  );
+
+  writeFileSync(
+    join(root, ".claude-plugin/marketplace.json"),
+    JSON.stringify(
+      {
+        name: "throughline",
+        plugins: [{ name: "throughline", version: "0.0.0" }],
+      },
+      null,
+      2,
+    ) + "\n",
   );
 
   writeFileSync(
