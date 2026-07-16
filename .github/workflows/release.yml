@@ -2,16 +2,11 @@ name: Release
 
 on:
   push:
-    tags:
-      - 'v*'
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag to release (e.g. v1.0.0) — must already exist'
-        required: true
+    branches: [main]
 
 jobs:
   release:
+    if: "startsWith(github.event.head_commit.message, 'chore: release v')"
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -33,12 +28,50 @@ jobs:
         env:
           CI: true
 
+      - name: Read version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Build server bundle
+        run: bun build ./packages/server/src/index.ts --outfile=dist-tree/bin/server.js --target=bun
+
+      - name: Build web dashboard
+        run: bun run build
+
+      - name: Assemble dist tree
+        run: |
+          mkdir -p dist-tree/bin
+          cp -r packages/web/dist dist-tree/bin/web
+          cp -r packages/server/migrations dist-tree/migrations
+          mkdir -p dist-tree/.claude-plugin
+          cp .claude-plugin/plugin.json dist-tree/.claude-plugin/plugin.json
+          cp .claude-plugin/marketplace.json dist-tree/.claude-plugin/marketplace.json
+          cp -r plugin dist-tree/plugin
+          rm -f dist-tree/plugin/plugin.json
+
+      - name: Publish dist branch and tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="v${{ steps.version.outputs.version }}"
+          cd dist-tree
+          git init -q
+          git checkout -q -b dist
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "dist: $VERSION"
+          git tag "$VERSION"
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" HEAD:dist
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "$VERSION"
+
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name }}
+          VERSION="v${{ steps.version.outputs.version }}"
           NOTES=$(node scripts/extract-changelog.mjs "$VERSION")
           gh release create "$VERSION" \
             --title "$VERSION" \
+            --target dist \
             --notes "$NOTES"
