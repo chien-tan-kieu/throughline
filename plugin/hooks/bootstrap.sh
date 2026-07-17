@@ -18,6 +18,7 @@ emit_context() {
   local status="Throughline is observing this session. This plugin only observes — it never blocks tool calls."
 
   if [ -f "$project_constitution" ]; then
+    echo "[bootstrap] Injecting constitution: plugin ($plugin_constitution) + project ($project_constitution)" | tee -a "$LOG" >&2
     {
       printf '## Karpathy Guidelines (from plugin)\n\n'
       cat "$plugin_constitution"
@@ -26,6 +27,7 @@ emit_context() {
       printf '\n---\n%s' "$status"
     } | jq -Rs '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":.}}'
   else
+    echo "[bootstrap] Injecting constitution: ($plugin_constitution) | tee -a "$LOG" >&2
     jq -Rs --arg s "$status" \
       '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":("## Karpathy Guidelines (from plugin)\n\n" + . + "\n---\n" + $s)}}' \
       "$plugin_constitution"
