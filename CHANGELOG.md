@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [3.0.2] - 2026-07-17
+
+- docs: add manual release workflow implementation plan
+- docs: correct release-workflow trigger wording and complete sync-target list
+- docs: document manual release workflow_dispatch flow; drop local release script
+- ci: switch release workflow to manual workflow_dispatch with in-CI bump and duplicate guard
+- docs: add manual release workflow (workflow_dispatch) design spec
+
 ## [3.0.1] - 2026-07-17
 
 - No changes recorded.

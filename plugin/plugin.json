@@ -1,7 +1,7 @@
 {
   "name": "throughline",
   "description": "A Kanban board + Spec-Driven Development lifecycle tracker for Claude Code — observes your Superpowers session and tracks stories through brainstorm → spec → plan → implement, built for solo-developer-with-AI flow.",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "author": {
     "name": "chien-tan-kieu"
   },
