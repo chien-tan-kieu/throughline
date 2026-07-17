@@ -6,8 +6,7 @@
     "dev": "cd packages/server && bun run --watch src/index.ts",
     "build": "bun --filter @throughline/web build",
     "test": "bun --filter '*' test",
-    "lint": "bunx biome check .",
-    "release": "bun scripts/release.mjs --"
+    "lint": "bunx biome check ."
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

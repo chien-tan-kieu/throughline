@@ -41,22 +41,29 @@ bun run dev      # Start server in watch mode
 bun run build    # Build web dashboard
 bun run test     # Run all package tests
 bun run lint     # Biome linter
-bun run release  # Interactive release (release-it)
 ```
 
 ## Release Workflow
 
-Version is authoritative in root `package.json`. Running `bun run release`:
-1. Bumps version in root `package.json`
-2. `scripts/sync-version.mjs` propagates version to all derived locations:
+Version is authoritative in root `package.json`. Releases are cut manually from GitHub Actions — there is no local release command, and pushing to `main` no longer triggers anything.
+
+To cut a release: **Actions tab → Release workflow → Run workflow**, choose `version_bump` (`patch` / `minor` / `major`), run on `main`. Or via CLI: `gh workflow run release.yml -f version_bump=patch`.
+
+The workflow (`.github/workflows/release.yml`):
+1. Runs the server and web test suites
+2. Predicts the next version from the bump kind (dry run — no writes)
+3. Fails fast if that version's tag or GitHub Release already exists
+4. Bumps root `package.json`, propagates via `scripts/sync-version.mjs` to:
    - `packages/server/package.json`
    - `packages/web/package.json`
    - `packages/shared/package.json`
    - `plugin/plugin.json`
    - `packages/server/src/index.ts` (`const VERSION`)
-3. `CHANGELOG.md` entry is prepended from conventional commits
-4. Git tag `vX.Y.Z` is created and pushed
-5. Tag push triggers `.github/workflows/release.yml` → GitHub Release
+   prepends a `CHANGELOG.md` entry, commits `chore: release vX.Y.Z`, and pushes to `main`
+5. Builds the server bundle and web dashboard, assembles the `dist` branch, tags it, and pushes both
+6. Creates the GitHub Release from the `dist` tag
+
+If a run fails *after* step 4 has pushed the version-bump commit but before the release is published, do not immediately re-run the workflow — it will bump past the stuck version. See `docs/superpowers/specs/2026-07-17-manual-release-workflow-design.md` for manual recovery.
 
 ## Server Entry Point
 
