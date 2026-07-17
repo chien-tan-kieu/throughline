@@ -45,7 +45,7 @@ bun run lint     # Biome linter
 
 ## Release Workflow
 
-Version is authoritative in root `package.json`. Releases are cut manually from GitHub Actions — there is no local release command, and pushing to `main` no longer triggers anything.
+Version is authoritative in root `package.json`. Releases are cut manually from GitHub Actions — there is no local release command, and pushing to `main` no longer triggers a release (CI tests still run on every push).
 
 To cut a release: **Actions tab → Release workflow → Run workflow**, choose `version_bump` (`patch` / `minor` / `major`), run on `main`. Or via CLI: `gh workflow run release.yml -f version_bump=patch`.
 
@@ -58,6 +58,8 @@ The workflow (`.github/workflows/release.yml`):
    - `packages/web/package.json`
    - `packages/shared/package.json`
    - `plugin/plugin.json`
+   - `.claude-plugin/plugin.json`
+   - `.claude-plugin/marketplace.json`
    - `packages/server/src/index.ts` (`const VERSION`)
    prepends a `CHANGELOG.md` entry, commits `chore: release vX.Y.Z`, and pushes to `main`
 5. Builds the server bundle and web dashboard, assembles the `dist` branch, tags it, and pushes both
