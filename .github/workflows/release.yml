@@ -1,12 +1,16 @@
 name: Release
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: "Version bump kind"
+        type: choice
+        options: [patch, minor, major]
+        required: true
 
 jobs:
   release:
-    if: "startsWith(github.event.head_commit.message, 'chore: release v')"
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -28,9 +32,37 @@ jobs:
         env:
           CI: true
 
-      - name: Read version
-        id: version
-        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Predict version
+        id: predict
+        run: |
+          NEXT=$(node --input-type=module -e "
+            import { bumpVersion } from './scripts/release.mjs';
+            import { readFileSync } from 'node:fs';
+            const pkg = JSON.parse(readFileSync('./package.json', 'utf8'));
+            console.log(bumpVersion(pkg.version, '${{ inputs.version_bump }}'));
+          ")
+          echo "version=v$NEXT" >> "$GITHUB_OUTPUT"
+
+      - name: Check version not already released
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git rev-parse "${{ steps.predict.outputs.version }}" >/dev/null 2>&1 || \
+             gh release view "${{ steps.predict.outputs.version }}" >/dev/null 2>&1; then
+            echo "::error::${{ steps.predict.outputs.version }} already exists as a tag or release."
+            exit 1
+          fi
+
+      - name: Ensure a real branch checkout for pushing
+        run: |
+          git checkout -B "${{ github.ref_name }}"
+          git branch --set-upstream-to="origin/${{ github.ref_name }}" "${{ github.ref_name }}"
+
+      - name: Bump version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          bun scripts/release.mjs -- ${{ inputs.version_bump }}
 
       - name: Build server bundle
         run: bun build ./packages/server/src/index.ts --outfile=dist-tree/bin/server.js --target=bun
@@ -53,7 +85,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION="v${{ steps.version.outputs.version }}"
+          VERSION="${{ steps.predict.outputs.version }}"
           cd dist-tree
           git init -q
           git checkout -q -b dist
@@ -69,7 +101,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION="v${{ steps.version.outputs.version }}"
+          VERSION="${{ steps.predict.outputs.version }}"
           NOTES=$(node scripts/extract-changelog.mjs "$VERSION")
           gh release create "$VERSION" \
             --title "$VERSION" \
