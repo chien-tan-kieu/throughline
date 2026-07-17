@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [3.0.1] - 2026-07-17
+
+- No changes recorded.
+
 ## [3.0.0] - 2026-07-16
 
 - fix: stop hardcoding version in daemon test; export VERSION for reuse
