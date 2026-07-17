@@ -1,0 +1,12 @@
+{
+  "name": "throughline",
+  "description": "Workflow visualizer for Claude Code + Superpowers. Observer-only.",
+  "version": "3.0.2",
+  "author": {
+    "name": "throughline contributors"
+  },
+  "license": "MIT",
+  "commands": "./plugin/commands/",
+  "hooks": "./plugin/hooks/hooks.json",
+  "skills": "./plugin/skills/"
+}
