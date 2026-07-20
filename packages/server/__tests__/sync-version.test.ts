@@ -51,6 +51,11 @@ function makeTempRepo(version: string): string {
     `export const VERSION = "0.0.0";\n`,
   );
 
+  writeFileSync(
+    join(root, "README.md"),
+    "[![version](https://img.shields.io/badge/version-0.0.0-3ecf8e)](./CHANGELOG.md)\n",
+  );
+
   return root;
 }
 

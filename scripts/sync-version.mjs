@@ -12,6 +12,7 @@ import { join } from "node:path";
  *   .claude-plugin/plugin.json
  *   .claude-plugin/marketplace.json
  *   packages/server/src/index.ts  (const VERSION = "..." literal)
+ *   README.md                     (shields.io version badge)
  *
  * @param {string} rootDir - repo root directory
  */
@@ -49,6 +50,14 @@ export async function syncVersion(rootDir) {
     `export const VERSION = "${version}";`,
   );
   writeFileSync(indexPath, updated, "utf8");
+
+  const readmePath = join(rootDir, "README.md");
+  const readmeContent = readFileSync(readmePath, "utf8");
+  const updatedReadme = readmeContent.replace(
+    /badge\/version-[^-]+-/,
+    `badge/version-${version}-`,
+  );
+  writeFileSync(readmePath, updatedReadme, "utf8");
 }
 
 if (process.argv[1] === new URL(import.meta.url).pathname) {

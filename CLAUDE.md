@@ -61,6 +61,7 @@ The workflow (`.github/workflows/release.yml`):
    - `.claude-plugin/plugin.json`
    - `.claude-plugin/marketplace.json`
    - `packages/server/src/index.ts` (`const VERSION`)
+   - `README.md` (shields.io version badge)
    prepends a `CHANGELOG.md` entry, commits `chore: release vX.Y.Z`, and pushes to `main`
 5. Builds the server bundle and web dashboard, assembles the `dist` branch, tags it, and pushes both
 6. Creates the GitHub Release from the `dist` tag

@@ -32,6 +32,11 @@ async function makeFixture(version: string) {
     JSON.stringify({ name: "throughline", version: "0.0.0" }, null, 2),
   );
 
+  await writeFile(
+    join(root, "README.md"),
+    "[![version](https://img.shields.io/badge/version-0.0.0-3ecf8e)](./CHANGELOG.md)\n",
+  );
+
   await mkdir(join(root, ".claude-plugin"), { recursive: true });
   await writeFile(
     join(root, ".claude-plugin/plugin.json"),
@@ -80,5 +85,8 @@ describe("syncVersion", () => {
       await readFile(join(root, ".claude-plugin/marketplace.json"), "utf8"),
     );
     expect(marketplaceJson.plugins[0].version).toBe("2.3.4");
+
+    const readme = await readFile(join(root, "README.md"), "utf8");
+    expect(readme).toContain("badge/version-2.3.4-3ecf8e");
   });
 });
