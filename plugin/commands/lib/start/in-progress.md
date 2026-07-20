@@ -2,6 +2,8 @@
 
 Produce a structured progress report for a story that is actively being implemented. The story data (`id`, `title`, `status`, `body`, `linked_spec_path`, `linked_plan_path`, `created_at`, `port`, `token`) is available from the main command. Do not ask the user questions — run the steps below, then print the report.
 
+If a `## Last handoff` section is present in the context, read it first for prior progress before producing the report.
+
 ## 1. Fetch the parsed plan (if linked)
 
 If `linked_plan_path` is set, URL-encode the path and fetch the parsed plan:

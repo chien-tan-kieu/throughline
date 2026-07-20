@@ -38,6 +38,15 @@ Usage: `/throughline:start <story-id>`
    ```
    (Best-effort — ignore any errors.)
 
+3c. Fetch the latest handoff for this story to surface prior context:
+   ```bash
+   curl -s \
+     -H "Authorization: Bearer <token>" \
+     -H "Host: 127.0.0.1:<port>" \
+     "http://127.0.0.1:<port>/api/handoffs/latest?story=<story-id>"
+   ```
+   If the response status is 200, take its `content` field and make it available to the mode file under a `## Last handoff` heading. If the response is 404 or the curl fails, proceed unchanged — there is simply no last handoff.
+
 4. Determine the mode file based on the story's `status` field:
 
    | Status | Mode file |
@@ -58,4 +67,4 @@ Usage: `/throughline:start <story-id>`
 
    Replace `<mode-file>` with the filename from the table above.
 
-   Use the `Read` tool on the absolute path returned by that command. If the `Read` tool returns an error (e.g., file not found), print: "Mode file not found for status '<status>' — defaulting to backlog mode." and load `backlog.md` instead (re-run the bash block above with `<mode-file>` replaced by `backlog.md`). Then follow the instructions in the loaded file exactly. The story context available to the mode file is: `id`, `title`, `status`, `body`, `linked_spec_path`, `linked_plan_path`, `created_at`, `port`, `token`.
+   Use the `Read` tool on the absolute path returned by that command. If the `Read` tool returns an error (e.g., file not found), print: "Mode file not found for status '<status>' — defaulting to backlog mode." and load `backlog.md` instead (re-run the bash block above with `<mode-file>` replaced by `backlog.md`). Then follow the instructions in the loaded file exactly. The story context available to the mode file is: `id`, `title`, `status`, `body`, `linked_spec_path`, `linked_plan_path`, `created_at`, `port`, `token`. When a prior handoff exists (step 3c returned 200), a `## Last handoff` section with its content is also available.

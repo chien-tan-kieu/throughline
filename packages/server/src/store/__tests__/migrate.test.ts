@@ -39,7 +39,7 @@ describe("runMigrations", () => {
       db.query<{ c: number }, []>("SELECT COUNT(*) as c FROM _migrations").get()
         ?.c ?? 0;
 
-    expect(count).toBe(4); // all migration files applied once each
+    expect(count).toBe(5); // all migration files applied once each
   });
 
   test("sessions table has expected columns", async () => {
@@ -98,6 +98,62 @@ describe("runMigrations", () => {
     expect(cols).toContain("story_id");
     expect(cols).toContain("file_path");
     expect(cols).toContain("generated_at");
+  });
+
+  test("handoffs table has session_id column", async () => {
+    await runMigrations(db, MIGRATIONS_DIR);
+
+    const cols = db
+      .query<{ name: string }, []>("PRAGMA table_info(handoffs)")
+      .all()
+      .map((r) => r.name);
+
+    expect(cols).toContain("session_id");
+  });
+
+  test("handoffs story_id is nullable after migration", async () => {
+    await runMigrations(db, MIGRATIONS_DIR);
+
+    const storyIdCol = db
+      .query<{ name: string; notnull: number }, []>(
+        "PRAGMA table_info(handoffs)",
+      )
+      .all()
+      .find((r) => r.name === "story_id");
+
+    expect(storyIdCol?.notnull).toBe(0);
+  });
+
+  test("handoffs row round-trips with explicit session_id and null story_id", async () => {
+    await runMigrations(db, MIGRATIONS_DIR);
+
+    const ts = Date.now();
+    db.run(
+      `INSERT INTO handoffs (story_id, session_id, file_path, generated_at)
+       VALUES ('US-x', NULL, '/p', ?)`,
+      [ts],
+    );
+    db.run(
+      `INSERT INTO handoffs (story_id, session_id, file_path, generated_at)
+       VALUES (NULL, 'sess-1', '/q', ?)`,
+      [ts],
+    );
+
+    const storyRow = db
+      .query<{ story_id: string | null; session_id: string | null }, []>(
+        "SELECT story_id, session_id FROM handoffs WHERE file_path = '/p'",
+      )
+      .get();
+    expect(storyRow?.story_id).toBe("US-x");
+    expect(storyRow?.session_id).toBeNull();
+
+    const sessRow = db
+      .query<{ story_id: string | null; session_id: string | null }, []>(
+        "SELECT story_id, session_id FROM handoffs WHERE file_path = '/q'",
+      )
+      .get();
+    expect(sessRow?.story_id).toBeNull();
+    expect(sessRow?.session_id).toBe("sess-1");
   });
 
   test("stories table has seq column after migration", async () => {

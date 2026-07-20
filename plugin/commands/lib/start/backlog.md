@@ -1,5 +1,7 @@
 # Mode: Backlog
 
+If a `## Last handoff` section is present in the context, read it first for prior progress before proceeding.
+
 Invoke the `superpowers:brainstorming` skill directly via the Skill tool, passing the story as context:
 
 ```

@@ -2,6 +2,7 @@
 import type { Database } from "bun:sqlite";
 import { type HookEvent, HookEventSchema } from "@throughline/shared";
 import type { Bus } from "../bus.ts";
+import type { HandoffService } from "../handoff/index.ts";
 import type { SuperpowersWatcher } from "../superpowers/index.ts";
 import { dispatchEvent } from "./handlers.ts";
 
@@ -11,6 +12,7 @@ export async function handleHookEvent(
   db: Database,
   bus: Bus,
   watcher?: SuperpowersWatcher,
+  handoff?: HandoffService,
 ): Promise<Response> {
   let event: HookEvent;
   try {
@@ -34,5 +36,5 @@ export async function handleHookEvent(
     }
   }
 
-  return dispatchEvent(event, db, bus);
+  return dispatchEvent(event, db, bus, handoff);
 }

@@ -1,7 +1,7 @@
 // packages/server/src/server.ts
 import type { Database } from "bun:sqlite";
-import type { Server } from "bun";
 import { join } from "node:path";
+import type { Server } from "bun";
 import type { ApiCtx } from "./api/index.ts";
 import { mountApiRoutes } from "./api/index.ts";
 import type { Bus } from "./bus.ts";
@@ -39,7 +39,10 @@ export function createServer(config: ServerConfig): Server {
       }
 
       if (req.method === "GET" && url.pathname === "/api/status") {
-        return Response.json({ status: "ok", version: config.version ?? "unknown" });
+        return Response.json({
+          status: "ok",
+          version: config.version ?? "unknown",
+        });
       }
 
       if (req.method === "GET" && url.pathname === "/ws") {
@@ -49,7 +52,8 @@ export function createServer(config: ServerConfig): Server {
         return new Response("WebSocket upgrade failed", { status: 400 });
       }
 
-      const webDist = config.webDistPath ?? join(import.meta.dir, "../../web/dist");
+      const webDist =
+        config.webDistPath ?? join(import.meta.dir, "../../web/dist");
 
       if (req.method === "GET" && url.pathname.startsWith("/assets/")) {
         const file = Bun.file(join(webDist, url.pathname));
@@ -57,7 +61,11 @@ export function createServer(config: ServerConfig): Server {
         return new Response("Not Found", { status: 404 });
       }
 
-      if (req.method === "GET" && !url.pathname.startsWith("/api/") && !url.pathname.startsWith("/hooks/")) {
+      if (
+        req.method === "GET" &&
+        !url.pathname.startsWith("/api/") &&
+        !url.pathname.startsWith("/hooks/")
+      ) {
         const file = Bun.file(join(webDist, "/index.html"));
         if (await file.exists()) return new Response(file);
       }
@@ -89,6 +97,7 @@ export function createServer(config: ServerConfig): Server {
           db,
           bus,
           config.apiCtx?.watcher,
+          config.apiCtx?.handoff,
         );
       }
 

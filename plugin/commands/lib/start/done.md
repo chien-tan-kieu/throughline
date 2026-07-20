@@ -2,6 +2,8 @@
 
 Produce a closure review for a completed story. The story data (`id`, `title`, `status`, `body`, `linked_spec_path`, `linked_plan_path`, `created_at`, `port`, `token`) is available from the main command. Do not ask the user questions — run the steps below, then print the report.
 
+If a `## Last handoff` section is present in the context, read it first for prior progress before producing the report.
+
 **Important:** Checkbox state in the story body is not reliable — checkboxes remain unchecked in the file even when a story is done. Assess completion from git log and linked document filenames only, never from checkbox state.
 
 ## 1. Get git log since story creation
