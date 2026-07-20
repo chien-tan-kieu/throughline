@@ -1,0 +1,14 @@
+{
+  "name": "throughline",
+  "owner": {
+    "name": "throughline contributors"
+  },
+  "plugins": [
+    {
+      "name": "throughline",
+      "version": "3.1.0",
+      "source": "./",
+      "description": "Workflow visualizer for Claude Code + Superpowers. Observer-only."
+    }
+  ]
+}
