@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [3.1.0] - 2026-07-20
+
+- feat(handoff): auto-generate cross-session handoffs on SessionEnd/PreCompact
+- docs: clean-up redundants
+
 ## [3.0.2] - 2026-07-17
 
 - docs: add manual release workflow implementation plan
