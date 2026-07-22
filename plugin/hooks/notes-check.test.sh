@@ -172,6 +172,32 @@ test_throughline_dir_excluded() {
   rm -rf "$repo"
 }
 
+test_clean_tree_resets_counter() {
+  local repo
+  repo=$(setup_repo)
+  echo hi > "$repo/README.md"
+  echo note > "$repo/implementation-notes.md"
+  (cd "$repo" && git add -A && git commit -qm init)
+  sleep 1.1
+  echo change >> "$repo/README.md"
+  local session="s9"
+
+  run_hook "$repo" "$session" > /dev/null
+  local counter_file="$repo/.throughline/notes-nudge/$session.count"
+  assert_eq "1" "$(cat "$counter_file" 2>/dev/null)" "strike 1: counter written"
+
+  (cd "$repo" && git add -A && git commit -qm "commit outstanding change")
+  run_hook "$repo" "$session" > /dev/null
+
+  if [ -f "$counter_file" ]; then
+    FAIL=$((FAIL + 1))
+    echo "FAIL: clean tree resets counter: file removed"
+  else
+    PASS=$((PASS + 1))
+  fi
+  rm -rf "$repo"
+}
+
 test_not_a_git_repo
 test_clean_tree
 test_only_notes_changed
@@ -180,6 +206,7 @@ test_notes_newer_no_block
 test_stale_blocks_twice_then_fails_open
 test_resolving_notes_resets_counter
 test_throughline_dir_excluded
+test_clean_tree_resets_counter
 
 echo "---"
 echo "$PASS passed, $FAIL failed"

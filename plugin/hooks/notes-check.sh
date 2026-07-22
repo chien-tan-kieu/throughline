@@ -14,7 +14,10 @@ git rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
 
 CHANGED=$(git status --porcelain 2>/dev/null | cut -c4- | grep -v '^implementation-notes\.md$' | grep -v '^\.throughline/' || true)
 
-[ -z "$CHANGED" ] && exit 0
+if [ -z "$CHANGED" ]; then
+  rm -f "$COUNTER_FILE"
+  exit 0
+fi
 
 file_mtime() {
   stat -f %m "$1" 2>/dev/null || stat -c %Y "$1" 2>/dev/null
