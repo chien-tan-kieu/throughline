@@ -66,8 +66,51 @@ test_clean_tree() {
   rm -rf "$repo"
 }
 
+test_only_notes_changed() {
+  local repo
+  repo=$(setup_repo)
+  echo hi > "$repo/README.md"
+  (cd "$repo" && git add -A && git commit -qm init)
+  echo note >> "$repo/implementation-notes.md"
+  local out
+  out=$(run_hook "$repo" "s3")
+  assert_eq "" "$out" "only notes changed: no output"
+  rm -rf "$repo"
+}
+
+test_other_changed_notes_missing() {
+  local repo
+  repo=$(setup_repo)
+  echo hi > "$repo/README.md"
+  (cd "$repo" && git add -A && git commit -qm init)
+  echo change >> "$repo/README.md"
+  local out
+  out=$(run_hook "$repo" "s4")
+  assert_contains "$out" '"decision":"block"' "notes missing: blocks"
+  rm -rf "$repo"
+}
+
+test_notes_newer_no_block() {
+  local repo
+  repo=$(setup_repo)
+  echo hi > "$repo/README.md"
+  echo note > "$repo/implementation-notes.md"
+  (cd "$repo" && git add -A && git commit -qm init)
+  sleep 1.1
+  echo change >> "$repo/README.md"
+  sleep 1.1
+  echo logged >> "$repo/implementation-notes.md"
+  local out
+  out=$(run_hook "$repo" "s5")
+  assert_eq "" "$out" "notes newer than other changes: no block"
+  rm -rf "$repo"
+}
+
 test_not_a_git_repo
 test_clean_tree
+test_only_notes_changed
+test_other_changed_notes_missing
+test_notes_newer_no_block
 
 echo "---"
 echo "$PASS passed, $FAIL failed"
