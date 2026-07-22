@@ -45,9 +45,11 @@ run_hook() {
 test_not_a_git_repo() {
   local dir
   dir=$(mktemp -d)
-  local out
+  local out status
   out=$(run_hook "$dir" "s1")
+  status=$?
   assert_eq "" "$out" "not a git repo: no output"
+  assert_eq "0" "$status" "not a git repo: exits 0"
   rm -rf "$dir"
 }
 
@@ -56,9 +58,11 @@ test_clean_tree() {
   repo=$(setup_repo)
   echo hi > "$repo/README.md"
   (cd "$repo" && git add -A && git commit -qm init)
-  local out
+  local out status
   out=$(run_hook "$repo" "s2")
+  status=$?
   assert_eq "" "$out" "clean tree: no output"
+  assert_eq "0" "$status" "clean tree: exits 0"
   rm -rf "$repo"
 }
 
