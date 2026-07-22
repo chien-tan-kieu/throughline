@@ -36,7 +36,7 @@ else
       NEWEST=$MTIME
     fi
   done <<< "$CHANGED"
-  if [ "$NEWEST" -gt "$NOTES_MTIME" ]; then
+  if [ "$NEWEST" -gt "$NOTES_MTIME" ] 2>/dev/null; then
     STALE=1
   fi
 fi
