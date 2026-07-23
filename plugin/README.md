@@ -27,11 +27,14 @@ git ls-remote --tags https://github.com/chien-tan-kieu/throughline
 ## Local development
 
 Claude Code does not support installing plugins from local paths via `claude plugins install`.
-Use `--plugin-dir` instead — it loads the plugin for that session without a permanent install:
+Use `--plugin-dir` instead — it loads the plugin for that session without a permanent install.
+Point it at the **repo root**, not `./plugin`: the plugin manifest is
+`.claude-plugin/plugin.json`, which declares `"hooks": "./plugin/hooks/hooks.json"` relative
+to the repo root, so `--plugin-dir` needs the root to find it.
 
 ```bash
 # From the repo root
-claude --plugin-dir ./plugin
+claude --plugin-dir .
 ```
 
 On `SessionStart`, `bootstrap.sh` probes the daemon's healthz endpoint and spawns it if not
@@ -39,21 +42,17 @@ running. Every subsequent hook fires `forward.sh`, which POSTs the event payload
 
 ## Verifying it works
 
-After starting a session with `--plugin-dir`:
+After starting a session with `--plugin-dir`, from whatever directory you ran it in
+(the daemon and its data are project-local, keyed off `CLAUDE_PROJECT_DIR`/the current
+git repo, not a fixed home-directory path):
 
 ```bash
 # Confirm the daemon is running and see its port
-cat ~/.throughline/runtime.json
+cat .throughline/runtime.json
 
 # Query recorded events
-sqlite3 ~/.throughline/throughline.db \
+sqlite3 .throughline/throughline.db \
   "SELECT event_name, session_id, datetime(ts/1000, 'unixepoch', 'localtime') FROM events ORDER BY ts DESC LIMIT 20;"
-```
-
-Data directory defaults to `~/.throughline`. Override with `CLAUDE_PLUGIN_DATA`:
-
-```bash
-CLAUDE_PLUGIN_DATA=/tmp/cc-test claude --plugin-dir ./plugin
 ```
 
 ## Running tests and the daemon directly
