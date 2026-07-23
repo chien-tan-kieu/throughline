@@ -73,6 +73,10 @@
           {
             "type": "command",
             "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/forward.sh"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PLUGIN_ROOT/plugin/hooks/notes-check.sh"
           }
         ]
       }

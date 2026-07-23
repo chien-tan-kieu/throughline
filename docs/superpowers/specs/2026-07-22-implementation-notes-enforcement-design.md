@@ -138,6 +138,8 @@ forcing the same corrective action and let it through."
 ## Files touched
 
 - `plugin/hooks/notes-check.sh` (new) — the detection + block script.
+- `plugin/hooks/notes-check.test.sh` (new) — the standalone bash test
+  harness described in Testing approach below.
 - `plugin/hooks/hooks.json` — add a `notes-check.sh` entry under `Stop`,
   alongside the existing `forward.sh` entry.
 - `.throughline/notes-nudge/` — new runtime state directory (created
