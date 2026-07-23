@@ -127,9 +127,16 @@ Don't claim a task complete without running the relevant checks:
 
 - Run the check commands appropriate to what changed (tests, lint, type-check, build, etc.).
 - If the project's `CLAUDE.md` specifies which commands to run for which areas, follow those exactly.
-- If a run fails, fix it or explicitly surface the failure — do not report success with failing checks.
+- All failures in the resulting run must be resolved before claiming completion — including
+  pre-existing failures unrelated to the current change. Do not report success, and do not
+  hand back to the user, while any check is red.
+- If a failing check cannot be fixed as part of this task (e.g., it requires a decision only
+  the user can make, or touches code far outside the task's scope), stop and explicitly surface
+  it to the user rather than reporting success or silently leaving it broken.
 
-**Why:** "Looks right" is not evidence. Type checks and tests are.
+**Why:** "Looks right" is not evidence. Type checks and tests are. A pre-existing failure left
+in place is still a red suite — it erodes the signal that "tests pass" is supposed to give, and
+the next person to touch this code inherits it as if it were new.
 
 ### Maintain running implementation notes
 
