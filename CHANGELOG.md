@@ -7,6 +7,24 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [3.2.0] - 2026-07-23
+
+- Merge pull request #3 from chien-tan-kieu/worktree-notes-check-hook
+- docs(plugin): fix stale local-dev instructions in README
+- polish(hooks): harden stderr guard and fix spec's files-touched list
+- feat(hooks): register notes-check.sh on the Stop event
+- fix(hooks): reset counter when tree is clean
+- feat(hooks): cap notes-check blocking at 2 strikes and reset on resolution
+- feat(hooks): detect stale implementation-notes.md and emit block decision
+- fix(hooks): add exit-code assertions to notes-check test harness
+- feat(hooks): add notes-check.sh skeleton with baseline pass-through cases
+- docs: implementation plan for notes-check.sh enforcement hook
+- docs: design for enforcing running implementation-notes rule
+- feat(release): bump README version badge via sync-version
+- docs: add root README with dashboard screenshots
+- docs: add root README design spec
+
 ## [3.1.0] - 2026-07-20
 
 - feat(handoff): auto-generate cross-session handoffs on SessionEnd/PreCompact
