@@ -140,7 +140,7 @@ the next person to touch this code inherits it as if it were new.
 
 ### Maintain running implementation notes
 
-While implementing any task, maintain a running `implementation-notes.md` at the repo root (create it if missing). Update it as you work, not as a summary at the end.
+While implementing any task, maintain a running per-session notes file under `.throughline/notes/` (create it if missing, along with `.throughline/notes/<session_id>.pointer` pointing to it — see `plugin/hooks/notes-check.sh`). The pointer's single line is just the notes file's bare filename (e.g. `<slug>-<timestamp>.md`), not a path. This is a local working log, not a reviewer-facing file: it is gitignored and scoped to the session that wrote it. Update it as you work, not as a summary at the end.
 
 Record entries under four sections:
 
