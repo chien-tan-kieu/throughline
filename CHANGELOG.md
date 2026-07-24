@@ -8,6 +8,21 @@ All notable changes to this project will be documented in this file.
 
 
 
+
+## [3.3.0] - 2026-07-24
+
+- Merge branch 'feat/per-session-notes'
+- docs(constitution): clarify pointer file holds a bare filename
+- docs(constitution): notes-taking rule points at per-session files
+- Revert "docs(constitution): notes-taking rule points at per-session files"
+- docs(constitution): notes-taking rule points at per-session files
+- feat(hooks): resolve implementation notes via per-session pointer
+- fix(plan): correct mtime ordering bug in independent-sessions test
+- chore: gitignore .worktrees/ for local git-worktree isolation
+- docs(plan): implementation plan for per-session notes
+- docs(spec): design per-session implementation notes
+- docs(constitution): require resolving all failing checks before done
+
 ## [3.2.0] - 2026-07-23
 
 - Merge pull request #3 from chien-tan-kieu/worktree-notes-check-hook

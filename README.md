@@ -6,7 +6,7 @@
 
 **brainstorm → spec → plan → implement** — watched, not interrupted.
 
-[![version](https://img.shields.io/badge/version-3.2.0-3ecf8e)](./CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-3.3.0-3ecf8e)](./CHANGELOG.md)
 [![license](https://img.shields.io/badge/license-MIT-fafafa)](#-license)
 [![runtime](https://img.shields.io/badge/runtime-Bun-000000?logo=bun&logoColor=white)](https://bun.sh)
 [![plugin](https://img.shields.io/badge/Claude%20Code-plugin-8a63d2)](https://docs.claude.com/en/docs/claude-code)
