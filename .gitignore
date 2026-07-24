@@ -9,3 +9,4 @@ dist/
 graphify-out/cache/
 .superpowers/
 .throughline/
+.worktrees/
