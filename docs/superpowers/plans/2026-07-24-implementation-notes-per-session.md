@@ -258,9 +258,10 @@ test_independent_sessions_do_not_interfere() {
   repo=$(setup_repo)
   echo hi > "$repo/README.md"
   (cd "$repo" && git add -A && git commit -qm init)
-  register_notes "$repo" "sA" "topic-a-20260101000000.md"
   sleep 1.1
   echo change >> "$repo/README.md"
+  sleep 1.1
+  register_notes "$repo" "sA" "topic-a-20260101000000.md"
 
   local outA
   outA=$(run_hook "$repo" "sA")
