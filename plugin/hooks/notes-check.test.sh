@@ -42,6 +42,13 @@ run_hook() {
   CLAUDE_PROJECT_DIR="$repo" bash "$SCRIPT" <<< "{\"session_id\":\"$session\"}"
 }
 
+register_notes() {
+  local repo="$1" session="$2" filename="$3"
+  mkdir -p "$repo/.throughline/notes"
+  echo "$filename" > "$repo/.throughline/notes/$session.pointer"
+  echo note > "$repo/.throughline/notes/$filename"
+}
+
 test_not_a_git_repo() {
   local dir
   dir=$(mktemp -d)
@@ -71,14 +78,14 @@ test_only_notes_changed() {
   repo=$(setup_repo)
   echo hi > "$repo/README.md"
   (cd "$repo" && git add -A && git commit -qm init)
-  echo note >> "$repo/implementation-notes.md"
+  register_notes "$repo" "s3" "topic-20260101000000.md"
   local out
   out=$(run_hook "$repo" "s3")
-  assert_eq "" "$out" "only notes changed: no output"
+  assert_eq "" "$out" "only notes dir changed: no output"
   rm -rf "$repo"
 }
 
-test_other_changed_notes_missing() {
+test_no_pointer_blocks() {
   local repo
   repo=$(setup_repo)
   echo hi > "$repo/README.md"
@@ -86,7 +93,22 @@ test_other_changed_notes_missing() {
   echo change >> "$repo/README.md"
   local out
   out=$(run_hook "$repo" "s4")
-  assert_contains "$out" '"decision":"block"' "notes missing: blocks"
+  assert_contains "$out" '"decision":"block"' "no pointer: blocks"
+  assert_contains "$out" "pointer" "no pointer: reason mentions pointer file"
+  rm -rf "$repo"
+}
+
+test_pointer_target_missing_blocks() {
+  local repo
+  repo=$(setup_repo)
+  echo hi > "$repo/README.md"
+  (cd "$repo" && git add -A && git commit -qm init)
+  mkdir -p "$repo/.throughline/notes"
+  echo "ghost-20260101000000.md" > "$repo/.throughline/notes/s5.pointer"
+  echo change >> "$repo/README.md"
+  local out
+  out=$(run_hook "$repo" "s5")
+  assert_contains "$out" '"decision":"block"' "pointer target missing: blocks"
   rm -rf "$repo"
 }
 
@@ -94,14 +116,13 @@ test_notes_newer_no_block() {
   local repo
   repo=$(setup_repo)
   echo hi > "$repo/README.md"
-  echo note > "$repo/implementation-notes.md"
   (cd "$repo" && git add -A && git commit -qm init)
   sleep 1.1
   echo change >> "$repo/README.md"
   sleep 1.1
-  echo logged >> "$repo/implementation-notes.md"
+  register_notes "$repo" "s6" "topic-20260101000000.md"
   local out
-  out=$(run_hook "$repo" "s5")
+  out=$(run_hook "$repo" "s6")
   assert_eq "" "$out" "notes newer than other changes: no block"
   rm -rf "$repo"
 }
@@ -110,11 +131,11 @@ test_stale_blocks_twice_then_fails_open() {
   local repo
   repo=$(setup_repo)
   echo hi > "$repo/README.md"
-  echo note > "$repo/implementation-notes.md"
   (cd "$repo" && git add -A && git commit -qm init)
+  register_notes "$repo" "s7" "topic-20260101000000.md"
   sleep 1.1
   echo change >> "$repo/README.md"
-  local session="s6"
+  local session="s7"
 
   local out1
   out1=$(run_hook "$repo" "$session")
@@ -134,18 +155,18 @@ test_resolving_notes_resets_counter() {
   local repo
   repo=$(setup_repo)
   echo hi > "$repo/README.md"
-  echo note > "$repo/implementation-notes.md"
   (cd "$repo" && git add -A && git commit -qm init)
+  register_notes "$repo" "s8" "topic-20260101000000.md"
   sleep 1.1
   echo change >> "$repo/README.md"
-  local session="s7"
+  local session="s8"
 
   run_hook "$repo" "$session" > /dev/null
   local counter_file="$repo/.throughline/notes-nudge/$session.count"
   assert_eq "1" "$(cat "$counter_file" 2>/dev/null)" "strike 1: counter written"
 
   sleep 1.1
-  echo logged >> "$repo/implementation-notes.md"
+  echo logged >> "$repo/.throughline/notes/topic-20260101000000.md"
   local out
   out=$(run_hook "$repo" "$session")
   assert_eq "" "$out" "resolved: no block"
@@ -167,7 +188,7 @@ test_throughline_dir_excluded() {
   mkdir -p "$repo/.throughline"
   echo x > "$repo/.throughline/scratch.json"
   local out
-  out=$(run_hook "$repo" "s8")
+  out=$(run_hook "$repo" "s9")
   assert_eq "" "$out" ".throughline-only changes excluded: no output"
   rm -rf "$repo"
 }
@@ -176,11 +197,11 @@ test_clean_tree_resets_counter() {
   local repo
   repo=$(setup_repo)
   echo hi > "$repo/README.md"
-  echo note > "$repo/implementation-notes.md"
   (cd "$repo" && git add -A && git commit -qm init)
+  register_notes "$repo" "s10" "topic-20260101000000.md"
   sleep 1.1
   echo change >> "$repo/README.md"
-  local session="s9"
+  local session="s10"
 
   run_hook "$repo" "$session" > /dev/null
   local counter_file="$repo/.throughline/notes-nudge/$session.count"
@@ -198,15 +219,50 @@ test_clean_tree_resets_counter() {
   rm -rf "$repo"
 }
 
+test_independent_sessions_do_not_interfere() {
+  local repo
+  repo=$(setup_repo)
+  echo hi > "$repo/README.md"
+  (cd "$repo" && git add -A && git commit -qm init)
+  sleep 1.1
+  echo change >> "$repo/README.md"
+  sleep 1.1
+  register_notes "$repo" "sA" "topic-a-20260101000000.md"
+
+  local outA
+  outA=$(run_hook "$repo" "sA")
+  assert_eq "" "$outA" "session A has fresh notes: no block"
+
+  local outB
+  outB=$(run_hook "$repo" "sB")
+  assert_contains "$outB" '"decision":"block"' "session B has no pointer: blocks"
+  rm -rf "$repo"
+}
+
+test_root_notes_file_no_longer_special() {
+  local repo
+  repo=$(setup_repo)
+  echo hi > "$repo/README.md"
+  (cd "$repo" && git add -A && git commit -qm init)
+  echo stray >> "$repo/implementation-notes.md"
+  local out
+  out=$(run_hook "$repo" "s11")
+  assert_contains "$out" '"decision":"block"' "stray root file counts as a change: blocks (no pointer)"
+  rm -rf "$repo"
+}
+
 test_not_a_git_repo
 test_clean_tree
 test_only_notes_changed
-test_other_changed_notes_missing
+test_no_pointer_blocks
+test_pointer_target_missing_blocks
 test_notes_newer_no_block
 test_stale_blocks_twice_then_fails_open
 test_resolving_notes_resets_counter
 test_throughline_dir_excluded
 test_clean_tree_resets_counter
+test_independent_sessions_do_not_interfere
+test_root_notes_file_no_longer_special
 
 echo "---"
 echo "$PASS passed, $FAIL failed"
